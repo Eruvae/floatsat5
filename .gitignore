@@ -26,7 +26,12 @@
 *.a
 *.lib
 
+# Debug
+*.map
+
 # Executables
 *.exe
 *.out
 *.app
+*.elf
+*.hex
