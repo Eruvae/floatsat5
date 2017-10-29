@@ -5,14 +5,17 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../CommInterfaces.cpp \
+../SenseIMU.cpp \
 ../Template.cpp 
 
 OBJS += \
 ./CommInterfaces.o \
+./SenseIMU.o \
 ./Template.o 
 
 CPP_DEPS += \
 ./CommInterfaces.d \
+./SenseIMU.d \
 ./Template.d 
 
 
