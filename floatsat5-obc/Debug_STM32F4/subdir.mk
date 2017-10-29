@@ -4,12 +4,15 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../CommInterfaces.cpp \
 ../Template.cpp 
 
 OBJS += \
+./CommInterfaces.o \
 ./Template.o 
 
 CPP_DEPS += \
+./CommInterfaces.d \
 ./Template.d 
 
 
