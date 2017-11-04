@@ -24,6 +24,7 @@ static Application module01("Template", 2001);
 #define IMU_I2C I2C_IDX2
 
 HAL_GPIO GreenLED(LED_GREEN);
+HAL_UART bt_uart(BT_UART);
 
 struct SensorData{
 
@@ -43,6 +44,7 @@ public:
 
 	void init() {
 		GreenLED.init(true, 1, 0);
+		bt_uart.init(921600);
 	}
 
 	void run() {
@@ -51,10 +53,14 @@ public:
 			GreenLED.setPins(~GreenLED.readPins());
 			PRINTF("Hello Rodos, the time now is %f \r\n",SECONDS_NOW());
 
+			char data[] = "Test Bluetooth.\n";
+
+			bt_uart.write(data, strlen(data));
+
 			suspendCallerUntil(NOW()+1000*MILLISECONDS);
 		}
 	}
 };
-Telemetry Telemetry("Telemetry");
+//Telemetry Telemetry("Telemetry");
 
 /***********************************************************************/

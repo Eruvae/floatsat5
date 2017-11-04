@@ -13,10 +13,15 @@
 
 class SenseIMU : public Thread
 {
+private:
+	int16_t gyro_offset[3];
 public:
 	SenseIMU();
 
 	void initIMU();
+	int initGyro();
+	void readGyro(int16_t data[], bool use_offset = true);
+	void calibrateGyro();
 	void run();
 };
 
