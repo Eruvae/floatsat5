@@ -20,7 +20,7 @@
 #define CURR_SER3_I2C_ADDR 0b1000111
 #define CURR_SER4_I2C_ADDR 0b1001000
 
-enum SPI_SS {NONE, GYRO, ACC};
+enum SPI_SS {NONE, GYRO, XM};
 
 class CommInterfaces : public Initiator
 {
