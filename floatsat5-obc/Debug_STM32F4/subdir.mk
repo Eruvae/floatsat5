@@ -6,17 +6,20 @@
 CPP_SRCS += \
 ../CommInterfaces.cpp \
 ../SenseIMU.cpp \
-../Template.cpp 
+../Template.cpp \
+../Topics.cpp 
 
 OBJS += \
 ./CommInterfaces.o \
 ./SenseIMU.o \
-./Template.o 
+./Template.o \
+./Topics.o 
 
 CPP_DEPS += \
 ./CommInterfaces.d \
 ./SenseIMU.d \
-./Template.d 
+./Template.d \
+./Topics.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

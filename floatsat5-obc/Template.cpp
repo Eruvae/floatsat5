@@ -6,6 +6,8 @@
  *
  */
 
+// Will be deleted
+
 #include "rodos.h"
 #include <stdio.h>
 #include "hal.h"
