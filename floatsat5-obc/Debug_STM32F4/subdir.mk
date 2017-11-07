@@ -6,18 +6,21 @@
 CPP_SRCS += \
 ../CommInterfaces.cpp \
 ../SenseIMU.cpp \
+../SensePower.cpp \
 ../Template.cpp \
 ../Topics.cpp 
 
 OBJS += \
 ./CommInterfaces.o \
 ./SenseIMU.o \
+./SensePower.o \
 ./Template.o \
 ./Topics.o 
 
 CPP_DEPS += \
 ./CommInterfaces.d \
 ./SenseIMU.d \
+./SensePower.d \
 ./Template.d \
 ./Topics.d 
 
