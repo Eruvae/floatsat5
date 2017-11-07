@@ -17,8 +17,6 @@ private:
 	int16_t gyro_offset[3];
 	int16_t acc_offset[3];
 	int16_t mag_offset[3];
-public:
-	SenseIMU();
 
 	int initGyro();
 	int initXM();
@@ -28,6 +26,9 @@ public:
 	void calibrateGyro();
 	void calibrateAcc();
 	void calibrateMag();
+
+public:
+	SenseIMU();
 	void run();
 };
 

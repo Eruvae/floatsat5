@@ -38,7 +38,5 @@ public:
 extern CommInterfaces comm;
 extern HAL_SPI spi_bus;
 extern HAL_I2C i2c_bus;
-extern HAL_GPIO gyro_cs;
-extern HAL_GPIO acc_cs;
 
 #endif /* COMMINTERFACES_H_ */
