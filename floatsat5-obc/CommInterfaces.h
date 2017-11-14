@@ -38,5 +38,6 @@ public:
 extern CommInterfaces comm;
 extern HAL_SPI spi_bus;
 extern HAL_I2C i2c_bus;
+extern HAL_UART bt_uart;
 
 #endif /* COMMINTERFACES_H_ */

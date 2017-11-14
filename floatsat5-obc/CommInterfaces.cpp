@@ -7,6 +7,7 @@
 
 #include "CommInterfaces.h"
 
+HAL_UART bt_uart(UART_IDX2);
 HAL_SPI spi_bus(SPI_IDX1, GPIO_019, GPIO_020, GPIO_021); // SCK: PB3, MISO: PB4, MOSI: PB5
 HAL_I2C i2c_bus(I2C_IDX1, GPIO_024, GPIO_025); // SCL: PB8, SDA: PB9
 HAL_GPIO gyro_cs(GPIO_018); // CS: PB2
@@ -59,4 +60,5 @@ void CommInterfaces::init()
 	spi_bus.init(1000000); // Max frequency for IMU: 10 MHz
 	spi_bus.config(SPI_PARAMETER_MODE, 0);
 	i2c_bus.init(400000); // I2C fast mode (400 kHz)
+	bt_uart.init(921600);
 }

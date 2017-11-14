@@ -20,9 +20,10 @@ private:
 
 	int initGyro();
 	int initXM();
-	void readGyro(int16_t data[], bool use_offset = true);
-	void readAcc(int16_t data[], bool use_offset = true);
-	void readMag(int16_t data[], bool use_offset = true);
+	void readGyro(int16_t *data, bool use_offset = true);
+	void readAcc(int16_t *data, bool use_offset = true);
+	void readMag(int16_t *data, bool use_offset = true);
+	void readTemp(int16_t *data);
 	void calibrateGyro();
 	void calibrateAcc();
 	void calibrateMag();

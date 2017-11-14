@@ -35,6 +35,7 @@
 #define MAG_FACTOR_4GA			(4.0/INT16_MAX) //0.00016
 #define MAG_FACTOR_8GA			(8.0/INT16_MAX) //0.00032
 #define MAG_FACTOR_12GA			(12.0/INT16_MAX) //0.00048
+#define TEMP_FACTOR				0.125
 
 SenseIMU senseIMU;
 
@@ -45,7 +46,7 @@ SenseIMU::SenseIMU()
 int SenseIMU::initGyro()
 {
 	//												 REG1  REG2  REG3  REG4  REG5
-	uint8_t write_ctrl[6] = { CTRL_REG1_G | MS_FLAG, 0x4F, 0x00, 0x00, 0x00, 0x00};
+	uint8_t write_ctrl[6] = { CTRL_REG1_G | MS_FLAG, 0x4F, 0x00, 0x00, 0xA0, 0x00};
 	/*
 	 * CTRL_REG1_G: 0x4F == 0b01001111 - 190Hz / 12.5 cutoff, normal mode, all axes enabled
 	 * sets output data rate, bandwidth, power-down and enables
@@ -76,7 +77,7 @@ int SenseIMU::initGyro()
 	 * 	I2_ORUN - FIFO overrun interrupt on DRDY_G (0=disable 1=enable)
 	 * 	I2_EMPTY - FIFO empty interrupt on DRDY_G (0=disable 1=enable)
 	 *
-	 * 	CTRL_REG4_G: 0x00 == 0b00000000 - continuous, little endian, 245dps, no self-test, 4 wire
+	 * 	CTRL_REG4_G: 0xA0 == 0b10100000 - continuous, little endian, 245dps, no self-test, 4 wire
 	 * 	Bits[7:0] - BDU BLE FS1 FS0 - ST1 ST0 SIM
 	 * 	BDU - Block data update (0=continuous, 1=output not updated until read
 	 * 	BLE - Big/little endian (0=data LSB @ lower address, 1=LSB @ higher add)
@@ -146,7 +147,7 @@ int SenseIMU::initXM()
 	 * CTRL_REG5_XM enables temp sensor, sets mag resolution and data rate
 	 * Bits (7-0): TEMP_EN M_RES1 M_RES0 M_ODR2 M_ODR1 M_ODR0 LIR2 LIR1
 	 * TEMP_EN - Enable temperature sensor (0=disabled, 1=enabled)
-	 * 			M_RES[1:0] - Magnetometer resolution select (0=low, 3=high)
+	 * M_RES[1:0] - Magnetometer resolution select (0=low, 3=high)
 	 * M_ODR[2:0] - Magnetometer data rate select
 	 * 			000=3.125Hz, 001=6.25Hz, 010=12.5Hz, 011=25Hz, 100=50Hz, 101=100Hz
 	 * LIR2 - Latch interrupt request on INT2_SRC (cleared by reading INT2_SRC)
@@ -178,7 +179,7 @@ int SenseIMU::initXM()
 	return ret;
 }
 
-void SenseIMU::readGyro(int16_t data[], bool use_offset)
+void SenseIMU::readGyro(int16_t *data, bool use_offset)
 {
 	uint8_t readCom = OUT_GYRO | READ_FLAG | MS_FLAG;
 	comm.selectSPISlave(GYRO);
@@ -190,7 +191,7 @@ void SenseIMU::readGyro(int16_t data[], bool use_offset)
 		for (int i = 0; i < 3; i++) data[i] -= gyro_offset[i];
 }
 
-void SenseIMU::readAcc(int16_t data[], bool use_offset)
+void SenseIMU::readAcc(int16_t *data, bool use_offset)
 {
 	uint8_t readCom = OUT_ACC | READ_FLAG | MS_FLAG;
 	comm.selectSPISlave(XM);
@@ -203,7 +204,7 @@ void SenseIMU::readAcc(int16_t data[], bool use_offset)
 
 }
 
-void SenseIMU::readMag(int16_t data[], bool use_offset)
+void SenseIMU::readMag(int16_t *data, bool use_offset)
 {
 	uint8_t readCom = OUT_MAG | READ_FLAG | MS_FLAG;
 	comm.selectSPISlave(XM);
@@ -214,6 +215,17 @@ void SenseIMU::readMag(int16_t data[], bool use_offset)
 	if (use_offset)
 		for (int i = 0; i < 3; i++) data[i] -= mag_offset[i];
 
+}
+
+void SenseIMU::readTemp(int16_t *data)
+{
+	uint8_t readCom = OUT_TEMP | READ_FLAG | MS_FLAG;
+	comm.selectSPISlave(XM);
+	spi_bus.write(&readCom, 1);
+	spi_bus.read((uint8_t*)data, 2);
+	comm.disableSPISlaves();
+
+	*data = (*data & 0x800) ? (-1 ^ 0xFFF) | *data : *data; // oonvert 12 bit signed to 16 bit signed
 }
 
 void SenseIMU::calibrateGyro()
@@ -283,13 +295,15 @@ void SenseIMU::run()
 
 		PRINTF("XM WHO_AM_I: %d\n", waix);
 
-		int16_t gyroData[3], accData[3], magData[3];
+		int16_t gyroData[3], accData[3], magData[3], tempData;
 		readGyro(gyroData);
 		readAcc(accData);
 		readMag(magData, false);
+		readTemp(&tempData);
 		PRINTF("Gyro Raw: %f, %f, %f\n", gyroData[0]*GYRO_FACTOR_245DPS, gyroData[1]*GYRO_FACTOR_245DPS, gyroData[2]*GYRO_FACTOR_245DPS);
 		PRINTF("Acc Raw: %f, %f, %f\n", accData[0]*ACC_FACTOR_2G, accData[1]*ACC_FACTOR_2G, accData[2]*ACC_FACTOR_2G);
 		PRINTF("Mag Raw: %f, %f, %f\n\n", magData[0]*MAG_FACTOR_2GA, magData[1]*MAG_FACTOR_2GA, magData[2]*MAG_FACTOR_2GA);
+		PRINTF("Temperature: %f\n", tempData*TEMP_FACTOR);
 		suspendUntilNextBeat();
 	}
 }

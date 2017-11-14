@@ -7,7 +7,7 @@
  */
 
 // Will be deleted
-
+/*
 #include "rodos.h"
 #include <stdio.h>
 #include "hal.h"
@@ -62,7 +62,7 @@ public:
 			suspendCallerUntil(NOW()+1000*MILLISECONDS);
 		}
 	}
-};
+};*/
 //Telemetry Telemetry("Telemetry");
 
 /***********************************************************************/

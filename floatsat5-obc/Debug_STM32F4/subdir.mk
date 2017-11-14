@@ -7,6 +7,8 @@ CPP_SRCS += \
 ../CommInterfaces.cpp \
 ../SenseIMU.cpp \
 ../SensePower.cpp \
+../Telecommand.cpp \
+../Telemetry.cpp \
 ../Template.cpp \
 ../Topics.cpp 
 
@@ -14,6 +16,8 @@ OBJS += \
 ./CommInterfaces.o \
 ./SenseIMU.o \
 ./SensePower.o \
+./Telecommand.o \
+./Telemetry.o \
 ./Template.o \
 ./Topics.o 
 
@@ -21,6 +25,8 @@ CPP_DEPS += \
 ./CommInterfaces.d \
 ./SenseIMU.d \
 ./SensePower.d \
+./Telecommand.d \
+./Telemetry.d \
 ./Template.d \
 ./Topics.d 
 
