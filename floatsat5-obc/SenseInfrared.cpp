@@ -8,8 +8,10 @@
 #include "SenseInfrared.h"
 
 #define INFRARED_I2C_ADDR 0x29
-#define INFRARED_WRITE 0x52
-#define INFRARED_READ 0x53
+
+#define SYSRANGE_START 0x18
+
+HAL_GPIO infrared_enable(GPIO_005); // PA5, has to be changed if ADC is used
 
 SenseInfrared senseInfrared;
 
@@ -19,18 +21,41 @@ SenseInfrared::SenseInfrared()
 
 }
 
+void SenseInfrared::init()
+{
+	infrared_enable.init(true, 1, 1);
+}
+
+void SenseInfrared::initInfrared()
+{
+	uint8_t config_sysrange[] = {0x00, SYSRANGE_START, 0x03, 0xFF, 0x00, 0x09};
+	// continuous mode, 255mm high threshold, 0mm low threshold, 100ms between measurements
+	i2c_bus.write(INFRARED_I2C_ADDR, config_sysrange, sizeof(config_sysrange));
+
+}
+
+uint8_t SenseInfrared::readRange()
+{
+	uint8_t read_reg[] = {0x00, 0x62};
+	uint8_t ret;
+	i2c_bus.writeRead(INFRARED_I2C_ADDR, read_reg, 2, &ret, 1);
+	return ret;
+}
+
+
 void SenseInfrared::run()
 {
 	setPeriodicBeat(0, 100*MILLISECONDS);
+	initInfrared();
 	while(1)
 	{
-		uint8_t test_regw[] = {0x00, 0x00};
-		//uint8_t readb[] = {INFRARED_READ};
-		uint8_t data;
-		int suc1 = i2c_bus.write(INFRARED_I2C_ADDR, test_regw, 2);
-		int suc2 = i2c_bus.read(INFRARED_I2C_ADDR, &data, 1);
+		//uint8_t test_regw[] = {0x00, 0x00};
+		//uint8_t data;
+		//int suc = i2c_bus.writeRead(INFRARED_I2C_ADDR, test_regw, 2, &data, 1);
 
-		PRINTF("Test read IR: %x, %d, %d\n", data, suc1, suc2);
+		uint8_t range = readRange();
+
+		PRINTF("Test read IR: %d\n", range);
 		suspendUntilNextBeat();
 	}
 }
