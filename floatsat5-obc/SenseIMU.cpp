@@ -77,7 +77,7 @@ int SenseIMU::initGyro()
 	 * 	I2_ORUN - FIFO overrun interrupt on DRDY_G (0=disable 1=enable)
 	 * 	I2_EMPTY - FIFO empty interrupt on DRDY_G (0=disable 1=enable)
 	 *
-	 * 	CTRL_REG4_G: 0xA0 == 0b10100000 - continuous, little endian, 245dps, no self-test, 4 wire
+	 * 	CTRL_REG4_G: 0xA0 == 0b10100000 - continuous, little endian, 2000dps, no self-test, 4 wire
 	 * 	Bits[7:0] - BDU BLE FS1 FS0 - ST1 ST0 SIM
 	 * 	BDU - Block data update (0=continuous, 1=output not updated until read
 	 * 	BLE - Big/little endian (0=data LSB @ lower address, 1=LSB @ higher add)
@@ -300,7 +300,7 @@ void SenseIMU::run()
 		readAcc(accData);
 		readMag(magData, false);
 		readTemp(&tempData);
-		PRINTF("Gyro Raw: %f, %f, %f\n", gyroData[0]*GYRO_FACTOR_245DPS, gyroData[1]*GYRO_FACTOR_245DPS, gyroData[2]*GYRO_FACTOR_245DPS);
+		PRINTF("Gyro Raw: %f, %f, %f\n", gyroData[0]*GYRO_FACTOR_2000DPS, gyroData[1]*GYRO_FACTOR_2000DPS, gyroData[2]*GYRO_FACTOR_2000DPS);
 		PRINTF("Acc Raw: %f, %f, %f\n", accData[0]*ACC_FACTOR_2G, accData[1]*ACC_FACTOR_2G, accData[2]*ACC_FACTOR_2G);
 		PRINTF("Mag Raw: %f, %f, %f\n\n", magData[0]*MAG_FACTOR_2GA, magData[1]*MAG_FACTOR_2GA, magData[2]*MAG_FACTOR_2GA);
 		PRINTF("Temperature: %f\n", tempData*TEMP_FACTOR);
