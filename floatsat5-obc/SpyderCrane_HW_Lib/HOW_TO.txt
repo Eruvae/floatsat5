@@ -1,0 +1,23 @@
+
+How to Build library:
+
+	Properties -> C/C++ Build -> Settings -> Build Artifact -> set Artifact type to Static Library
+	
+How to Add library:
+
+ Way One:
+ 	Properties -> C/C++ General -> Paths and Symbols
+ 		add include path at "Includes" for GNU C and GNU C++
+ 		add name of project library at "Libraries" (set order before rodos)
+ 		add path (to Debug_STM32F4 folder of the library) at "Library paths"
+
+ Way Two:
+	Properties ->  C/C++ Build -> Settings -> Tool Settings
+	
+		add includes path at "C Compiler" and "C++ Compiler"
+	
+		add library at "C++ Linker": 
+			at "Libraries" add name of project in which the library is order before "rodos"
+			at "Libraries Search Path" add path of debug folder of the library
+
+(With Eclipse IDE)

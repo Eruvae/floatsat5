@@ -9,6 +9,7 @@
 #define COMMINTERFACES_H_
 
 #include "rodos.h"
+#include "SpyderCrane_HW_Lib/includes/rot_encoder.h"
 
 #define CURR_BATT_I2C_ADDR 0b1000000
 #define CURR_MOTA_I2C_ADDR 0b1000001
@@ -38,6 +39,8 @@ public:
 extern CommInterfaces comm;
 extern HAL_SPI spi_bus;
 extern HAL_I2C i2c_bus;
+extern HAL_I2C i2c2_bus;
 extern HAL_UART bt_uart;
+extern Rotary_Encoder enc;
 
 #endif /* COMMINTERFACES_H_ */

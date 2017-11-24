@@ -10,9 +10,12 @@
 HAL_UART bt_uart(UART_IDX2);
 HAL_SPI spi_bus(SPI_IDX1, GPIO_019, GPIO_020, GPIO_021); // SCK: PB3, MISO: PB4, MOSI: PB5
 HAL_I2C i2c_bus(I2C_IDX1, GPIO_024, GPIO_025); // SCL: PB8, SDA: PB9
+HAL_I2C i2c2_bus(I2C_IDX2);
 HAL_GPIO gyro_cs(GPIO_018); // CS: PB2
 HAL_GPIO xm_cs(GPIO_032); // CS: PC0
 HAL_GPIO imu_enable(GPIO_055);
+
+Rotary_Encoder enc(ENC_TIM3, 64);
 
 CommInterfaces comm;
 
@@ -60,5 +63,6 @@ void CommInterfaces::init()
 	spi_bus.init(1000000); // Max frequency for IMU: 10 MHz
 	spi_bus.config(SPI_PARAMETER_MODE, 0);
 	i2c_bus.init(400000); // I2C fast mode (400 kHz)
+	i2c2_bus.init(400000);
 	bt_uart.init(921600);
 }
