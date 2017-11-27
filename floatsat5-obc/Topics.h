@@ -15,5 +15,8 @@
 
 extern Topic<IMUData> imuTopic;
 extern CommBuffer<IMUData> imuBuffer;
+extern Topic<Telemetry1> telemetry1;
+extern Topic<Telemetry2> telemetry2;
+extern Topic<Telecommand> telecommand;
 
 #endif /* TOPICS_H_ */

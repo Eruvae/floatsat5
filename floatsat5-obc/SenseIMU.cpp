@@ -291,19 +291,19 @@ void SenseIMU::run()
 	setPeriodicBeat(0, 100*MILLISECONDS);
 	while(1)
 	{
-		PRINTF("Gyro WHO_AM_I: %d\n", waig);
+		//PRINTF("Gyro WHO_AM_I: %d\n", waig);
 
-		PRINTF("XM WHO_AM_I: %d\n", waix);
+		//PRINTF("XM WHO_AM_I: %d\n", waix);
 
 		int16_t gyroData[3], accData[3], magData[3], tempData;
 		readGyro(gyroData);
 		readAcc(accData);
 		readMag(magData, false);
 		readTemp(&tempData);
-		PRINTF("Gyro Raw: %f, %f, %f\n", gyroData[0]*GYRO_FACTOR_2000DPS, gyroData[1]*GYRO_FACTOR_2000DPS, gyroData[2]*GYRO_FACTOR_2000DPS);
-		PRINTF("Acc Raw: %f, %f, %f\n", accData[0]*ACC_FACTOR_2G, accData[1]*ACC_FACTOR_2G, accData[2]*ACC_FACTOR_2G);
-		PRINTF("Mag Raw: %f, %f, %f\n\n", magData[0]*MAG_FACTOR_2GA, magData[1]*MAG_FACTOR_2GA, magData[2]*MAG_FACTOR_2GA);
-		PRINTF("Temperature: %f\n", tempData*TEMP_FACTOR);
+		//PRINTF("Gyro Raw: %f, %f, %f\n", gyroData[0]*GYRO_FACTOR_2000DPS, gyroData[1]*GYRO_FACTOR_2000DPS, gyroData[2]*GYRO_FACTOR_2000DPS);
+		//PRINTF("Acc Raw: %f, %f, %f\n", accData[0]*ACC_FACTOR_2G, accData[1]*ACC_FACTOR_2G, accData[2]*ACC_FACTOR_2G);
+		//PRINTF("Mag Raw: %f, %f, %f\n\n", magData[0]*MAG_FACTOR_2GA, magData[1]*MAG_FACTOR_2GA, magData[2]*MAG_FACTOR_2GA);
+		//PRINTF("Temperature: %f\n", tempData*TEMP_FACTOR);
 		suspendUntilNextBeat();
 	}
 }

@@ -37,7 +37,7 @@ void SensePower::run()
 		int16_t data[1];
 		i2c_bus.writeRead(CURR_BATT_I2C_ADDR, toWriteR, 1, (uint8_t*)data, 2);
 
-		PRINTF("Data: %d\n", data[0]);
+		//PRINTF("Data: %d\n", data[0]);
 
 		suspendUntilNextBeat();
 	}

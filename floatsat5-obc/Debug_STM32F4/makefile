@@ -8,6 +8,10 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include wifi/drivers/wf121/subdir.mk
+-include wifi/drivers/esp8266/espdriver/subdir.mk
+-include wifi/drivers/esp8266/subdir.mk
+-include wifi/subdir.mk
 -include SpyderCrane_HW_Lib/subdir.mk
 -include subdir.mk
 -include objects.mk

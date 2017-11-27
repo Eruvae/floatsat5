@@ -35,4 +35,24 @@ struct __attribute__((packed)) PoseData
 	uint32_t check;
 };
 
+struct /*__attribute__((packed))*/ Telemetry1
+{
+	char ch[2];
+
+
+};
+
+struct /*__attribute__((packed))*/ Telemetry2
+{
+	int a,b;
+	float data[2];
+};
+
+
+struct /*__attribute__((packed))*/ Telecommand
+{
+	float data;
+	char id;
+};
+
 #endif /* STRUCTS_H_ */

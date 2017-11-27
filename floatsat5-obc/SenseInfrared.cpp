@@ -60,8 +60,8 @@ void SenseInfrared::run()
 		int64_t degr = enc.get_rot_deg();
 		int32_t rps = enc.get_rot_speed(100*MILLISECONDS);
 
-		PRINTF("Test read IR: %d\n", range);
-		PRINTF("Encoder reading: %d, %d, RPS: %d\n", ret, degr, rps);
+		//PRINTF("Test read IR: %d\n", range);
+		//PRINTF("Encoder reading: %d, %d, RPS: %d\n", ret, degr, rps);
 		suspendUntilNextBeat();
 	}
 }

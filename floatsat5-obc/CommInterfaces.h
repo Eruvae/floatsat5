@@ -10,6 +10,9 @@
 
 #include "rodos.h"
 #include "SpyderCrane_HW_Lib/includes/rot_encoder.h"
+#include "wifi/drivers/esp8266/ESP8266.h"
+#include "wifi/drivers/wf121/wf121.h"
+#include "wifi/linkinterfacewifi.h"
 
 #define CURR_BATT_I2C_ADDR 0b1000000
 #define CURR_MOTA_I2C_ADDR 0b1000001
@@ -23,7 +26,7 @@
 
 enum SPI_SS {NONE, GYRO, XM};
 
-class CommInterfaces : public Initiator
+class CommInterfaces : public Thread
 {
 private:
 	SPI_SS selectedSlave;
@@ -34,13 +37,30 @@ public:
 	void disableSPISlaves();
 
 	void init();
+	void run();
 };
+
+extern HAL_UART gatewayWifi; // USB-UART
+extern LinkinterfaceWifi linkifwf;
+extern Gateway gw;
+
+//#define Wifi_WF121
+#define Wifi_ESP8266
+#define PACK_SIZE	50
+
+#ifdef Wifi_WF121
+extern WF121 wf;
+#endif
+
+#ifdef Wifi_ESP8266
+extern ESP8266 wf;
+#endif
 
 extern CommInterfaces comm;
 extern HAL_SPI spi_bus;
 extern HAL_I2C i2c_bus;
 extern HAL_I2C i2c2_bus;
-extern HAL_UART bt_uart;
+//extern HAL_UART bt_uart;
 extern Rotary_Encoder enc;
 
 #endif /* COMMINTERFACES_H_ */
