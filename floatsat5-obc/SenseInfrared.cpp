@@ -47,7 +47,6 @@ void SenseInfrared::run()
 {
 	setPeriodicBeat(0, 100*MILLISECONDS);
 	initInfrared();
-	int ret = enc.init();
 	while(1)
 	{
 		//uint8_t test_regw[] = {0x00, 0x00};
@@ -56,12 +55,7 @@ void SenseInfrared::run()
 
 		uint8_t range = readRange();
 
-		enc.read_pos();
-		int64_t degr = enc.get_rot_deg();
-		int32_t rps = enc.get_rot_speed(100*MILLISECONDS);
-
 		//PRINTF("Test read IR: %d\n", range);
-		//PRINTF("Encoder reading: %d, %d, RPS: %d\n", ret, degr, rps);
 		suspendUntilNextBeat();
 	}
 }

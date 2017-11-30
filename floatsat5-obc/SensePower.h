@@ -12,6 +12,8 @@
 
 class SensePower : public Thread
 {
+	void initSensor(uint8_t sensorAddr);
+	int16_t readReg(uint8_t sensorAddr, uint8_t reg);
 public:
 	SensePower();
 

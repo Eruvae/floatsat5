@@ -54,7 +54,7 @@ typedef enum {
 
 
 
-class Brush_Motor
+class BrushMotor
 {
 private:
 
@@ -72,13 +72,13 @@ private:
 
 public:
 
-	static HAL_GPIO DCDCOn;		// GPIO_066		STM32F4: PE02
-	static HAL_GPIO PowerOK;	// GPIO_067		STM32F4: PE03
+	//static HAL_GPIO DCDCOn;		// GPIO_066		STM32F4: PE02
+	//static HAL_GPIO PowerOK;	// GPIO_067		STM32F4: PE03
 
 	/*
 	 * Motor select options are: BR_MOTOR_A, BR_MOTOR_B, BR_MOTOR_C, BR_MOTOR_D
 	 */
-	Brush_Motor(BR_MOTOR_SELECT motor);
+	BrushMotor(BR_MOTOR_SELECT motor);
 
 
 	/*
@@ -130,14 +130,14 @@ public:
 	/*
 	 * @param bool state: true - to turn DCDC converter on
 	 */
-	static void turn_dcdcon(bool state);
-	static bool is_power_ok();
+	/*static void turn_dcdcon(bool state);
+	static bool is_power_ok();*/
 
 	/*
 	 * Demonstration of motor running, call this function inside a TIME_LOOP
 	 * You may have to turn on DCDC Converter by calling turn_dcdcon(ON) before TIME_LOOP
 	 */
-	void demo();
+	//void demo();
 };
 
 

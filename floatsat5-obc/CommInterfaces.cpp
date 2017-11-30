@@ -16,7 +16,7 @@ HAL_GPIO gyro_cs(GPIO_018); // CS: PB2
 HAL_GPIO xm_cs(GPIO_032); // CS: PC0
 HAL_GPIO imu_enable(GPIO_055);
 
-Rotary_Encoder enc(ENC_TIM3, 64);
+RotaryEncoder enc(ENC_TIM5, 64);
 
 HAL_UART gatewayWifi(UART_IDX3);
 

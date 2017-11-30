@@ -9,7 +9,8 @@
 #define COMMINTERFACES_H_
 
 #include "rodos.h"
-#include "SpyderCrane_HW_Lib/includes/rot_encoder.h"
+
+#include "hwlib/includes/rot_encoder.h"
 #include "wifi/drivers/esp8266/ESP8266.h"
 #include "wifi/drivers/wf121/wf121.h"
 #include "wifi/linkinterfacewifi.h"
@@ -61,6 +62,6 @@ extern HAL_SPI spi_bus;
 extern HAL_I2C i2c_bus;
 extern HAL_I2C i2c2_bus;
 //extern HAL_UART bt_uart;
-extern Rotary_Encoder enc;
+extern RotaryEncoder enc;
 
 #endif /* COMMINTERFACES_H_ */

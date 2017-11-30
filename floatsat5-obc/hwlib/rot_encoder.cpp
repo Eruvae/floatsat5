@@ -5,17 +5,18 @@
  *      Author: Minh
  */
 
-#include "includes/rot_encoder.h"
+#include "../hwlib/includes/rot_encoder.h"
+
 #include "timemodel.h"
 #include "stdlib.h"
 #include "math.h"
 
 #define MY_ABS(x)	((x) < 0 ? -(x) : (x))
 
-Rotary_Encoder::Rotary_Encoder(ENC_TIMER_SELECT tim, uint16_t rot_resolution):
+RotaryEncoder::RotaryEncoder(ENC_TIMER_SELECT tim, uint16_t rot_resolution):
 	tim(tim),
 	ROT_RESOLUTION(rot_resolution),
-	counter_max_val(65535 / ROT_RESOLUTION * ROT_RESOLUTION),
+	counter_max_val(get_timer_max() / ROT_RESOLUTION * ROT_RESOLUTION),
 	counter_1_4(counter_max_val / 4),
 	counter_3_4(counter_max_val - counter_1_4),
 	counter_old_val(0),
@@ -47,7 +48,7 @@ Rotary_Encoder::Rotary_Encoder(ENC_TIMER_SELECT tim, uint16_t rot_resolution):
 }
 
 
-int Rotary_Encoder::init(ENC_COUNTER_POLARITY polarity, ENC_COUNTER_MODE mode)
+int RotaryEncoder::init(ENC_COUNTER_POLARITY polarity, ENC_COUNTER_MODE mode)
 {
 	ENC_TypeDef encoder;
 
@@ -169,7 +170,7 @@ int Rotary_Encoder::init(ENC_COUNTER_POLARITY polarity, ENC_COUNTER_MODE mode)
 }
 
 
-void Rotary_Encoder::enc_set_gpio(const ENC_TypeDef &encoder)
+void RotaryEncoder::enc_set_gpio(const ENC_TypeDef &encoder)
 {
 	GPIO_InitTypeDef gpio_init_structure;
 
@@ -194,7 +195,7 @@ void Rotary_Encoder::enc_set_gpio(const ENC_TypeDef &encoder)
 }
 
 
-void Rotary_Encoder::enc_set_timer(const ENC_TypeDef &encoder)
+void RotaryEncoder::enc_set_timer(const ENC_TypeDef &encoder)
 {
 	// Clock enable
 	RCC_APB1PeriphClockCmd(encoder.RCC_Periph_TIMER, ENABLE);
@@ -211,14 +212,25 @@ void Rotary_Encoder::enc_set_timer(const ENC_TypeDef &encoder)
 	reset_counter();
 }
 
+uint32_t RotaryEncoder::get_timer_max()
+{
+	switch(tim)
+	{
+	case ENC_TIM2: case ENC_TIM5:
+		return UINT32_MAX;
+	default:
+		return UINT16_MAX;
+	}
+}
 
-void Rotary_Encoder::reset_counter()
+
+void RotaryEncoder::reset_counter()
 {
 	TIM_SetCounter(TIMER, 0);
 }
 
 
-void Rotary_Encoder::reset()
+void RotaryEncoder::reset()
 {
 	reset_counter();
 	counter_dif = 0;
@@ -227,7 +239,7 @@ void Rotary_Encoder::reset()
 }
 
 
-void Rotary_Encoder::set_pos(int64_t degree)
+void RotaryEncoder::set_pos(int64_t degree)
 {
 	counter_dif = 0;
 	double points = (double) ((double) degree / 360) * (coding_factor * ROT_RESOLUTION);
@@ -239,9 +251,9 @@ void Rotary_Encoder::set_pos(int64_t degree)
 }
 
 
-void Rotary_Encoder::read_pos()
+void RotaryEncoder::read_pos()
 {
-	uint16_t counter_val = TIM_GetCounter(TIMER);
+	uint32_t counter_val = TIM_GetCounter(TIMER);
 
 	counter_dif = counter_val - counter_old_val;
 
@@ -260,38 +272,38 @@ void Rotary_Encoder::read_pos()
 }
 
 
-int64_t Rotary_Encoder::get_pos_rel_to_start()
+int64_t RotaryEncoder::get_pos_rel_to_start()
 {
 	return (int64_t) flow_count * counter_max_val + TIM_GetCounter(TIMER);
 }
 
 
-int64_t Rotary_Encoder::get_rot_deg()
+int64_t RotaryEncoder::get_rot_deg()
 {
 	return (int64_t) (get_pos_rel_to_start() * 360) / (coding_factor * ROT_RESOLUTION);
 }
 
 
-int32_t Rotary_Encoder::get_rot_speed(long long beat)
+int32_t RotaryEncoder::get_rot_speed(long long beat)
 {
 	return (SECONDS / beat) * 360 * counter_dif / (coding_factor * ROT_RESOLUTION);
 }
 
 
-int32_t Rotary_Encoder::get_rot_speed_abs(long long beat)
+int32_t RotaryEncoder::get_rot_speed_abs(long long beat)
 {
 	int32_t speed_abs = get_rot_speed(beat);
 	return MY_ABS(speed_abs);
 }
 
 
-double Rotary_Encoder::get_rps(long long beat)
+double RotaryEncoder::get_rps(long long beat)
 {
 	return (double) (SECONDS / beat) * counter_dif / (coding_factor * ROT_RESOLUTION);
 }
 
 
-double Rotary_Encoder::get_rps_abs(long long beat)
+double RotaryEncoder::get_rps_abs(long long beat)
 {
 	double rps_abs = get_rps(beat);
 	return MY_ABS(rps_abs);

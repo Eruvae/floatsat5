@@ -31,6 +31,6 @@ wifi \
 wifi/drivers/wf121 \
 wifi/drivers/esp8266/espdriver \
 wifi/drivers/esp8266 \
+hwlib \
 . \
-SpyderCrane_HW_Lib \
 

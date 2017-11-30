@@ -5,14 +5,15 @@
  *      Author: Minh
  */
 
-#include "includes/brush_motor.h"
+#include "../hwlib/includes/brush_motor.h"
+
 #include "math.h"
 
 
-HAL_GPIO Brush_Motor::DCDCOn(GPIO_066);
-HAL_GPIO Brush_Motor::PowerOK(GPIO_067);
+//HAL_GPIO BrushMotor::DCDCOn(GPIO_066);
+//HAL_GPIO BrushMotor::PowerOK(GPIO_067);
 
-Brush_Motor::Brush_Motor(BR_MOTOR_SELECT motor):
+BrushMotor::BrushMotor(BR_MOTOR_SELECT motor):
 		pwm(
 				motor == MOTOR_A ? BR_MOT_TIM_A :
 				motor == MOTOR_B ? BR_MOT_TIM_B :
@@ -46,7 +47,7 @@ Brush_Motor::Brush_Motor(BR_MOTOR_SELECT motor):
 }
 
 
-int Brush_Motor::init(uint16_t frequency, uint16_t increments, BR_MOTOR_POLARITY pol)
+int BrushMotor::init(uint16_t frequency, uint16_t increments, BR_MOTOR_POLARITY pol)
 {
 	// Defaults: frequency=8400, increments=100		For more detail look in header file.
 	if (pwm.init(frequency, increments) < 0)
@@ -69,10 +70,10 @@ int Brush_Motor::init(uint16_t frequency, uint16_t increments, BR_MOTOR_POLARITY
 	}
 
 
-	if (DCDCOn.init(1, 1, 0) < 0)
+	/*if (DCDCOn.init(1, 1, 0) < 0)
 		return -1;
 	if (PowerOK.init(0, 1, 0) < 0)
-		return -1;
+		return -1;*/
 
 	this->increments = increments;
 
@@ -80,50 +81,50 @@ int Brush_Motor::init(uint16_t frequency, uint16_t increments, BR_MOTOR_POLARITY
 }
 
 
-int Brush_Motor::init(BR_MOTOR_POLARITY pol)
+int BrushMotor::init(BR_MOTOR_POLARITY pol)
 {
 	return this->init(8400, 100, pol);
 }
 
 
-int Brush_Motor::set_frequency(uint16_t freq)
+int BrushMotor::set_frequency(uint16_t freq)
 {
 	return pwm.config(PWM_PARAMETER_FREQUENCY, ceil(84000000 / increments / freq));
 }
 
 
-int Brush_Motor::set_increments(uint16_t incr)
+int BrushMotor::set_increments(uint16_t incr)
 {
 	increments = incr;
 	return pwm.config(PWM_PARAMETER_INCREMENTS, increments);
 }
 
 
-uint16_t Brush_Motor::get_max_duty_cycle(){
+uint16_t BrushMotor::get_max_duty_cycle(){
 	return increments;
 }
 
 
-uint16_t Brush_Motor::get_duty_cycle()
+uint16_t BrushMotor::get_duty_cycle()
 {
 	return duty_cycle;
 }
 
 
-void Brush_Motor::set_duty_cycle(uint8_t value)
+void BrushMotor::set_duty_cycle(uint8_t value)
 {
 	duty_cycle = value;
 	pwm.write(value);
 }
 
 
-BR_MOTOR_POLARITY Brush_Motor::get_dir()
+BR_MOTOR_POLARITY BrushMotor::get_dir()
 {
 	return (ina.readPins() == 0 && inb.readPins() == 1) ? MOT_POL_NORMAL : MOT_POL_REVERSE;
 }
 
 
-void Brush_Motor::set_dir(BR_MOTOR_POLARITY pol)
+void BrushMotor::set_dir(BR_MOTOR_POLARITY pol)
 {
 	switch(pol)
 	{
@@ -138,22 +139,23 @@ void Brush_Motor::set_dir(BR_MOTOR_POLARITY pol)
 	}
 }
 
-
-void Brush_Motor::turn_dcdcon(bool state)
+/*
+void BrushMotor::turn_dcdcon(bool state)
 {
 	DCDCOn.setPins(state);
 }
 
 
-bool Brush_Motor::is_power_ok()
+bool BrushMotor::is_power_ok()
 {
 	return PowerOK.readPins();
 }
+*/
 
-
-void Brush_Motor::demo()
+/*
+void BrushMotor::demo()
 {
-	if (Brush_Motor::is_power_ok())
+	if (BrushMotor::is_power_ok())
 	{
 		if (get_dir() == MOT_POL_NORMAL)
 		{
@@ -194,4 +196,4 @@ void Brush_Motor::demo()
 
 		set_duty_cycle(demo_dutyCycle);
 	}
-}
+}*/

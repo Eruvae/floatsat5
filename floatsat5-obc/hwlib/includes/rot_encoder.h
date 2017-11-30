@@ -139,7 +139,7 @@ typedef struct {
 	  uint16_t POLARITY;
 }ENC_TypeDef;
 
-class Rotary_Encoder
+class RotaryEncoder
 {
 private:
 	  TIM_TypeDef* TIMER;
@@ -148,15 +148,16 @@ private:
 	  uint16_t ROT_RESOLUTION;
 
 	  uint8_t coding_factor;	// a value necessary to compute exact angular position and depends on ENC_COUNTER_MODE selected
-	  uint16_t counter_max_val;
-	  uint16_t counter_old_val;
-	  uint16_t counter_1_4;		// 1/4 of counter_max_val, helps to determine underflow/overflow of counter
-	  uint16_t counter_3_4;		// 3/4 of counter_max_val, helps to determine underflow/overflow of counter
+	  uint32_t counter_max_val;
+	  uint32_t counter_old_val;
+	  uint32_t counter_1_4;		// 1/4 of counter_max_val, helps to determine underflow/overflow of counter
+	  uint32_t counter_3_4;		// 3/4 of counter_max_val, helps to determine underflow/overflow of counter
 	  int32_t flow_count;		// decremented by 1 if counter underflow, incremented by 1 if counter overflow
 	  int32_t counter_dif;		// difference of counter value from previous iteration and current iteration
 
 	  void enc_set_gpio(const ENC_TypeDef &encoder);
 	  void enc_set_timer(const ENC_TypeDef &encoder);
+	  uint32_t get_timer_max();
 	  void reset_counter();
 
 public:
@@ -172,7 +173,7 @@ public:
 	   * 	For correct polarity connect white cable to CH1 pin and green cable to CH2 pin (Rotary Encoder Model J733)
 	   * 	Default Rotary Resolution is set to 600 (works with HW: Rotary Encoder Model J733 with 600 Pulses per Full Revolution)
 	   */
-	  Rotary_Encoder(ENC_TIMER_SELECT tim, uint16_t rot_resolution = 600);
+	  RotaryEncoder(ENC_TIMER_SELECT tim, uint16_t rot_resolution = 600);
 
 
 	  /*
