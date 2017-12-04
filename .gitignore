@@ -35,3 +35,7 @@
 *.app
 *.elf
 *.hex
+
+# QT
+build-*
+*.pro.user

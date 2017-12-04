@@ -91,20 +91,23 @@ void SensePower::initSensor(uint8_t sensorAddr)
 	 *    1     1     1   Shunt and Bus, Continuous
 	 */
 
-	//uint8_t writeCalib[] = {CALIB_REG, 0x00, 0x00};
+	uint8_t writeCalib[] = {CALIB_REG, 0xFA, 0x00};
 	/*
 	 * BIT # 	D15	 D14  D13  D12  D11  D10  D9  D8  D7  D6  D5  D4  D3  D2  D1  D0
 	 * BIT NAME FS15 FS14 FS13 FS12 FS11 FS10 FS9 FS8 FS7 FS6 FS5 FS4 FS3 FS2 FS1 FS0
 	 */
 
 	i2c_bus.write(sensorAddr, writeConfig, 3);
-	//i2c_bus.write(sensorAddr, writeCalib, 3);
+	i2c_bus.write(sensorAddr, writeCalib, 3);
 }
 
 int16_t SensePower::readReg(uint8_t sensorAddr, uint8_t reg)
 {
 	int16_t res;
 	i2c_bus.writeRead(sensorAddr, &reg, 1, (uint8_t*)&res, 2);
+	if (reg == BUS_VOLT_REG)
+		return swap16(res) >> 3;
+
 	return swap16(res);
 }
 
@@ -116,10 +119,11 @@ void SensePower::run()
 	{
 		int16_t shuntVolt = readReg(CURR_BATT_I2C_ADDR, SHUNT_VOLT_REG);
 		int16_t busVolt = readReg(CURR_BATT_I2C_ADDR, BUS_VOLT_REG);
-		//int16_t current = readReg(CURR_BATT_I2C_ADDR, CURRENT_REG);
-		//int16_t power = readReg(CURR_BATT_I2C_ADDR, POWER_REG);
+		int16_t current = readReg(CURR_BATT_I2C_ADDR, CURRENT_REG);
+		int16_t power = readReg(CURR_BATT_I2C_ADDR, POWER_REG);
 
-		PRINTF("Shunt Voltage: %fmV; Bus Voltage: %fV\n", shuntVolt*SHUNT_VOLT_FACTOR, busVolt*BUS_VOLT_FACTOR);
+		//PRINTF("Shunt Voltage: %fmV; Bus Voltage: %fV\n", shuntVolt*SHUNT_VOLT_FACTOR, busVolt*BUS_VOLT_FACTOR);
+		//PRINTF("Current: %fmA, Power: %fmW, %fW\n", current*0.32 - 165, busVolt*BUS_VOLT_FACTOR*(current*0.32 - 165), power*1.0);
 
 		suspendUntilNextBeat();
 	}

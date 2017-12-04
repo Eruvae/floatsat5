@@ -6,6 +6,8 @@
 CPP_SRCS += \
 ../ActuatorInterfaces.cpp \
 ../CommInterfaces.cpp \
+../DebugTC.cpp \
+../PoseFilter.cpp \
 ../SenseEncoder.cpp \
 ../SenseIMU.cpp \
 ../SenseInfrared.cpp \
@@ -18,6 +20,8 @@ CPP_SRCS += \
 OBJS += \
 ./ActuatorInterfaces.o \
 ./CommInterfaces.o \
+./DebugTC.o \
+./PoseFilter.o \
 ./SenseEncoder.o \
 ./SenseIMU.o \
 ./SenseInfrared.o \
@@ -30,6 +34,8 @@ OBJS += \
 CPP_DEPS += \
 ./ActuatorInterfaces.d \
 ./CommInterfaces.d \
+./DebugTC.d \
+./PoseFilter.d \
 ./SenseEncoder.d \
 ./SenseIMU.d \
 ./SenseInfrared.d \

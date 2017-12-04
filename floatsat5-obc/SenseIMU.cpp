@@ -213,7 +213,7 @@ void SenseIMU::readMag(int16_t *data, bool use_offset)
 	comm.disableSPISlaves();
 
 	if (use_offset)
-		for (int i = 0; i < 3; i++) data[i] -= mag_offset[i];
+		for (int i = 0; i < 3; i++) data[i] = (data[i] - mag_min[i]) * INT16_MAX / (mag_max[i] - mag_min[i]) - INT16_MAX/2;
 
 }
 
@@ -265,7 +265,25 @@ void SenseIMU::calibrateAcc()
 
 void SenseIMU::calibrateMag()
 {
-	// TODO; Board/Satellite has to be moved while calibrating
+	// Board/Satellite has to be moved while calibrating
+	setPeriodicBeat(0, 1*MILLISECONDS);
+	for (int i = 0; i < 3; i++)
+	{
+		mag_min[i] = INT16_MAX;
+		mag_max[i] = INT16_MIN;
+	}
+	const int CALIB_COUNT = 1000;
+	int16_t tmp[3];
+	for (int i = 0; i < CALIB_COUNT; i++)
+	{
+		readMag(tmp, false);
+		for (int j = 0; j < 3; j++)
+		{
+			if (tmp[j] < mag_min[j]) mag_min[j] = tmp[j];
+			if (tmp[j] > mag_max[j]) mag_max[j] = tmp[j];
+		}
+		suspendCallerUntil(NOW() + 100 * NANOSECONDS);
+	}
 }
 
 void SenseIMU::run()
@@ -286,8 +304,8 @@ void SenseIMU::run()
 
 	initGyro();
 	initXM();
-	calibrateGyro();
-	calibrateAcc();
+	//calibrateGyro();
+	//calibrateAcc();
 	setPeriodicBeat(0, 100*MILLISECONDS);
 	while(1)
 	{
@@ -302,7 +320,7 @@ void SenseIMU::run()
 		readTemp(&tempData);
 		//PRINTF("Gyro Raw: %f, %f, %f\n", gyroData[0]*GYRO_FACTOR_2000DPS, gyroData[1]*GYRO_FACTOR_2000DPS, gyroData[2]*GYRO_FACTOR_2000DPS);
 		//PRINTF("Acc Raw: %f, %f, %f\n", accData[0]*ACC_FACTOR_2G, accData[1]*ACC_FACTOR_2G, accData[2]*ACC_FACTOR_2G);
-		//PRINTF("Mag Raw: %f, %f, %f\n\n", magData[0]*MAG_FACTOR_2GA, magData[1]*MAG_FACTOR_2GA, magData[2]*MAG_FACTOR_2GA);
+		//PRINTF("Mag Raw: %d, %d, %d\n\n", magData[0]/**MAG_FACTOR_2GA*/, magData[1]/**MAG_FACTOR_2GA*/, magData[2]/**MAG_FACTOR_2GA*/);
 		//PRINTF("Temperature: %f\n", tempData*TEMP_FACTOR);
 		suspendUntilNextBeat();
 	}

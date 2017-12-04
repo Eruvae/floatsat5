@@ -32,7 +32,7 @@ class CommInterfaces : public Thread
 private:
 	SPI_SS selectedSlave;
 public:
-	CommInterfaces() : selectedSlave(NONE) {};
+	CommInterfaces() : Thread("CommInterfaces"), selectedSlave(NONE) {};
 
 	int selectSPISlave(SPI_SS select);
 	void disableSPISlaves();
@@ -63,5 +63,10 @@ extern HAL_I2C i2c_bus;
 extern HAL_I2C i2c2_bus;
 //extern HAL_UART bt_uart;
 extern RotaryEncoder enc;
+
+namespace RODOS
+{
+	extern HAL_UART uart_stdout;
+}
 
 #endif /* COMMINTERFACES_H_ */

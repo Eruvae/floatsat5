@@ -48,11 +48,29 @@ struct /*__attribute__((packed))*/ Telemetry2
 	float data[2];
 };
 
+enum IMUCommand
+{
+	CALIB_GYRO = 0, CALIB_ACC, CALIB_MAG
+};
+
+struct Pose
+{
+	float x, y, z;
+	float yaw, pitch, roll;
+};
+
+union TCdata
+{
+	IMUCommand imu_com;
+	Pose pose;
+};
 
 struct /*__attribute__((packed))*/ Telecommand
 {
-	float data;
-	char id;
+	uint8_t id;
+	TCdata data;
+	//float data;
+	//char id;
 };
 
 #endif /* STRUCTS_H_ */

@@ -139,18 +139,12 @@ ESP8266::ESP8266(HAL_UART *_uart, HAL_GPIO *_enable, HAL_GPIO *_gpio0) : updatet
  */
 int ESP8266::init(const char *_ssid, const char *_pw) {
 
-	PRINTF("ESP 1!\r\n");
-
 	ssid = _ssid;
 	pw = _pw;
-
-	PRINTF("ESP 2!\r\n");
 
 	gpio0->init(true, 1, 1);
 	enable->init(true, 1, 0);
 	enable->setPins(1);
-
-	PRINTF("ESP 3!\r\n");
 
 	// First Connection to ESP - default baudrate 115200 (hopefully always)
 	if ((espRes = ESP_Init(&ESP, 115200, ESP_Callback)) == espOK) {
@@ -163,8 +157,6 @@ int ESP8266::init(const char *_ssid, const char *_pw) {
 		#endif
 	    return -1;
 	}
-
-	PRINTF("ESP 4!\r\n");
 
 	// Configure for 2 Mbit
 	if((espRes = ESP_SetUART(&ESP,2000000,0,1)) == espOK) {

@@ -16,7 +16,8 @@ class SenseIMU : public Thread
 private:
 	int16_t gyro_offset[3];
 	int16_t acc_offset[3];
-	int16_t mag_offset[3];
+	int16_t mag_min[3];
+	int16_t mag_max[3];
 
 	int initGyro();
 	int initXM();

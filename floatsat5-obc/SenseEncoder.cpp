@@ -23,7 +23,7 @@ void SenseEncoder::run()
 		enc.read_pos();
 		int64_t degr = enc.get_rot_deg();
 		int32_t rps = enc.get_rot_speed(100*MILLISECONDS);
-		PRINTF("Encoder reading: %d, %d, RPS: %d\n", ret, degr, rps);
+		//PRINTF("Encoder reading: %d, %d, RPS: %d\n", ret, degr, rps);
 		suspendUntilNextBeat();
 	}
 }

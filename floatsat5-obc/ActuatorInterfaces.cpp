@@ -42,7 +42,7 @@ void ActuatorInterfaces::run()
 	{
 		i++;
 		int test = dc_test.readPins();
-		PRINTF("DC/DC Status: %d\n", test);
+		//PRINTF("DC/DC Status: %d\n", test);
 
 		if (i % 80 < 20 || i % 80 > 60)
 		{

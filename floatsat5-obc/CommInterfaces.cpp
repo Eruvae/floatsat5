@@ -92,12 +92,11 @@ void CommInterfaces::init()
 void CommInterfaces::run()
 {
 	PRINTF("Wifi getting initialized\n");
-	//wf.init("FloatSat","floatsat");
-	int i = wf.init("EruvaeFS","194a69^V");
+	int i = wf.init("FloatSat","floatsat");
+	//int i = wf.init("EruvaeFS","194a69^V");
 
 	PRINTF("Init finished\n");
-	//wf.enableUDPConnection(0x6400A8C0,2000);  //100
-	wf.enableUDPConnection(0x0189A8C0,2000);
+	wf.enableUDPConnection(0x6D00A8C0,5000); // 192.168.0.109, 192.168.
 		// 0x6400A8C0 = 192.168.0.100
 		// 0x6500A8C0 = 192.168.0.101
 
