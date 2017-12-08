@@ -8,13 +8,35 @@
 #ifndef STRUCTS_H_
 #define STRUCTS_H_
 
+// IMU Sensitivities
+#define GYRO_FACTOR_245DPS		(245.0/INT16_MAX) //0.00875		// dps/digit
+#define GYRO_FACTOR_500DPS		(500.0/INT16_MAX) //0.0175
+#define GYRO_FACTOR_2000DPS		(2000.0/INT16_MAX) //0.07
+#define ACC_FACTOR_2G			(2.0/INT16_MAX) //0.000081	// g/LSB
+#define ACC_FACTOR_4G			(4.0/INT16_MAX) //0.000122
+#define ACC_FACTOR_6G			(6.0/INT16_MAX) //0.000183
+#define ACC_FACTOR_8G			(8.0/INT16_MAX) //0.000244
+#define ACC_FACTOR_16G			(16.0/INT16_MAX) //0.000732
+#define MAG_FACTOR_2GA			(2.0/INT16_MAX) //0.00008		// gauss/LSB
+#define MAG_FACTOR_4GA			(4.0/INT16_MAX) //0.00016
+#define MAG_FACTOR_8GA			(8.0/INT16_MAX) //0.00032
+#define MAG_FACTOR_12GA			(12.0/INT16_MAX) //0.00048
+#define TEMP_FACTOR				0.125
+
 // Put all structs here, especially structs for Topics
 
 struct IMUData
 {
-	int16_t roll, pitch, yaw;
-	int16_t accX, accY, accZ;
-	int16_t magX, magY, magZ;
+	int16_t gyro[3];
+	int16_t acc[3];
+	int16_t mag[3];
+	int16_t temp;
+};
+
+struct PowerData
+{
+	int16_t batt_voltage;
+	int16_t batt_current;
 };
 
 // Structs for Telecommunication; always use __attribute__((packed))
@@ -28,9 +50,9 @@ struct __attribute__((packed)) PoseData
 	int16_t px;
 	int16_t py;
 	int16_t pz;
-	int16_t yaw;
-	int16_t pitch;
 	int16_t roll;
+	int16_t pitch;
+	int16_t yaw;
 
 	uint32_t check;
 };

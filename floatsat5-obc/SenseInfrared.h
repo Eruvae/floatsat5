@@ -13,8 +13,10 @@
 
 class SenseInfrared : public Thread
 {
-	void initInfrared();
-	uint8_t readRange();
+	void initializeSensors();
+	int initInfrared(uint8_t id);
+	int assignI2Caddress(uint8_t old_id, uint8_t new_id);
+	uint8_t readRange(uint8_t id);
 public:
 	SenseInfrared();
 

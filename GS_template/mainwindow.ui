@@ -518,6 +518,35 @@
      </widget>
     </widget>
    </widget>
+   <widget class="QLCDNumber" name="lcdVoltage">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>170</y>
+      <width>64</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="lineWidth">
+     <number>1</number>
+    </property>
+    <property name="segmentStyle">
+     <enum>QLCDNumber::Flat</enum>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="lcdCurrent">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>170</y>
+      <width>64</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="segmentStyle">
+     <enum>QLCDNumber::Flat</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

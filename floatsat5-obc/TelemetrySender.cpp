@@ -25,7 +25,7 @@ void TelemetrySender::run()
 	{
 		sensor2.a=counter; sensor2.b=30;
 		sensor2.data[0]=12.5;sensor2.data[1]=29.3;
-		telemetry2.publish(sensor2);
+		//telemetry2.publish(sensor2);
 
 		if (counter % 100 == 0)
 		{

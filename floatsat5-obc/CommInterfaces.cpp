@@ -71,6 +71,13 @@ void CommInterfaces::disableSPISlaves()
     selectedSlave = NONE;
 }
 
+void CommInterfaces::reset_i2c(HAL_I2C &bus)
+{
+	bus.reset();
+	AT(NOW() + 0.5*MILLISECONDS);
+	bus.init();
+}
+
 void CommInterfaces::init()
 {
 	gyro_cs.init(true, 1, 1);
@@ -86,6 +93,7 @@ void CommInterfaces::init()
 	gw.addTopicsToForward(&telemetry1);
 	gw.addTopicsToForward(&telemetry2);
 	gw.addTopicsToForward(&telecommand);
+	gw.addTopicsToForward(&powerTelemetry);
 	//.... More Topics to come
 }
 

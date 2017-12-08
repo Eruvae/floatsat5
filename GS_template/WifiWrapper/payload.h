@@ -10,6 +10,7 @@
 enum PayloadType{
     Telemetry1Type=5661,
     Telemetry2Type=5771,
+    PowerTelemetryType=6000,
     TelecommandType=300
 };
 
@@ -33,7 +34,7 @@ struct Payload{
     Payload(const QByteArray &buffer);
 };
 
-//#pragma pack(push,1)
+#pragma pack(push,1)
 
 struct Telemetry1
 {
@@ -46,6 +47,13 @@ struct Telemetry2
     quint32 a,b;
     float data[2];
     Telemetry2(const Payload payload);
+};
+
+struct PowerTelemetry
+{
+    int16_t voltage;
+    int16_t current;
+    PowerTelemetry(const Payload payload);
 };
 
 enum IMUCommand
@@ -82,7 +90,7 @@ struct Telecommand
 };
 */
 
-//#pragma pack(pop)
+#pragma pack(pop)
 
 #endif // PAYLOAD_H
 

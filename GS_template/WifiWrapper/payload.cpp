@@ -45,6 +45,13 @@ Telemetry2::Telemetry2(const Payload payload){
     data[1]=payload.userDataFloat[3];
 
 }
+
+PowerTelemetry::PowerTelemetry(const Payload payload)
+{
+    voltage = payload.userData16[0];
+    current = payload.userData16[1];
+}
+
 /*Telecommand::Telecommand(const Payload payload) {
 
     if(payload.userDataLen != sizeof(Telecommand) || payload.topic != TelecommandType){

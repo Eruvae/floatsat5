@@ -7,6 +7,8 @@
 
 #include "SenseIMU.h"
 
+#include "Topics.h"
+
 #define READ_FLAG		0x80
 #define MS_FLAG			0x40
 
@@ -21,21 +23,6 @@
 #define OUT_MAG			0x08	// r, 6 bytes
 #define CTRL_REG0_XM	0x1F	// rw, reg 1-7 follow
 #define OUT_ACC			0x28	// r, 6 bytes
-
-// Sensitivities
-#define GYRO_FACTOR_245DPS		(245.0/INT16_MAX) //0.00875		// dps/digit
-#define GYRO_FACTOR_500DPS		(500.0/INT16_MAX) //0.0175
-#define GYRO_FACTOR_2000DPS		(2000.0/INT16_MAX) //0.07
-#define ACC_FACTOR_2G			(2.0/INT16_MAX) //0.000081	// g/LSB
-#define ACC_FACTOR_4G			(4.0/INT16_MAX) //0.000122
-#define ACC_FACTOR_6G			(6.0/INT16_MAX) //0.000183
-#define ACC_FACTOR_8G			(8.0/INT16_MAX) //0.000244
-#define ACC_FACTOR_16G			(16.0/INT16_MAX) //0.000732
-#define MAG_FACTOR_2GA			(2.0/INT16_MAX) //0.00008		// gauss/LSB
-#define MAG_FACTOR_4GA			(4.0/INT16_MAX) //0.00016
-#define MAG_FACTOR_8GA			(8.0/INT16_MAX) //0.00032
-#define MAG_FACTOR_12GA			(12.0/INT16_MAX) //0.00048
-#define TEMP_FACTOR				0.125
 
 SenseIMU senseIMU;
 
@@ -313,15 +300,17 @@ void SenseIMU::run()
 
 		//PRINTF("XM WHO_AM_I: %d\n", waix);
 
-		int16_t gyroData[3], accData[3], magData[3], tempData;
-		readGyro(gyroData);
-		readAcc(accData);
-		readMag(magData, false);
-		readTemp(&tempData);
-		//PRINTF("Gyro Raw: %f, %f, %f\n", gyroData[0]*GYRO_FACTOR_2000DPS, gyroData[1]*GYRO_FACTOR_2000DPS, gyroData[2]*GYRO_FACTOR_2000DPS);
-		//PRINTF("Acc Raw: %f, %f, %f\n", accData[0]*ACC_FACTOR_2G, accData[1]*ACC_FACTOR_2G, accData[2]*ACC_FACTOR_2G);
-		//PRINTF("Mag Raw: %d, %d, %d\n\n", magData[0]/**MAG_FACTOR_2GA*/, magData[1]/**MAG_FACTOR_2GA*/, magData[2]/**MAG_FACTOR_2GA*/);
-		//PRINTF("Temperature: %f\n", tempData*TEMP_FACTOR);
+		IMUData data;
+		readGyro(data.gyro);
+		readAcc(data.acc);
+		readMag(data.mag, false);
+		readTemp(&data.temp);
+		//PRINTF("Gyro Raw: %f, %f, %f\n", data.gyroData[0]*GYRO_FACTOR_2000DPS, data.gyroData[1]*GYRO_FACTOR_2000DPS, data.gyroData[2]*GYRO_FACTOR_2000DPS);
+		//PRINTF("Acc Raw: %f, %f, %f\n", data.accData[0]*ACC_FACTOR_2G, data.accData[1]*ACC_FACTOR_2G, data.accData[2]*ACC_FACTOR_2G);
+		//PRINTF("Mag Raw: %d, %d, %d\n\n", data.magData[0]/**MAG_FACTOR_2GA*/, data.magData[1]/**MAG_FACTOR_2GA*/, data.magData[2]/**MAG_FACTOR_2GA*/);
+		//PRINTF("Temperature: %f\n", data.tempData*TEMP_FACTOR);
+		imuTopic.publish(data);
+
 		suspendUntilNextBeat();
 	}
 }

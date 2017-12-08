@@ -8,6 +8,7 @@
 #include "SensePower.h"
 
 #include "CommInterfaces.h"
+#include "Topics.h"
 
 #define CONFIG_REG		0x00
 #define SHUNT_VOLT_REG	0x01
@@ -124,6 +125,14 @@ void SensePower::run()
 
 		//PRINTF("Shunt Voltage: %fmV; Bus Voltage: %fV\n", shuntVolt*SHUNT_VOLT_FACTOR, busVolt*BUS_VOLT_FACTOR);
 		//PRINTF("Current: %fmA, Power: %fmW, %fW\n", current*0.32 - 165, busVolt*BUS_VOLT_FACTOR*(current*0.32 - 165), power*1.0);
+
+		PowerData pd;
+		pd.batt_voltage = busVolt;
+		pd.batt_current = current;
+
+		powerTelemetry.publish(pd);
+
+		PRINTF("Power data published: %d, %d\n", pd.batt_voltage, pd.batt_current);
 
 		suspendUntilNextBeat();
 	}

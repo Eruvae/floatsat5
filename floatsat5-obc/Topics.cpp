@@ -14,6 +14,8 @@ Topic<Telemetry2> telemetry2(5771,"Message2");
 Topic<Telecommand> telecommand(300,"Message2");
 Topic<IMUCommand> imuCommand(500, "IMU command");
 
+Topic<PowerData> powerTelemetry(6000, "Power Telemetry");
+
 Topic<IMUData> imuTopic(-1, "IMU raw data"); // might need to set fixed ID later
 CommBuffer<IMUData> imuBuffer;
 Subscriber imuSubscriber(imuTopic, imuBuffer);

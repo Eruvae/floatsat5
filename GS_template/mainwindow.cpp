@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     link = new SatelliteLink(this);
     link->addTopic(Telemetry1Type);
     link->addTopic(Telemetry2Type);
+    link->addTopic(PowerTelemetryType);
 
     setupGraph();
     QTimer *timer = new QTimer(this);
@@ -29,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::readFromLink(){
     Payload payload = link->read();
+    //qDebug() << "Topic ID received: " << payload.topic << endl;
     //qDebug()<<"msg from link";
     switch(payload.topic){
         case  Telemetry1Type:{
@@ -57,6 +59,16 @@ void MainWindow::readFromLink(){
         break;
 
     }          // Telemetry2Type
+    case PowerTelemetryType:
+    {
+        PowerTelemetry data(payload);
+
+        qDebug() << "Power Telemetry received!" << endl;
+
+        ui->lcdVoltage->display(data.voltage*0.004);
+        ui->lcdCurrent->display(data.current*0.32 - 165);
+        break;
+    }
 
 
     default:

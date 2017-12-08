@@ -37,6 +37,8 @@ public:
 	int selectSPISlave(SPI_SS select);
 	void disableSPISlaves();
 
+	void reset_i2c(HAL_I2C &bus);
+
 	void init();
 	void run();
 };

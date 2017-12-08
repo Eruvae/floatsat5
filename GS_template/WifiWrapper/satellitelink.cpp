@@ -35,6 +35,8 @@ Payload SatelliteLink::read(){
         checksum &= 0xFFFF;
     }
 
+    qDebug() << "Topic ID: " << payload.topic << endl;
+
     if((!checkChecksum || checksum == payload.checksum) && topics.contains(payload.topic))
         return payload;
     else
