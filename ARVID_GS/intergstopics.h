@@ -1,0 +1,4 @@
+#ifndef INTERGSTOPICS_H
+#define INTERGSTOPICS_H
+
+#endif // INTERGSTOPICS_H
