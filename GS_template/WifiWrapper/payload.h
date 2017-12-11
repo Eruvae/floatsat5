@@ -14,6 +14,26 @@ enum PayloadType{
     TelecommandType=300
 };
 
+struct PowerTelemetry
+{
+    int16_t voltage;
+    int16_t current;
+    //PowerTelemetry(const Payload payload);
+};
+
+struct Telemetry1
+{
+    char ch[2];
+    //Telemetry1(const Payload payload);
+};
+
+struct Telemetry2
+{
+    quint32 a,b;
+    float data[2];
+    //Telemetry2(const Payload payload);
+};
+
 struct Payload{
     quint16 checksum;
     quint32 senderNode;
@@ -24,37 +44,21 @@ struct Payload{
     quint16 userDataLen;
     union{
         quint8 userData8[USER_DATA_MAX_LEN / sizeof(quint8)];
-        quint16 userData16[USER_DATA_MAX_LEN / sizeof(quint16)];
+        /*quint16 userData16[USER_DATA_MAX_LEN / sizeof(quint16)];
         quint32 userData32[USER_DATA_MAX_LEN / sizeof(quint32)];
         quint64 userData64[USER_DATA_MAX_LEN / sizeof(quint64)];
         float userDataFloat[USER_DATA_MAX_LEN / sizeof(float)];
-        double userDataDouble[USER_DATA_MAX_LEN / sizeof(double)];
+        double userDataDouble[USER_DATA_MAX_LEN / sizeof(double)];*/
+        PowerTelemetry powerData;
+        Telemetry1 telemetry1;
+        Telemetry2 telemetry2;
+
     };
     Payload();
     Payload(const QByteArray &buffer);
 };
 
-#pragma pack(push,1)
-
-struct Telemetry1
-{
-    char ch[2];
-    Telemetry1(const Payload payload);
-};
-
-struct Telemetry2
-{
-    quint32 a,b;
-    float data[2];
-    Telemetry2(const Payload payload);
-};
-
-struct PowerTelemetry
-{
-    int16_t voltage;
-    int16_t current;
-    PowerTelemetry(const Payload payload);
-};
+//#pragma pack(push,1)
 
 enum IMUCommand
 {
@@ -90,7 +94,7 @@ struct Telecommand
 };
 */
 
-#pragma pack(pop)
+//#pragma pack(pop)
 
 #endif // PAYLOAD_H
 

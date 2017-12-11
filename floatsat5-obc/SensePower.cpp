@@ -132,7 +132,7 @@ void SensePower::run()
 
 		powerTelemetry.publish(pd);
 
-		PRINTF("Power data published: %d, %d\n", pd.batt_voltage, pd.batt_current);
+		//PRINTF("Power data published: %d, %d\n", pd.batt_voltage, pd.batt_current);
 
 		suspendUntilNextBeat();
 	}

@@ -5,7 +5,7 @@
 
 //SatelliteLink::SatelliteLink(QObject *parent, bool checkChecksum) : QObject(parent), localAddress("192.168.0.100"), remoteAddress("192.168.0.101"), port(2000), socket(this), bound(false), checkChecksum(checkChecksum), receivedBytes(0), sentBytes(0), timer(this){
 
-SatelliteLink::SatelliteLink(QObject *parent, bool checkChecksum) : QObject(parent), localAddress("192.168.0.109"), remoteAddress("192.168.0.108"), port(5000), socket(this), bound(false), checkChecksum(checkChecksum), receivedBytes(0), sentBytes(0), timer(this){
+SatelliteLink::SatelliteLink(QObject *parent, QHostAddress localAddress, QHostAddress remoteAddress, quint16 port, bool checkChecksum) : QObject(parent), localAddress(localAddress), remoteAddress(remoteAddress), port(port), socket(this), bound(false), checkChecksum(checkChecksum), receivedBytes(0), sentBytes(0), timer(this){
 
     qDebug() << "Binding to IP" << localAddress.toString() << "and port" << port << "\n";
     if(socket.bind(localAddress, port)){
@@ -20,7 +20,9 @@ SatelliteLink::SatelliteLink(QObject *parent, bool checkChecksum) : QObject(pare
 
 Payload SatelliteLink::read(){
     QByteArray buffer(1023, 0x00);
-    receivedBytes += socket.readDatagram(buffer.data(), buffer.size());
+    int tmp = socket.readDatagram(buffer.data(), buffer.size());
+    qDebug() << "Received Bytes: " << tmp << endl;
+    receivedBytes += tmp;
 
     Payload payload(buffer);
 
@@ -35,7 +37,7 @@ Payload SatelliteLink::read(){
         checksum &= 0xFFFF;
     }
 
-    qDebug() << "Topic ID: " << payload.topic << endl;
+    //qDebug() << "Topic ID: " << payload.topic << endl;
 
     if((!checkChecksum || checksum == payload.checksum) && topics.contains(payload.topic))
         return payload;
@@ -83,7 +85,7 @@ int SatelliteLink::write(quint32 topicId, const QByteArray &data){
 }
 
 
-int SatelliteLink::write(quint32 topicId, const Telecommand &telecommand)
+/*int SatelliteLink::write(quint32 topicId, const Telecommand &telecommand)
 {
     qDebug()<<"Simple write is called"<<endl;
     QByteArray buffer(sizeof(Telecommand), 0x00);
@@ -91,7 +93,7 @@ int SatelliteLink::write(quint32 topicId, const Telecommand &telecommand)
     return write(topicId, buffer);
 
 
-}
+}*/
 
 qint64 SatelliteLink::readAndResetReceivedBytes(){
     unsigned ret = receivedBytes;
