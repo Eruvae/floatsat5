@@ -68,6 +68,13 @@ void PoseFilter::run()
 		filteredRoll = alpha * rollGyro + (1 - alpha) * rollAccMag;
 		filteredHeading = alpha * headingGyro + (1 - alpha) * headingAccMag;
 
+		Pose pose;
+		pose.pitch=filteredPitch;
+		pose.roll=filteredRoll;
+		pose.yaw=filteredHeading;
+
+		filteredPose.publish(pose);
+
 		suspendUntilNextBeat();
 	}
 }

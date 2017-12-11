@@ -13,7 +13,7 @@ Topic<Telemetry1> telemetry1(5661,"Message1");
 Topic<Telemetry2> telemetry2(5771,"Message2");
 Topic<Telecommand> telecommand(300,"Message2");
 Topic<IMUCommand> imuCommand(500, "IMU command");
-
+Topic<Pose> filteredPose (911, "Filtered Pose");
 Topic<PowerData> powerTelemetry(6000, "Power Telemetry");
 
 Topic<IMUData> imuTopic(-1, "IMU raw data"); // might need to set fixed ID later

@@ -94,6 +94,7 @@ void CommInterfaces::init()
 	gw.addTopicsToForward(&telemetry2);
 	gw.addTopicsToForward(&telecommand);
 	gw.addTopicsToForward(&powerTelemetry);
+	gw.addTopicsToForward(&filteredPose);
 	//.... More Topics to come
 }
 

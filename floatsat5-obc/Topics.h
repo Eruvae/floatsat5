@@ -26,5 +26,6 @@ extern Topic<Telemetry1> telemetry1;
 extern Topic<Telemetry2> telemetry2;
 extern Topic<Telecommand> telecommand;
 extern Topic<PowerData> powerTelemetry;
+extern Topic<Pose> filteredPose;
 
 #endif /* TOPICS_H_ */
