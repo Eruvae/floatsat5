@@ -11,392 +11,95 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>ARVID</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="arvid_res.qrc">
+    <normaloff>:/Project Images/Img/Arvid.png</normaloff>:/Project Images/Img/Arvid.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QCustomPlot" name="customPlot" native="true">
+   <widget class="QCustomPlot" name="graph_temp" native="true">
     <property name="geometry">
      <rect>
-      <x>380</x>
-      <y>20</y>
+      <x>10</x>
+      <y>130</y>
       <width>421</width>
-      <height>161</height>
+      <height>191</height>
      </rect>
-    </property>
-   </widget>
-   <widget class="QLCDNumber" name="lcdCurrent">
-    <property name="geometry">
-     <rect>
-      <x>150</x>
-      <y>170</y>
-      <width>64</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="segmentStyle">
-     <enum>QLCDNumber::Flat</enum>
-    </property>
-   </widget>
-   <widget class="QLCDNumber" name="lcdVoltage">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>170</y>
-      <width>64</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="lineWidth">
-     <number>1</number>
-    </property>
-    <property name="segmentStyle">
-     <enum>QLCDNumber::Flat</enum>
     </property>
    </widget>
    <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>220</y>
-      <width>139</width>
-      <height>637</height>
+      <x>10</x>
+      <y>10</y>
+      <width>211</width>
+      <height>91</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QVBoxLayout" name="verticalLayout_4">
      <item>
-      <widget class="QPushButton" name="pb">
-       <property name="text">
-        <string>send Command</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_13">
-       <property name="text">
-        <string>New Sender</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="Line" name="line_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_8">
-       <property name="text">
-        <string>Reciever</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="Line" name="line_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_9">
-       <property name="text">
-        <string>ID</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="comboTC">
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <property name="text">
-         <string>CALIB_IMU</string>
-        </property>
+        <widget class="QLabel" name="label">
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>Voltage (V)</string>
+         </property>
+        </widget>
        </item>
        <item>
-        <property name="text">
-         <string>SEND_POSE</string>
-        </property>
+        <widget class="QLCDNumber" name="lcdVoltage">
+         <property name="lineWidth">
+          <number>1</number>
+         </property>
+         <property name="segmentStyle">
+          <enum>QLCDNumber::Flat</enum>
+         </property>
+        </widget>
        </item>
-      </widget>
+      </layout>
      </item>
      <item>
-      <widget class="QLineEdit" name="telemetry1"/>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Current (mA)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLCDNumber" name="lcdCurrent">
+         <property name="segmentStyle">
+          <enum>QLCDNumber::Flat</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Telemetry 1</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QStackedWidget" name="stackedTCData">
-       <property name="currentIndex">
-        <number>0</number>
-       </property>
-       <widget class="QWidget" name="pageCalIMU">
-        <widget class="QComboBox" name="comboIMUcal">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>20</y>
-           <width>69</width>
-           <height>22</height>
-          </rect>
-         </property>
-         <item>
-          <property name="text">
-           <string>GYRO</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>ACC</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>MAG</string>
-          </property>
-         </item>
-        </widget>
-       </widget>
-       <widget class="QWidget" name="pageSendPos">
-        <widget class="QDoubleSpinBox" name="posX">
-         <property name="geometry">
-          <rect>
-           <x>30</x>
-           <y>0</y>
-           <width>62</width>
-           <height>22</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QDoubleSpinBox" name="posY">
-         <property name="geometry">
-          <rect>
-           <x>30</x>
-           <y>30</y>
-           <width>62</width>
-           <height>22</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QDoubleSpinBox" name="posZ">
-         <property name="geometry">
-          <rect>
-           <x>30</x>
-           <y>60</y>
-           <width>62</width>
-           <height>22</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_10">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>0</y>
-           <width>16</width>
-           <height>16</height>
-          </rect>
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="whatsThis">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>x</string>
+          <string>Power (W)</string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_11">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>30</y>
-           <width>16</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>y</string>
+       </item>
+       <item>
+        <widget class="QLCDNumber" name="lcdPower">
+         <property name="segmentStyle">
+          <enum>QLCDNumber::Flat</enum>
          </property>
         </widget>
-        <widget class="QLabel" name="label_14">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>60</y>
-           <width>16</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>z</string>
-         </property>
-        </widget>
-        <widget class="QDoubleSpinBox" name="posPitch">
-         <property name="geometry">
-          <rect>
-           <x>130</x>
-           <y>30</y>
-           <width>62</width>
-           <height>22</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QDoubleSpinBox" name="posRoll">
-         <property name="geometry">
-          <rect>
-           <x>130</x>
-           <y>0</y>
-           <width>62</width>
-           <height>22</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_16">
-         <property name="geometry">
-          <rect>
-           <x>100</x>
-           <y>60</y>
-           <width>31</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>yaw</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_17">
-         <property name="geometry">
-          <rect>
-           <x>100</x>
-           <y>30</y>
-           <width>31</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>pitch</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_15">
-         <property name="geometry">
-          <rect>
-           <x>100</x>
-           <y>0</y>
-           <width>31</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>roll</string>
-         </property>
-        </widget>
-        <widget class="QDoubleSpinBox" name="posYaw">
-         <property name="geometry">
-          <rect>
-           <x>130</x>
-           <y>60</y>
-           <width>62</width>
-           <height>22</height>
-          </rect>
-         </property>
-        </widget>
-       </widget>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_12">
-       <property name="text">
-        <string>Data</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Telemetry 2</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="telemetry2"/>
-     </item>
-     <item>
-      <widget class="QCustomPlot" name="graph_temp" native="true"/>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="missedPackets"/>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_7">
-       <property name="text">
-        <string>Sender</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="Line" name="line">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="data"/>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>(float)</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>Data</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>(Char)</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>ID</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="id"/>
-     </item>
-     <item>
-      <widget class="QPushButton" name="saveGraph">
-       <property name="text">
-        <string>Save Graph</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="RecievedPackets"/>
-     </item>
-     <item>
-      <widget class="QLabel" name="missedPacketsLabel">
-       <property name="text">
-        <string>MissedPackets</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="missedPacketsLabel_2">
-       <property name="text">
-        <string>RecievedPackets</string>
-       </property>
-      </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </widget>
@@ -410,6 +113,13 @@
      <height>26</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuMenu">
+    <property name="title">
+     <string>Menu</string>
+    </property>
+    <addaction name="actionTelecommand_Interface"/>
+   </widget>
+   <addaction name="menuMenu"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -420,6 +130,11 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionTelecommand_Interface">
+   <property name="text">
+    <string>Telecommand Interface</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -430,6 +145,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="arvid_res.qrc"/>
+ </resources>
  <connections/>
 </ui>

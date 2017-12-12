@@ -3,9 +3,9 @@
 
 #include <QMainWindow>
 #include "satellitelink.h"
-#include "satellitelink2.h"
 
-extern bool graphvalue;
+
+//extern double graphvaluecurrent;
 namespace Ui {
 class MainWindow;
 }
@@ -18,17 +18,17 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     SatelliteLink *link;
-    Satellitelink2 *link;
+    SatelliteLink *gsLink;
 
 private:
     Ui::MainWindow *ui;
 signals:
-    void PacketSignal(void);
+    void PacketSignal(double newValue);
 public slots:
 void readFromLink();
 void sendtelecommand();
-void setupGraph();
-void setupGraphrealtimeDataSlot(void);
+void SetupGraphCurrent();
+void SetupRealtimeDataSlotCurrent(double newValue);
 void setSignal(QColor color);
 void on_pushButton_clicked(void);
 

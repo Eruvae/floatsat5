@@ -31,17 +31,14 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     Qcustomplot/qcustomplot.cpp \
-    Graphsource/graphsource.cpp \
-    WifiWrapper/gstationlink.cpp
+    Graphsource/graphsource.cpp
 
 HEADERS  += \
     WifiWrapper/basics.h \
     WifiWrapper/payload.h \
     WifiWrapper/satellitelink.h \
     mainwindow.h \
-    Qcustomplot/qcustomplot.h \
-    WifiWrapper/gstationlink.h \
-    WifiWrapper/gstationlink.h
+    Qcustomplot/qcustomplot.h
 INCLUDEPATH += \
            WifiWrapper \
            Qcustomplot \
