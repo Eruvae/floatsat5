@@ -5,7 +5,7 @@
 
 //SatelliteLink::SatelliteLink(QObject *parent, bool checkChecksum) : QObject(parent), localAddress("192.168.0.100"), remoteAddress("192.168.0.101"), port(2000), socket(this), bound(false), checkChecksum(checkChecksum), receivedBytes(0), sentBytes(0), timer(this){
 
-SatelliteLink::SatelliteLink(QObject *parent, bool checkChecksum) : QObject(parent), localAddress("192.168.0.109"), remoteAddress("192.168.0.108"), port(5000), socket(this), bound(false), checkChecksum(checkChecksum), receivedBytes(0), sentBytes(0), timer(this){
+SatelliteLink::SatelliteLink(QObject *parent, QHostAddress localAddress, QHostAddress remoteAddress, quint16 port, bool checkChecksum) : QObject(parent), localAddress(localAddress), remoteAddress(remoteAddress), port(port), socket(this), bound(false), checkChecksum(checkChecksum), receivedBytes(0), sentBytes(0), timer(this){
 
     qDebug() << "Binding to IP" << localAddress.toString() << "and port" << port << "\n";
     if(socket.bind(localAddress, port)){

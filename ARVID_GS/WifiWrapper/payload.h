@@ -12,6 +12,7 @@ enum PayloadType{
     Telemetry2Type=5771,
     PowerTelemetryType=6000,
     TelecommandType=300
+
 };
 
 struct Payload{

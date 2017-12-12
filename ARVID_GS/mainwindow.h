@@ -18,7 +18,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     SatelliteLink *link;
-
+    SatelliteLink *gsLink;
 
 private:
     Ui::MainWindow *ui;

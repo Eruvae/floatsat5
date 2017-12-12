@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     link->addTopic(Telemetry1Type);
     link->addTopic(Telemetry2Type);
     link->addTopic(PowerTelemetryType);
+    gsLink=new SatelliteLink(this, QHostAddress ("192.168.0.109"), QHostAddress("192.168.0.120"), 5000); //GSLink Connection
 
 
     SetupGraphCurrent();
@@ -41,7 +42,8 @@ void MainWindow::readFromLink(){
              //qDebug()<<"I recieved Telemetry 1 "<<t1.ch[0]<<t1.ch[1]<<endl;
              //ui->telemetry1->setText(QString::number(t1.ch[0]));
              //ui->telemetry1->setText(QString("Telemetry 1 ->, First Character=%1 and Second Character=%2").arg(t1.ch[0]).arg(t1.ch[1])) ;
-            break;
+             break;
+
         }  //end case Telemetry1Type
 
 
@@ -76,6 +78,8 @@ void MainWindow::readFromLink(){
         double graphvaluecurrent=(data.current*0.32-165)/1000;
         SetupRealtimeDataSlotCurrent(graphvaluecurrent);
         qDebug() << "Graph Value = "<< graphvaluecurrent << endl;
+
+        gsLink->write<PowerTelemetry>(PowerTelemetryType, data);
         break;
     }
 
