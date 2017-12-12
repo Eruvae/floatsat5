@@ -17,6 +17,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     SatelliteLink *link;
+    SatelliteLink *link2;
 
 private:
     Ui::MainWindow *ui;
@@ -24,6 +25,7 @@ signals:
     void PacketSignal(void);
 public slots:
 void readFromLink();
+void readFromGSLink();
 void sendtelecommand();
 void setupGraph();
 void setupGraphrealtimeDataSlot(void);

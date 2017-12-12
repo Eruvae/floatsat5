@@ -23,7 +23,7 @@ Payload::Payload(const QByteArray &buffer) : checksum(0), senderNode(0), timesta
     userData8[userDataLen] = 0x00;
 }
 
-Telemetry1::Telemetry1(const Payload payload){
+/*Telemetry1::Telemetry1(const Payload payload){
 
     if(payload.userDataLen != sizeof(Telemetry1) || payload.topic != Telemetry1Type){
         return;
@@ -44,13 +44,14 @@ Telemetry2::Telemetry2(const Payload payload){
     data[0]=payload.userDataFloat[2];
     data[1]=payload.userDataFloat[3];
 
-}
+}*/
 
+/*
 PowerTelemetry::PowerTelemetry(const Payload payload)
 {
-    voltage = payload.userData16[0];
-    current = payload.userData16[1];
-}
+    voltage = payload.powerData.voltage;
+    current = payload.powerData.current;
+}*/
 
 /*Telecommand::Telecommand(const Payload payload) {
 

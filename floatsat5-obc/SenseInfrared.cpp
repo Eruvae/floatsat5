@@ -71,9 +71,10 @@ void SenseInfrared::initializeSensors()
 	infrared_enable.setPins(0);
 	infrared2_enable.setPins(0);
 
-	suspendCallerUntil(NOW() + 50*MILLISECONDS);
+	suspendCallerUntil(NOW() + 1*MILLISECONDS);
 
 	infrared2_enable.setPins(1);
+	suspendCallerUntil(NOW() + 1*MILLISECONDS);
 	int res = -1;
 	for(int i = 0; res < 0 && i < 10; i++)
 	{
@@ -99,6 +100,7 @@ void SenseInfrared::initializeSensors()
 		PRINTF("Initializing Infrared 2 successful\n", res);
 
 	infrared_enable.setPins(1);
+	suspendCallerUntil(NOW() + 1*MILLISECONDS);
 	res = -1;
 	for(int i = 0; res < 0 && i < 10; i++)
 	{
@@ -133,7 +135,7 @@ void SenseInfrared::run()
 		double distance = ((double)range1 + range2) / 2.0f;
 		double angle = atan((double)range1 - range2 / D);
 
-		//PRINTF("Test read IR: %d, %d\n", range1, range2);
+		PRINTF("Test read IR: %d, %d\n", range1, range2);
 		suspendUntilNextBeat();
 	}
 }
