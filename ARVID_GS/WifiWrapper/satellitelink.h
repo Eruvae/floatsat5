@@ -30,7 +30,14 @@ public:
     explicit SatelliteLink(QObject *parent = 0, bool checkChecksum = true);
     void addTopic(PayloadType);
     int write(quint32 topicId, const QByteArray &data);
-    int write(quint32 topicId, const Telecommand &telecommand);
+    //int write(quint32 topicId, const Telecommand &telecommand);
+    template<class T>
+    int write (quint32 topicId, const T &data)
+    {
+        QByteArray buffer (sizeof (T), 0x00);
+        memcpy (buffer.data(), (char*)&data, sizeof(T));
+        return write(topicId, buffer);
+    }
     Payload read();
     qint64 readAndResetReceivedBytes();
     qint64 readAndResetSentBytes();

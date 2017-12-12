@@ -83,7 +83,7 @@ int SatelliteLink::write(quint32 topicId, const QByteArray &data){
 }
 
 
-int SatelliteLink::write(quint32 topicId, const Telecommand &telecommand)
+/*int SatelliteLink::write(quint32 topicId, const Telecommand &telecommand)
 {
     qDebug()<<"Simple write is called"<<endl;
     QByteArray buffer(sizeof(Telecommand), 0x00);
@@ -91,7 +91,7 @@ int SatelliteLink::write(quint32 topicId, const Telecommand &telecommand)
     return write(topicId, buffer);
 
 
-}
+} */
 
 qint64 SatelliteLink::readAndResetReceivedBytes(){
     unsigned ret = receivedBytes;

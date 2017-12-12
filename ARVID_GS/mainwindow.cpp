@@ -3,9 +3,10 @@
 
 int counter=0;
 int missedPackets;
-bool graphvalue=0;
+//double graphvaluecurrent=0;
 int MissedPackets=0;
 int recievedPackets=0;
+float Power;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -20,26 +21,26 @@ MainWindow::MainWindow(QWidget *parent) :
     link->addTopic(PowerTelemetryType);
 
 
-    setupGraph();
+    SetupGraphCurrent();
     QTimer *timer = new QTimer(this);
     timer->start(100);
-    connect(this, SIGNAL(PacketSignal()), this, SLOT(setupGraphrealtimeDataSlot()));
+    //connect(this, SIGNAL(PacketSignal(double)), this, SLOT(SetupRealtimeDataSlotCurrent(double)));
     connect(link, SIGNAL(readReady()), this, SLOT(readFromLink()));
-    connect(ui->pb,SIGNAL(clicked()),this,SLOT(sendtelecommand()));
-    connect(ui->saveGraph,SIGNAL(clicked()),this,SLOT(on_pushButton_clicked()));
-    connect(ui->comboTC, SIGNAL(currentIndexChanged(int)), ui->stackedTCData, SLOT(setCurrentIndex(int)));
+    //connect(ui->pb,SIGNAL(clicked()),this,SLOT(sendtelecommand()));
+    //connect(ui->saveGraph,SIGNAL(clicked()),this,SLOT(on_pushButton_clicked()));
+    //connect(ui->comboTC, SIGNAL(currentIndexChanged(int)), ui->stackedTCData, SLOT(setCurrentIndex(int)));
 }
 
 void MainWindow::readFromLink(){
     Payload payload = link->read();
-    //qDebug() << "Topic ID received: " << payload.topic << endl;
-    //qDebug()<<"msg from link";
+    qDebug() << "Topic ID received: " << payload.topic << endl;
+    qDebug()<<"msg from link";
     switch(payload.topic){
-        case  Telemetry1Type:{
+       case  Telemetry1Type:{
              Telemetry1 t1(payload);
              //qDebug()<<"I recieved Telemetry 1 "<<t1.ch[0]<<t1.ch[1]<<endl;
-             ui->telemetry1->setText(QString::number(t1.ch[0]));
-             ui->telemetry1->setText(QString("Telemetry 1 ->, First Character=%1 and Second Character=%2").arg(t1.ch[0]).arg(t1.ch[1])) ;
+             //ui->telemetry1->setText(QString::number(t1.ch[0]));
+             //ui->telemetry1->setText(QString("Telemetry 1 ->, First Character=%1 and Second Character=%2").arg(t1.ch[0]).arg(t1.ch[1])) ;
             break;
         }  //end case Telemetry1Type
 
@@ -50,7 +51,7 @@ void MainWindow::readFromLink(){
          Telemetry2 t2(payload);
          //qDebug()<<"I recieved Telemetry 2"<<t2.a<<t2.b<< t2.data[0 ]<< t2.data[1]<<endl;
 
-         ui->telemetry2->setText(QString("Telemetry 2 -> %1 %2 %3 %4").arg(t2.a).arg(t2.b).arg(t2.data[0 ]).arg(t2.data[1 ])) ;
+        //ui->telemetry2->setText(QString("Telemetry 2 -> %1 %2 %3 %4").arg(t2.a).arg(t2.b).arg(t2.data[0 ]).arg(t2.data[1 ])) ;
          missedPackets=counter - t2.a;
 
          if(missedPackets==0)
@@ -61,6 +62,7 @@ void MainWindow::readFromLink(){
         break;
 
     }          // Telemetry2Type
+
     case PowerTelemetryType:
     {
         PowerTelemetry data(payload);
@@ -69,6 +71,11 @@ void MainWindow::readFromLink(){
 
         ui->lcdVoltage->display(data.voltage*0.004);
         ui->lcdCurrent->display(data.current*0.32 - 165);
+        Power=(data.voltage*0.004)*((data.current*0.32-165)/1000);
+        ui->lcdPower->display(Power);
+        double graphvaluecurrent=(data.current*0.32-165)/1000;
+        SetupRealtimeDataSlotCurrent(graphvaluecurrent);
+        qDebug() << "Graph Value = "<< graphvaluecurrent << endl;
         break;
     }
 
@@ -76,7 +83,7 @@ void MainWindow::readFromLink(){
     default:
         break;
     return;
-}  // end swithc
+}  // end switch
 }
 //lineEdit_P_2->text().toFloat();
 Telecommand sendme;
@@ -85,25 +92,25 @@ void MainWindow::sendtelecommand()
    qDebug()<<"we are in sendTelecommand";
    float data; char id;
    //sendme.data=ui->data->text().toFloat();
-   sendme.id = ui->comboTC->currentIndex();
+   //sendme.id = ui->comboTC->currentIndex();
 
-   qDebug() << "Current index: " << ui->comboTC->currentIndex() << endl;
+   //qDebug() << "Current index: " << ui->comboTC->currentIndex() << endl;
 
-   switch(ui->comboTC->currentIndex())
-   {
-   case 0: // CALIB_IMU
-       sendme.data.imu_com = (IMUCommand)ui->comboIMUcal->currentIndex();
-       break;
-   case 1: // SEND_POS
-       sendme.data.pose.x = ui->posX->value();
-       sendme.data.pose.y = ui->posY->value();
-       sendme.data.pose.z = ui->posZ->value();
-       sendme.data.pose.pitch = ui->posPitch->value();
-       sendme.data.pose.yaw = ui->posYaw->value();
-       sendme.data.pose.roll = ui->posRoll->value();
-       break;
-   }
-   int written = link->write(TelecommandType,sendme);
+   //switch(ui->comboTC->currentIndex())
+   //{
+//   case 0: // CALIB_IMU
+//       sendme.data.imu_com = (IMUCommand)ui->comboIMUcal->currentIndex();
+//break;
+//   case 1: // SEND_POS
+//       sendme.data.pose.x = ui->posX->value();
+//       sendme.data.pose.y = ui->posY->value();
+//       sendme.data.pose.z = ui->posZ->value();
+//       sendme.data.pose.pitch = ui->posPitch->value();
+//       sendme.data.pose.yaw = ui->posYaw->value();
+//       sendme.data.pose.roll = ui->posRoll->value();
+    //   break;
+  //}
+   int written = link->write<Telecommand>(TelecommandType,sendme);
    qDebug() << "Bytes written: " << written << endl;
 
 }
@@ -113,17 +120,17 @@ void MainWindow::sendtelecommand()
 void MainWindow::setSignal(QColor color)
 {
     if(color==Qt::green){
-    ui->graph_temp->graph(1)->setPen(QPen(Qt::green));
+    //ui->graph_temp->graph(1)->setPen(QPen(Qt::green));
     recievedPackets++;
-    ui->RecievedPackets->setText(QString("%1").arg(recievedPackets));
+    //ui->RecievedPackets->setText(QString("%1").arg(recievedPackets));
     }
 
     else{
-    ui->graph_temp->graph(1)->setPen(QPen(Qt::red));
+    //ui->graph_temp->graph(1)->setPen(QPen(Qt::red));
     MissedPackets++;
-    ui->missedPackets->setText(QString("%1").arg(MissedPackets));
+    //ui->missedPackets->setText(QString("%1").arg(MissedPackets));
     }
-    emit PacketSignal();
+    //emit PacketSignal();
 }
 
 MainWindow::~MainWindow()
