@@ -13,18 +13,21 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
 
-    link = new SatelliteLink(this);
-    link->addTopic(Telemetry1Type);
-    link->addTopic(Telemetry2Type);
-    link->addTopic(PowerTelemetryType);
+    //link = new SatelliteLink(this);
+    //link->addTopic(Telemetry1Type);
+    //link->addTopic(Telemetry2Type);
+    //link->addTopic(PowerTelemetryType);
 
-    link2 = new SatelliteLink(this, QHostAddress("192.168.0.109"), QHostAddress("192.168.0.120"), 5000);
+    link2 = new SatelliteLink(this, QHostAddress("192.168.0.120"), QHostAddress("192.168.0.109"), 5000);
+    link2->addTopic(Telemetry1Type);
+    link2->addTopic(Telemetry2Type);
+    link2->addTopic(PowerTelemetryType);
 
     setupGraph();
     QTimer *timer = new QTimer(this);
     timer->start(100);
     connect(this, SIGNAL(PacketSignal()), this, SLOT(setupGraphrealtimeDataSlot()));
-    connect(link, SIGNAL(readReady()), this, SLOT(readFromLink()));
+    //connect(link, SIGNAL(readReady()), this, SLOT(readFromLink()));
     connect(ui->pb,SIGNAL(clicked()),this,SLOT(sendtelecommand()));
     connect(ui->saveGraph,SIGNAL(clicked()),this,SLOT(on_pushButton_clicked()));
     connect(ui->comboTC, SIGNAL(currentIndexChanged(int)), ui->stackedTCData, SLOT(setCurrentIndex(int)));
