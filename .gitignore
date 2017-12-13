@@ -37,5 +37,5 @@
 *.hex
 
 # QT
-build-*
+build-*/
 *.pro.user
