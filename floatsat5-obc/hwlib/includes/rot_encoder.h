@@ -147,18 +147,18 @@ private:
 
 	  uint16_t ROT_RESOLUTION;
 
-	  uint8_t coding_factor;	// a value necessary to compute exact angular position and depends on ENC_COUNTER_MODE selected
-	  uint32_t counter_max_val;
-	  uint32_t counter_old_val;
-	  uint32_t counter_1_4;		// 1/4 of counter_max_val, helps to determine underflow/overflow of counter
-	  uint32_t counter_3_4;		// 3/4 of counter_max_val, helps to determine underflow/overflow of counter
-	  int32_t flow_count;		// decremented by 1 if counter underflow, incremented by 1 if counter overflow
-	  int32_t counter_dif;		// difference of counter value from previous iteration and current iteration
+	  //uint8_t coding_factor;	// a value necessary to compute exact angular position and depends on ENC_COUNTER_MODE selected
+	  //uint32_t counter_max_val;
+	  //uint32_t counter_old_val;
+	  //uint32_t counter_1_4;		// 1/4 of counter_max_val, helps to determine underflow/overflow of counter
+	  //uint32_t counter_3_4;		// 3/4 of counter_max_val, helps to determine underflow/overflow of counter
+	  //int32_t flow_count;		// decremented by 1 if counter underflow, incremented by 1 if counter overflow
+	  //int32_t counter_dif;		// difference of counter value from previous iteration and current iteration
 
 	  void enc_set_gpio(const ENC_TypeDef &encoder);
 	  void enc_set_timer(const ENC_TypeDef &encoder);
 	  uint32_t get_timer_max();
-	  void reset_counter();
+
 
 public:
 
@@ -173,7 +173,7 @@ public:
 	   * 	For correct polarity connect white cable to CH1 pin and green cable to CH2 pin (Rotary Encoder Model J733)
 	   * 	Default Rotary Resolution is set to 600 (works with HW: Rotary Encoder Model J733 with 600 Pulses per Full Revolution)
 	   */
-	  RotaryEncoder(ENC_TIMER_SELECT tim, uint16_t rot_resolution = 600);
+	  RotaryEncoder(ENC_TIMER_SELECT tim/*, uint16_t rot_resolution = 600*/);
 
 
 	  /*
@@ -186,50 +186,11 @@ public:
 	   */
 	  int init(ENC_COUNTER_POLARITY polarity = ENC_POL_NORMAL, ENC_COUNTER_MODE mode = ENC_MODE_2A);
 
+	  void resetCounter();
 
-	  void set_pos(int64_t degree);
+	  void setCounter(int32_t value);
 
-	  void reset();
-
-	  /*
-	   * This function shall be called at the beginning of loop iteration
-	   * and is necessary for the getter functions of this class to return proper values
-	   * Identifies underflow/overflow of counter and computes the difference of counter value
-	   * from previous iteration call and current iteration call
-	   */
-	  void read_pos();
-
-
-	  /*
-	   * In order to get proper value call ONLY ONCE (for each iteration) read_pos() at the beginning of loop iteration
-	   * Returns Counter value relative to start position
-	   */
-	  int64_t get_pos_rel_to_start();
-
-
-	  /*
-	   * In order to get proper value call ONLY ONCE (for each iteration) read_pos() at the beginning of loop iteration
-	   * Returns Rotation degree relative to start position
-	   */
-	  int64_t get_rot_deg();
-
-
-	  /*
-	   * In order to get proper value call ONLY ONCE (for each iteration) read_pos() at the beginning of loop iteration
-	   * @param long long beat: Specify period duration of loop iteration (Sample Time)
-	   * Returns Rotation speed in degree per second
-	   */
-	  int32_t get_rot_speed(long long beat);
-	  int32_t get_rot_speed_abs(long long beat);
-
-
-	  /*
-	   * In order to get proper value call ONLY ONCE (for each iteration) read_pos() at the beginning of loop iteration
-	   * @param long long beat: Specify period duration of loop iteration (Sample Time)
-	   * Returns Rotation speed in revolutions per second
-	   */
-	  double get_rps(long long beat);
-	  double get_rps_abs(long long beat);
+	  int32_t readCounter();
 
 };
 

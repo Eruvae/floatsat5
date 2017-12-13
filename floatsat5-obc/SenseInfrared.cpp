@@ -135,7 +135,7 @@ void SenseInfrared::run()
 		double distance = ((double)range1 + range2) / 2.0f;
 		double angle = atan((double)range1 - range2 / D);
 
-		PRINTF("Test read IR: %d, %d\n", range1, range2);
+		//PRINTF("Test read IR: %d, %d\n", range1, range2);
 		suspendUntilNextBeat();
 	}
 }

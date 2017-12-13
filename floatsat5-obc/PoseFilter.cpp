@@ -14,6 +14,8 @@
 #define M_PI           3.14159265358979323846  /* pi */
 #endif
 
+PoseFilter poseFilter;
+
 PoseFilter::PoseFilter()
 {
 	// TODO Auto-generated constructor stub
@@ -43,7 +45,7 @@ void PoseFilter::run()
 		double gyro[3], acc[3], mag[3];
 		for (int i = 0; i < 3; i++)
 		{
-			gyro[i] = imuData.gyro[i]*GYRO_FACTOR_2000DPS;
+			gyro[i] = imuData.gyro[i]*(GYRO_FACTOR_2000DPS*M_PI/180.0);
 			acc[i] = imuData.acc[i]*ACC_FACTOR_2G;
 			mag[i] = imuData.mag[i]*MAG_FACTOR_2GA;
 		}
@@ -69,9 +71,9 @@ void PoseFilter::run()
 		filteredHeading = alpha * headingGyro + (1 - alpha) * headingAccMag;
 
 		Pose pose;
-		pose.pitch=filteredPitch;
-		pose.roll=filteredRoll;
-		pose.yaw=filteredHeading;
+		pose.pitch=filteredPitch*180.0/M_PI;
+		pose.roll=filteredRoll*180.0/M_PI;
+		pose.yaw=filteredHeading*180.0/M_PI;
 
 		filteredPose.publish(pose);
 

@@ -91,6 +91,7 @@ struct /*__attribute__((packed))*/ Telecommand
 {
 	uint8_t id;
 	TCdata data;
+	int16_t wheel_target_speed;
 	//float data;
 	//char id;
 };

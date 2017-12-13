@@ -13,16 +13,16 @@
 
 #define MY_ABS(x)	((x) < 0 ? -(x) : (x))
 
-RotaryEncoder::RotaryEncoder(ENC_TIMER_SELECT tim, uint16_t rot_resolution):
-	tim(tim),
-	ROT_RESOLUTION(rot_resolution),
-	counter_max_val(get_timer_max() / ROT_RESOLUTION * ROT_RESOLUTION),
-	counter_1_4(counter_max_val / 4),
-	counter_3_4(counter_max_val - counter_1_4),
-	counter_old_val(0),
-	flow_count(0),
-	coding_factor(0),
-	counter_dif(0)
+RotaryEncoder::RotaryEncoder(ENC_TIMER_SELECT tim/*, uint16_t rot_resolution*/):
+	tim(tim)//,
+	//ROT_RESOLUTION(rot_resolution),
+	//counter_max_val(get_timer_max() / ROT_RESOLUTION * ROT_RESOLUTION),
+	//counter_1_4(counter_max_val / 4),
+	//counter_3_4(counter_max_val - counter_1_4),
+	//counter_old_val(0),
+	//flow_count(0),
+	//coding_factor(0),
+	//counter_dif(0)
 {
 	switch(tim)
 	{
@@ -69,14 +69,14 @@ int RotaryEncoder::init(ENC_COUNTER_POLARITY polarity, ENC_COUNTER_MODE mode)
 	{
 	case ENC_MODE_2A:
 		encoder.MODE = TIM_EncoderMode_TI1;
-		coding_factor = 2;
+		//coding_factor = 2;
 		break;
 	case ENC_MODE_2B:
 		encoder.MODE = TIM_EncoderMode_TI2;
-		coding_factor = 2;
+		//coding_factor = 2;
 		break;
 	case ENC_MODE_4AB:
-		coding_factor = 4;
+		//coding_factor = 4;
 		encoder.MODE = TIM_EncoderMode_TI12;
 		break;
 	default:
@@ -163,8 +163,8 @@ int RotaryEncoder::init(ENC_COUNTER_POLARITY polarity, ENC_COUNTER_MODE mode)
 	}
 
 
-	this->enc_set_gpio(encoder);
-	this->enc_set_timer(encoder);
+	enc_set_gpio(encoder);
+	enc_set_timer(encoder);
 
 	return 0;
 }
@@ -204,12 +204,12 @@ void RotaryEncoder::enc_set_timer(const ENC_TypeDef &encoder)
 	TIM_EncoderInterfaceConfig(TIMER, encoder.MODE, encoder.POLARITY, TIM_ICPolarity_Rising);
 
 	// Set max value of counter
-	TIM_SetAutoreload(TIMER, counter_max_val);
+	//TIM_SetAutoreload(TIMER, counter_max_val);
 
 	// Timer enable
 	TIM_Cmd(TIMER, ENABLE);
 
-	reset_counter();
+	resetCounter();
 }
 
 uint32_t RotaryEncoder::get_timer_max()
@@ -224,87 +224,18 @@ uint32_t RotaryEncoder::get_timer_max()
 }
 
 
-void RotaryEncoder::reset_counter()
+void RotaryEncoder::resetCounter()
 {
 	TIM_SetCounter(TIMER, 0);
 }
 
-
-void RotaryEncoder::reset()
+void RotaryEncoder::setCounter(int32_t value)
 {
-	reset_counter();
-	counter_dif = 0;
-	counter_old_val = 0;
-	flow_count = 0;
+	TIM_SetCounter(TIMER, value);
 }
 
-
-void RotaryEncoder::set_pos(int64_t degree)
+int32_t RotaryEncoder::readCounter()
 {
-	counter_dif = 0;
-	double points = (double) ((double) degree / 360) * (coding_factor * ROT_RESOLUTION);
-	flow_count = points < 0 ? points / counter_max_val - 1 : points / counter_max_val;
-	points = points < 0 ? floor(points) : ceil(points);
-	points -= (flow_count * counter_max_val);
-	TIM_SetCounter(TIMER, abs(points));
-	counter_old_val = TIM_GetCounter(TIMER);
-}
-
-
-void RotaryEncoder::read_pos()
-{
-	uint32_t counter_val = TIM_GetCounter(TIMER);
-
-	counter_dif = counter_val - counter_old_val;
-
-	if (counter_old_val < counter_1_4 && counter_val > counter_3_4)
-	{
-		flow_count--;
-		counter_dif -= counter_max_val;
-	}
-	else if (counter_old_val > counter_3_4 && counter_val < counter_1_4)
-	{
-		counter_dif += counter_max_val;
-		flow_count++;
-	}
-
-	counter_old_val = counter_val;
-}
-
-
-int64_t RotaryEncoder::get_pos_rel_to_start()
-{
-	return (int64_t) flow_count * counter_max_val + TIM_GetCounter(TIMER);
-}
-
-
-int64_t RotaryEncoder::get_rot_deg()
-{
-	return (int64_t) (get_pos_rel_to_start() * 360) / (coding_factor * ROT_RESOLUTION);
-}
-
-
-int32_t RotaryEncoder::get_rot_speed(long long beat)
-{
-	return (SECONDS / beat) * 360 * counter_dif / (coding_factor * ROT_RESOLUTION);
-}
-
-
-int32_t RotaryEncoder::get_rot_speed_abs(long long beat)
-{
-	int32_t speed_abs = get_rot_speed(beat);
-	return MY_ABS(speed_abs);
-}
-
-
-double RotaryEncoder::get_rps(long long beat)
-{
-	return (double) (SECONDS / beat) * counter_dif / (coding_factor * ROT_RESOLUTION);
-}
-
-
-double RotaryEncoder::get_rps_abs(long long beat)
-{
-	double rps_abs = get_rps(beat);
-	return MY_ABS(rps_abs);
+	uint32_t val = TIM_GetCounter(TIMER);
+	return *(int32_t*)(&val);
 }

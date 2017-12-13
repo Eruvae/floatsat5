@@ -44,7 +44,7 @@ void ActuatorInterfaces::run()
 		int test = dc_test.readPins();
 		//PRINTF("DC/DC Status: %d\n", test);
 
-		if (i % 80 < 20 || i % 80 > 60)
+		/*if (i % 80 < 20 || i % 80 > 60)
 		{
 			hbridge_a_inb.setPins(0);
 			hbridge_a_ina.setPins(1);
@@ -57,7 +57,11 @@ void ActuatorInterfaces::run()
 			pwm_wheel.write(500);
 		}
 		hbridge_b_ina.setPins(~hbridge_b_ina.readPins());
-		hbridge_b_inb.setPins(~hbridge_b_inb.readPins());
+		hbridge_b_inb.setPins(~hbridge_b_inb.readPins());*/
+
+
+		pwm_wheel.write(0);
+
 		suspendUntilNextBeat();
 	}
 }

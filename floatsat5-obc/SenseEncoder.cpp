@@ -16,14 +16,23 @@ SenseEncoder::SenseEncoder()
 
 void SenseEncoder::run()
 {
-	setPeriodicBeat(10*MILLISECONDS, 100*MILLISECONDS);
-	int ret = enc.init();
+
+	int frequency = 10;
+	setPeriodicBeat(10*MILLISECONDS, SECONDS/frequency);
+	int ret = enc.init(ENC_POL_NORMAL, ENC_MODE_2A);
 	while(1)
 	{
-		enc.read_pos();
-		int64_t degr = enc.get_rot_deg();
-		int32_t rps = enc.get_rot_speed(100*MILLISECONDS);
-		//PRINTF("Encoder reading: %d, %d, RPS: %d\n", ret, degr, rps);
+
+		int32_t reg = enc.readCounter();
+		enc.resetCounter();
+
+
+		int16_t rpm = reg * 60 * frequency / 32;
+
+		PRINTF("Encoder reading: %d, %d, RPM: %d\n", ret, reg, rpm);
+
+		reactionWheelSpeed.publish(rpm);
+
 		suspendUntilNextBeat();
 	}
 }
