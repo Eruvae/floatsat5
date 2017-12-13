@@ -7,6 +7,7 @@
 
 #include "SenseEncoder.h"
 #include "CommInterfaces.h"
+#include "Topics.h"
 
 SenseEncoder senseEncoder;
 
