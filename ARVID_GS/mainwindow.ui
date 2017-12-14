@@ -28,7 +28,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -98,6 +98,114 @@
           <enum>QLCDNumber::Flat</enum>
          </property>
         </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>340</y>
+      <width>151</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Yaw</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLCDNumber" name="lcdyaw"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Pitch</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLCDNumber" name="lcdpitch"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <item>
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>Roll</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLCDNumber" name="lcdroll"/>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>340</y>
+      <width>151</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>X</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLCDNumber" name="lcdx"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_8">
+       <item>
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Y</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLCDNumber" name="lcdy"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_9">
+       <item>
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Z</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLCDNumber" name="lcdz"/>
        </item>
       </layout>
      </item>

@@ -82,6 +82,18 @@ void MainWindow::readFromLink(){
         gsLink->write<PowerTelemetry>(PowerTelemetryType, data);
         break;
     }
+    case FilteredPoseType:
+    {
+        FilteredPose data(payload);
+
+        ui->lcdx->display(data.x);
+        ui->lcdy->display(data.y);
+        ui->lcdz->display(data.z);
+        ui->lcdyaw->display(data.yaw);
+        ui->lcdpitch->display(data.pitch);
+        ui->lcdroll->display(data.roll);
+
+    }
 
 
     default:

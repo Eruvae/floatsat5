@@ -11,7 +11,8 @@ enum PayloadType{
     Telemetry1Type=5661,
     Telemetry2Type=5771,
     PowerTelemetryType=6000,
-    TelecommandType=300
+    TelecommandType=300,
+    FilteredPoseType=911
 
 };
 
@@ -55,6 +56,14 @@ struct PowerTelemetry
     int16_t voltage;
     int16_t current;
     PowerTelemetry(const Payload payload);
+};
+
+struct FilteredPose
+{
+    float x, y, z;
+    float yaw, pitch, roll;
+    FilteredPose(const Payload payload);
+
 };
 
 

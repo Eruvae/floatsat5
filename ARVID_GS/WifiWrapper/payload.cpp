@@ -52,6 +52,18 @@ PowerTelemetry::PowerTelemetry(const Payload payload)
     current = payload.userData16[1];
 }
 
+FilteredPose::FilteredPose(const Payload payload)
+{
+    x=payload.userDataFloat[0];
+    y=payload.userDataFloat[1];
+    z=payload.userDataFloat[2];
+    yaw=payload.userDataFloat[3];
+    pitch=payload.userDataFloat[4];
+    roll=payload.userDataFloat[5];
+}
+
+
+
 
 
 /*Telecommand::Telecommand(const Payload payload) {
