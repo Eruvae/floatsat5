@@ -10,43 +10,18 @@
 
 
 
-//double Square_Wave() {
-//   const int half_period=5;
-//   double amplitude= -5;
-//   int i=0;
-//   int k;
-//   double x[100];
-
-//   char command;
-//   float data;
-//   char buffer[50];
-//   sprintf(buffer,"Hello\r\n");
-//   //for(k=0;k<100;k++)
-
-//    if (!(i++ % half_period))
-//    {
-//    amplitude =-amplitude;
-//  }
-
-//    x[k]=amplitude;
-//      printf("%d\t %12.7f\n",k,x[k]);
-//    return amplitude;
-//}
-
-
-
 void MainWindow::SetupGraphCurrent()
 
 {
 
     ui->graph_temp->addGraph(); // blue line
     ui->graph_temp->graph(0)->setPen(QPen(QColor(40, 110, 255)));
-//    ui->graph_temp->addGraph(); // red line
-//    ui->graph_temp->graph(1)->setPen(QPen(QColor(255, 110, 40)));
+    ui->graph_temp->setBackground(Qt::lightGray);
+    ui->graph_temp->axisRect()->setBackground(Qt::white);
 
     ui->graph_temp->xAxis->setLabel("Time Elapsed");
     ui->graph_temp->yAxis->setLabel("Current (mA)");
-    //ui->graph_temp->setBackground(QColor(224,224,224));
+
     ui->graph_temp->xAxis->setTickLabelType(QCPAxis::ltDateTime);
     ui->graph_temp->xAxis->setDateTimeFormat("hh:mm:ss");
     ui->graph_temp->xAxis->setAutoTickStep(false);
@@ -58,8 +33,9 @@ void MainWindow::SetupGraphCurrent()
     connect(ui->graph_temp->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->graph_temp->xAxis2, SLOT(setRange(QCPRange)));
     connect(ui->graph_temp->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->graph_temp->yAxis2, SLOT(setRange(QCPRange)));
     QTimer dataTimer;
+
     // setup a timer that repeatedly calls MainWindow::realtimeDataSlot:
-    //connect(&dataTimer, SIGNAL(timeout()), this, SLOT(SetupRealtimeDataSlotCurrent()));
+
     dataTimer.start(0); // Interval 0 means to refresh as fast as possible
 
 }
@@ -67,9 +43,8 @@ void MainWindow::SetupGraphCurrent()
 
 void MainWindow::SetupRealtimeDataSlotCurrent(double newValue)
 {
-static QTime time(QTime::currentTime());
 // calculate two new data points:
-double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
+double key = QTime::currentTime().msecsSinceStartOfDay()/1000.0; // time elapsed since start of demo, in seconds
 static double lastPointKey = 0;
 if (key-lastPointKey > 0.01) // at most add point every 10 ms
 {
@@ -102,17 +77,4 @@ if (key-lastFpsKey > 2) // average fps over 2 seconds
 }
 
 
-void MainWindow::on_pushButton_clicked()
-{
-    QString fileName("graph_temp.png");
-    QFile file(fileName);
-
-    if (!file.open(QIODevice::WriteOnly))
-    {
-        qDebug() << file.errorString();
-    } else {
-        ui->graph_temp->savePng(fileName);
-
-    }
-}
 

@@ -3,9 +3,9 @@
 
 #include <QMainWindow>
 #include "satellitelink.h"
+#include "tcwindow.h"
 
 
-//extern double graphvaluecurrent;
 namespace Ui {
 class MainWindow;
 }
@@ -22,17 +22,21 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    TCWindow *tcwindow;
 signals:
     void PacketSignal(double newValue);
 public slots:
 void readFromLink();
 void sendtelecommand();
 void SetupGraphCurrent();
-void SetupRWSpeedMeter();
+void SetupCompass();
+//void SetupRWSpeedMeter();
 void SetupRealtimeDataSlotCurrent(double newValue);
-void setSignal(QColor color);
-void on_pushButton_clicked(void);
+//void setSignal(QColor color);
 
+
+private slots:
+void on_actionTelecommand_Interface_triggered();
 };
 
 #endif // MAINWINDOW_H

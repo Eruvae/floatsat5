@@ -27,24 +27,245 @@
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <widget class="QCustomPlot" name="graph_temp" native="true">
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>11</x>
+      <y>109</y>
+      <width>89</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_5">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_14">
+       <item>
+        <widget class="QLabel" name="label_13">
+         <property name="text">
+          <string>Ax</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLCDNumber" name="lcdAx"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_15">
+       <item>
+        <widget class="QLabel" name="label_14">
+         <property name="text">
+          <string>Ay</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLCDNumber" name="lcdAy"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_16">
+       <item>
+        <widget class="QLabel" name="label_15">
+         <property name="text">
+          <string>Az</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLCDNumber" name="lcdAz"/>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>130</y>
-      <width>421</width>
-      <height>191</height>
+      <y>310</y>
+      <width>91</width>
+      <height>91</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true"/>
+    <layout class="QVBoxLayout" name="verticalLayout_6">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_17">
+       <item>
+        <widget class="QLabel" name="label_17">
+         <property name="text">
+          <string>Mx</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLCDNumber" name="lcdMx"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_18">
+       <item>
+        <widget class="QLabel" name="label_16">
+         <property name="text">
+          <string>My</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLCDNumber" name="lcdMy"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_19">
+       <item>
+        <widget class="QLabel" name="label_18">
+         <property name="text">
+          <string>Mz</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLCDNumber" name="lcdMz"/>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>490</y>
+      <width>148</width>
+      <height>25</height>
+     </rect>
     </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_20">
+     <item>
+      <widget class="QLabel" name="label_19">
+       <property name="text">
+        <string>Temperature</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLCDNumber" name="lcdTemp"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>150</y>
+      <width>201</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_10">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>X</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLCDNumber" name="lcdx"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Y</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLCDNumber" name="lcdy"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_9">
+         <item>
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>Z</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLCDNumber" name="lcdz"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Yaw</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLCDNumber" name="lcdyaw"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="label_8">
+           <property name="text">
+            <string>Pitch</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLCDNumber" name="lcdpitch"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <widget class="QLabel" name="label_9">
+           <property name="text">
+            <string>Roll</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLCDNumber" name="lcdroll"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </widget>
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>20</y>
+      <x>680</x>
+      <y>150</y>
       <width>211</width>
       <height>91</height>
      </rect>
@@ -118,123 +339,106 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="layoutWidget">
+   <widget class="QCustomPlot" name="graph_temp" native="true">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>340</y>
-      <width>151</width>
-      <height>121</height>
+      <x>510</x>
+      <y>280</y>
+      <width>421</width>
+      <height>191</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>12</x>
+      <y>44</y>
+      <width>87</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_12">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>Yaw</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLCDNumber" name="lcdyaw"/>
-       </item>
-      </layout>
+      <widget class="QLabel" name="label_11">
+       <property name="text">
+        <string>Gy</string>
+       </property>
+      </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QLabel" name="label_8">
-         <property name="text">
-          <string>Pitch</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLCDNumber" name="lcdpitch"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_6">
-       <item>
-        <widget class="QLabel" name="label_9">
-         <property name="text">
-          <string>Roll</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLCDNumber" name="lcdroll"/>
-       </item>
-      </layout>
+      <widget class="QLCDNumber" name="lcdGy"/>
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="layoutWidget">
+   <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>340</y>
-      <width>151</width>
-      <height>121</height>
+      <x>12</x>
+      <y>12</y>
+      <width>87</width>
+      <height>25</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <layout class="QHBoxLayout" name="horizontalLayout_11">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_7">
-       <item>
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>X</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLCDNumber" name="lcdx"/>
-       </item>
-      </layout>
+      <widget class="QLabel" name="label_10">
+       <property name="text">
+        <string>Gx</string>
+       </property>
+      </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_8">
-       <item>
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Y</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLCDNumber" name="lcdy"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_9">
-       <item>
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>Z</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLCDNumber" name="lcdz"/>
-       </item>
-      </layout>
+      <widget class="QLCDNumber" name="lcdGx"/>
      </item>
     </layout>
    </widget>
-   <widget class="QMeter" name="RWSpeed" native="true">
+   <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
-      <x>480</x>
+      <x>12</x>
+      <y>76</y>
+      <width>87</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_13">
+     <item>
+      <widget class="QLabel" name="label_12">
+       <property name="text">
+        <string>Gz</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLCDNumber" name="lcdGz"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
       <y>230</y>
-      <width>221</width>
-      <height>171</height>
+      <width>172</width>
+      <height>25</height>
      </rect>
     </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_21">
+     <item>
+      <widget class="QLabel" name="label_20">
+       <property name="text">
+        <string>RW Speed (RPM)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLCDNumber" name="lcdRWSpeed"/>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -275,12 +479,6 @@
    <class>QCustomPlot</class>
    <extends>QWidget</extends>
    <header>qcustomplot.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>QMeter</class>
-   <extends>QWidget</extends>
-   <header location="global">qmeter.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

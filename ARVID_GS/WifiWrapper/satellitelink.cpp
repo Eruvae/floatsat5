@@ -35,7 +35,7 @@ Payload SatelliteLink::read(){
         checksum &= 0xFFFF;
     }
 
-    qDebug() << "Topic ID: " << payload.topic << endl;
+    //qDebug() << "Topic ID: " << payload.topic << endl;
 
     if((!checkChecksum || checksum == payload.checksum) && topics.contains(payload.topic))
         return payload;
@@ -49,7 +49,7 @@ void SatelliteLink::addTopic(PayloadType topicId){
 
 int SatelliteLink::write(quint32 topicId, const QByteArray &data){
 
-    qDebug()<<"2nd write is called"<<endl;
+    //qDebug()<<"2nd write is called"<<endl;
     QByteArray buffer(1023, 0x00);
 
     *((quint32*)(buffer.data() + 2)) = qToBigEndian((quint32)1);

@@ -1,6 +1,8 @@
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QMediaPlayer>
+#include "tcwindow.h"
 
 int counter=0;
 int missedPackets;
@@ -28,18 +30,22 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     link = new SatelliteLink(this);
-    link->addTopic(Telemetry1Type);
-    link->addTopic(Telemetry2Type);
+//    link->addTopic(Telemetry1Type);
+//    link->addTopic(Telemetry2Type);
     link->addTopic(PowerTelemetryType);
     link->addTopic(FilteredPoseType);
     gsLink=new SatelliteLink(this, QHostAddress ("192.168.0.109"), QHostAddress("192.168.0.120"), 5000); //GSLink Connection
 
-    SetupRWSpeedMeter();
+    //SetupRWSpeedMeter();
 
 
     SetupGraphCurrent();
     QTimer *timer = new QTimer(this);
     timer->start(100);
+
+    SetupCompass();
+
+
     //connect(this, SIGNAL(PacketSignal(double)), this, SLOT(SetupRealtimeDataSlotCurrent(double)));
     connect(link, SIGNAL(readReady()), this, SLOT(readFromLink()));
     //connect(ui->pb,SIGNAL(clicked()),this,SLOT(sendtelecommand()));
@@ -49,42 +55,42 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::readFromLink(){
     Payload payload = link->read();
-    qDebug() << "Topic ID received: " << payload.topic << endl;
-    qDebug()<<"msg from link";
+    //qDebug() << "Topic ID received: " << payload.topic << endl;
+    //qDebug()<<"msg from link";
     switch(payload.topic){
-       case  Telemetry1Type:{
-             Telemetry1 t1(payload);
-             //qDebug()<<"I recieved Telemetry 1 "<<t1.ch[0]<<t1.ch[1]<<endl;
-             //ui->telemetry1->setText(QString::number(t1.ch[0]));
-             //ui->telemetry1->setText(QString("Telemetry 1 ->, First Character=%1 and Second Character=%2").arg(t1.ch[0]).arg(t1.ch[1])) ;
-             break;
+//       case  Telemetry1Type:{
+//             Telemetry1 t1(payload);
+//             //qDebug()<<"I recieved Telemetry 1 "<<t1.ch[0]<<t1.ch[1]<<endl;
+//             //ui->telemetry1->setText(QString::number(t1.ch[0]));
+//             //ui->telemetry1->setText(QString("Telemetry 1 ->, First Character=%1 and Second Character=%2").arg(t1.ch[0]).arg(t1.ch[1])) ;
+//             break;
 
-        }  //end case Telemetry1Type
-
-
+//        }  //end case Telemetry1Type
 
 
-    case  Telemetry2Type:{
-         Telemetry2 t2(payload);
-         //qDebug()<<"I recieved Telemetry 2"<<t2.a<<t2.b<< t2.data[0 ]<< t2.data[1]<<endl;
 
-        //ui->telemetry2->setText(QString("Telemetry 2 -> %1 %2 %3 %4").arg(t2.a).arg(t2.b).arg(t2.data[0 ]).arg(t2.data[1 ])) ;
-         missedPackets=counter - t2.a;
 
-         if(missedPackets==0)
-             setSignal(Qt::green);
-         else
-              setSignal(Qt::red);
-         counter=t2.a+1;
-        break;
+//    case  Telemetry2Type:{
+//         Telemetry2 t2(payload);
+//         //qDebug()<<"I recieved Telemetry 2"<<t2.a<<t2.b<< t2.data[0 ]<< t2.data[1]<<endl;
 
-    }          // Telemetry2Type
+//        //ui->telemetry2->setText(QString("Telemetry 2 -> %1 %2 %3 %4").arg(t2.a).arg(t2.b).arg(t2.data[0 ]).arg(t2.data[1 ])) ;
+//         missedPackets=counter - t2.a;
+
+//         if(missedPackets==0)
+//             setSignal(Qt::green);
+//         else
+//              setSignal(Qt::red);
+//         counter=t2.a+1;
+//        break;
+
+//    }          // Telemetry2Type
 
     case PowerTelemetryType:
     {
         PowerTelemetry data(payload);
 
-        qDebug() << "Power Telemetry received!" << endl;
+        //qDebug() << "Power Telemetry received!" << endl;
 
         ui->lcdVoltage->display(data.voltage*0.004);
         ui->lcdCurrent->display(data.current*0.32 - 165);
@@ -92,11 +98,12 @@ void MainWindow::readFromLink(){
         ui->lcdPower->display(Power);
         double graphvaluecurrent=(data.current*0.32-165)/1000;
         SetupRealtimeDataSlotCurrent(graphvaluecurrent);
-        qDebug() << "Graph Value = "<< graphvaluecurrent << endl;
+        //qDebug() << "Graph Value = "<< graphvaluecurrent << endl;
 
         gsLink->write<PowerTelemetry>(PowerTelemetryType, data);
         break;
-    }
+    } //end case PowerTelemetryType!
+
     case FilteredPoseType:
     {
         FilteredPose data(payload);
@@ -107,17 +114,40 @@ void MainWindow::readFromLink(){
         ui->lcdyaw->display(data.yaw);
         ui->lcdpitch->display(data.pitch);
         ui->lcdroll->display(data.roll);
+        break;
+    }
 
+    case IMUDataType:
+    {
+        ui->lcdGx->display(payload.imuData.gyro[0]*2000.0/INT16_MAX);
+        ui->lcdGy->display(payload.imuData.gyro[1]*2000.0/INT16_MAX);
+        ui->lcdGz->display(payload.imuData.gyro[2]*2000.0/INT16_MAX);
+        ui->lcdAx->display(payload.imuData.acc[0]*2.0/INT16_MAX);
+        ui->lcdAy->display(payload.imuData.acc[1]*2.0/INT16_MAX);
+        ui->lcdAz->display(payload.imuData.acc[2]*2.0/INT16_MAX);
+        ui->lcdMx->display(payload.imuData.mag[0]*2.0/INT16_MAX);
+        ui->lcdMx->display(payload.imuData.mag[1]*2.0/INT16_MAX);
+        ui->lcdMx->display(payload.imuData.mag[2]*2.0/INT16_MAX);
+        ui->lcdTemp->display(payload.imuData.temp*0.125);
+        break;
+    }
+
+    case ReactionWheelSpeedType:
+    {
+        ui->lcdRWSpeed->display(payload.reactionWheelSpeed);
+        break;
     }
 
 
     default:
         break;
     return;
+
 }  // end switch
 }
+
 //lineEdit_P_2->text().toFloat();
-Telecommand sendme;
+//Telecommand sendme;
 void MainWindow::sendtelecommand()
 {
    qDebug()<<"we are in sendTelecommand";
@@ -141,30 +171,38 @@ void MainWindow::sendtelecommand()
 //       sendme.data.pose.roll = ui->posRoll->value();
     //   break;
   //}
-   int written = link->write<Telecommand>(TelecommandType,sendme);
-   qDebug() << "Bytes written: " << written << endl;
+
+   //int written = link->write<Telecommand>(TelecommandType,sendme);
+   //qDebug() << "Bytes written: " << written << endl;
 
 }
 
 
 
-void MainWindow::setSignal(QColor color)
-{
-    if(color==Qt::green){
-    //ui->graph_temp->graph(1)->setPen(QPen(Qt::green));
-    recievedPackets++;
-    //ui->RecievedPackets->setText(QString("%1").arg(recievedPackets));
-    }
+//void MainWindow::setSignal(QColor color)
+//{
+//    if(color==Qt::green){
+//    //ui->graph_temp->graph(1)->setPen(QPen(Qt::green));
+//    recievedPackets++;
+//    //ui->RecievedPackets->setText(QString("%1").arg(recievedPackets));
+//    }
 
-    else{
-    //ui->graph_temp->graph(1)->setPen(QPen(Qt::red));
-    MissedPackets++;
-    //ui->missedPackets->setText(QString("%1").arg(MissedPackets));
-    }
-    //emit PacketSignal();
-}
+//    else{
+//    //ui->graph_temp->graph(1)->setPen(QPen(Qt::red));
+//    MissedPackets++;
+//    //ui->missedPackets->setText(QString("%1").arg(MissedPackets));
+//    }
+//    //emit PacketSignal();
+//}
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::on_actionTelecommand_Interface_triggered()
+{
+    tcwindow = new TCWindow(this, link);
+    tcwindow->show();
+
 }

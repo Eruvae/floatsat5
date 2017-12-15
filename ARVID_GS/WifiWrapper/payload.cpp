@@ -23,28 +23,28 @@ Payload::Payload(const QByteArray &buffer) : checksum(0), senderNode(0), timesta
     userData8[userDataLen] = 0x00;
 }
 
-Telemetry1::Telemetry1(const Payload payload){
+//Telemetry1::Telemetry1(const Payload payload){
 
-    if(payload.userDataLen != sizeof(Telemetry1) || payload.topic != Telemetry1Type){
-        return;
-    }
+//    if(payload.userDataLen != sizeof(Telemetry1) || payload.topic != Telemetry1Type){
+//        return;
+//    }
 
-    ch[0] = payload.userData8[0];
-    ch[1] = payload.userData8[1];
-}
+//    ch[0] = payload.userData8[0];
+//    ch[1] = payload.userData8[1];
+//}
 
-Telemetry2::Telemetry2(const Payload payload){
+//Telemetry2::Telemetry2(const Payload payload){
 
-    if(payload.userDataLen != sizeof(Telemetry2) || payload.topic != Telemetry2Type){
-        return;
-    }
+//    if(payload.userDataLen != sizeof(Telemetry2) || payload.topic != Telemetry2Type){
+//        return;
+//    }
 
-    a=payload.userData32[0];
-    b=payload.userData32[1];
-    data[0]=payload.userDataFloat[2];
-    data[1]=payload.userDataFloat[3];
+//    a=payload.userData32[0];
+//    b=payload.userData32[1];
+//    data[0]=payload.userDataFloat[2];
+//    data[1]=payload.userDataFloat[3];
 
-}
+//}
 
 PowerTelemetry::PowerTelemetry(const Payload payload)
 {
@@ -62,6 +62,14 @@ FilteredPose::FilteredPose(const Payload payload)
     roll=payload.userDataFloat[5];
 }
 
+//IMUData::IMUData(const Payload payload)
+//{
+//    memcpy(this->gyro, payload.imuData.gyro, 3*sizeof(int16_t));
+//    memcpy(this->acc, payload.imuData.acc, 3*sizeof(int16_t));
+//    memcpy(this->acc, payload.imuData., 3*sizeof(int16_t));
+
+
+//}
 
 
 
