@@ -28,11 +28,14 @@ void SenseEncoder::run()
 		enc.resetCounter();
 
 
-		int16_t rpm = reg * 60 * frequency / 16;
+		int16_t rpm = reg * 60 * frequency / 32;
 
 		//PRINTF("Encoder reading: %d, %d, RPM: %d\n", ret, reg, rpm);
 
 		reactionWheelSpeed.publish(rpm);
+
+		int16_t targetSpeed = 4000;
+		reactionWheelTargetSpeed.put(targetSpeed);
 
 		suspendUntilNextBeat();
 	}

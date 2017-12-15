@@ -10,6 +10,7 @@
 // TC IDs
 #define CALIB_IMU 0x00
 #define SEND_POSE 0x01
+#define SEND_RW_SPEED 0x02
 
 TelecommandReceiver telecommandReceiver;
 
@@ -25,5 +26,9 @@ void TelecommandReceiver::put(Telecommand &data)
 		PRINTF("Pose command received: %f, %f, %f, %f, %f, %f\n"
 				, data.data.pose.x, data.data.pose.y, data.data.pose.z
 				, data.data.pose.yaw, data.data.pose.pitch, data.data.pose.roll);
+	}
+	else if (data.id == SEND_RW_SPEED)
+	{
+		reactionWheelTargetSpeed.put(data.data.wheel_target_speed);
 	}
 }

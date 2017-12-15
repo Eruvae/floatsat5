@@ -29,6 +29,7 @@ extern Topic<PowerData> powerTelemetry;
 extern Topic<int16_t> reactionWheelSpeed;
 extern Topic<IRData> infraredData;
 //extern Topic<int16_t> reactionWheelTargetSpeeed;
+extern CommBuffer<int16_t> reactionWheelSpeedBuffer;
 extern CommBuffer<int16_t> reactionWheelTargetSpeed;
 extern Topic<Pose> filteredPose;
 

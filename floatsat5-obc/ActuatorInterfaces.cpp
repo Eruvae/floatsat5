@@ -19,6 +19,8 @@ HAL_GPIO hbridge_b_inb(GPIO_071);
 
 ActuatorInterfaces act;
 
+#define LIMIT(x, min, max)	((x) < (min) ?(min) : (x) > (max) ? (max) : (x))
+
 ActuatorInterfaces::ActuatorInterfaces()
 {
 	// TODO Auto-generated constructor stub
@@ -35,7 +37,7 @@ void ActuatorInterfaces::init()
 	pwm_wheel.init(5000, 1000);
 }
 
-void setWheelDirection(bool forward)
+void ActuatorInterfaces::setWheelDirection(bool forward)
 {
 	if (forward)
 	{
@@ -51,8 +53,12 @@ void setWheelDirection(bool forward)
 
 void ActuatorInterfaces::run()
 {
-	setPeriodicBeat(0, 500*MILLISECONDS);
+	float period = 0.5;
+	setPeriodicBeat(0, period * SECONDS);
 	int i = 0;
+	float err_int = 0;
+	int16_t targetSpeed, wheelSpeed;
+	int16_t oldTargetWheelSpeed = 0;
 	while(1)
 	{
 		i++;
@@ -75,10 +81,33 @@ void ActuatorInterfaces::run()
 		hbridge_b_inb.setPins(~hbridge_b_inb.readPins());*/
 
 
-		int16_t targetSpeed;
-		reactionWheelTargetSpeed.get(targetSpeed);
+		const float p = 1.0f;
+		const float i = 1.0f;
 
-		pwm_wheel.write(0);
+
+		reactionWheelTargetSpeed.get(targetSpeed);
+		reactionWheelSpeedBuffer.get(wheelSpeed);
+
+		PRINTF("Target Speed: %d, Current Speed: %d\n", targetSpeed, wheelSpeed);
+
+		if (targetSpeed != oldTargetWheelSpeed)
+			err_int = 0; // if target speed changed, reset i part
+
+		oldTargetWheelSpeed = err_int;
+
+		setWheelDirection(targetSpeed >= 0);
+		int sign = targetSpeed >= 0 ? 1 : -1;
+
+		float error = sign*(targetSpeed - wheelSpeed);
+		err_int += error * period;
+
+		float dutyCycle = (p * error + i * err_int) / 1000.0f;
+
+		PRINTF("Calculated duty cycle: %f\n", dutyCycle);
+
+		dutyCycle = LIMIT(dutyCycle, 0, 1);
+
+		pwm_wheel.write(dutyCycle*1000);
 
 		suspendUntilNextBeat();
 	}
