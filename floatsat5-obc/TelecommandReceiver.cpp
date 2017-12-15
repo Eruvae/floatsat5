@@ -6,6 +6,7 @@
  */
 
 #include "TelecommandReceiver.h"
+#include "Topics.h"
 
 // TC IDs
 #define CALIB_IMU 0x00
@@ -29,6 +30,7 @@ void TelecommandReceiver::put(Telecommand &data)
 	}
 	else if (data.id == SEND_RW_SPEED)
 	{
-		reactionWheelTargetSpeed.put(data.data.wheel_target_speed);
+		int16_t speed = data.data.wheel_target_speed;
+		reactionWheelTargetSpeed.put(speed);
 	}
 }

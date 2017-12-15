@@ -20,6 +20,8 @@ HAL_GPIO hbridge_b_inb(GPIO_071);
 ActuatorInterfaces act;
 
 #define LIMIT(x, min, max)	((x) < (min) ?(min) : (x) > (max) ? (max) : (x))
+#define ABS(x)	((x) >= 0 ? (x) : -(x))
+#define SIGN(x)	((x) >= 0 ? 1 : -1)
 
 ActuatorInterfaces::ActuatorInterfaces()
 {
@@ -95,17 +97,21 @@ void ActuatorInterfaces::run()
 
 		oldTargetWheelSpeed = err_int;
 
-		setWheelDirection(targetSpeed >= 0);
-		int sign = targetSpeed >= 0 ? 1 : -1;
+		float baseDutyCycle = SIGN(targetSpeed) * (ABS(targetSpeed) + 375.07) / 8617.5306; // Formula from measurements
 
-		float error = sign*(targetSpeed - wheelSpeed);
+		float error = targetSpeed - wheelSpeed;
 		err_int += error * period;
 
-		float dutyCycle = (p * error + i * err_int) / 1000.0f;
+		float errorDutyCycle = p * error / 8617.5306;
+		float errorIntDutyCycle = i * err_int / 8617.5306;
 
-		PRINTF("Calculated duty cycle: %f\n", dutyCycle);
+		float dutyCycle = baseDutyCycle + errorDutyCycle +  errorIntDutyCycle;
 
-		dutyCycle = LIMIT(dutyCycle, 0, 1);
+		PRINTF("Base Duty Cylcle: %f, Calculated duty cycle: %f\n", baseDutyCycle, dutyCycle);
+
+		setWheelDirection(dutyCycle >= 0);
+
+		dutyCycle = LIMIT(ABS(dutyCycle), 0, 1);
 
 		pwm_wheel.write(dutyCycle*1000);
 
