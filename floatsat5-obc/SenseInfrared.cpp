@@ -6,6 +6,7 @@
  */
 
 #include "SenseInfrared.h"
+#include "Topics.h"
 #include <cmath>
 
 #define INFRARED1_I2C_ADDR 0x29
@@ -129,11 +130,15 @@ void SenseInfrared::run()
 		//uint8_t data;
 		//int suc = i2c_bus.writeRead(INFRARED_I2C_ADDR, test_regw, 2, &data, 1);
 
-		uint8_t range1 = readRange(INFRARED1_I2C_ADDR);
-		uint8_t range2 = readRange(INFRARED2_I2C_ADDR);
+		IRData data;
 
-		double distance = ((double)range1 + range2) / 2.0f;
-		double angle = atan((double)range1 - range2 / D);
+		data.range1 = readRange(INFRARED1_I2C_ADDR);
+		data.range2 = readRange(INFRARED2_I2C_ADDR);
+
+		data.distance = ((double)data.range1 + data.range2) / 2.0f;
+		data.angle = atan((double)data.range1 - data.range2 / D);
+
+		infraredData.publish(data);
 
 		//PRINTF("Test read IR: %d, %d\n", range1, range2);
 		suspendUntilNextBeat();

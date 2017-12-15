@@ -27,7 +27,9 @@ extern Topic<Telemetry2> telemetry2;
 extern Topic<Telecommand> telecommand;
 extern Topic<PowerData> powerTelemetry;
 extern Topic<int16_t> reactionWheelSpeed;
-extern Topic<int16_t> reactionWheelTargetSpeeed;
+extern Topic<IRData> infraredData;
+//extern Topic<int16_t> reactionWheelTargetSpeeed;
+extern CommBuffer<int16_t> reactionWheelTargetSpeed;
 extern Topic<Pose> filteredPose;
 
 #endif /* TOPICS_H_ */

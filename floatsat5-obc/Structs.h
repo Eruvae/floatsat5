@@ -25,7 +25,7 @@
 
 // Put all structs here, especially structs for Topics
 
-struct IMUData
+struct __attribute__((packed)) IMUData
 {
 	int16_t gyro[3];
 	int16_t acc[3];
@@ -33,7 +33,15 @@ struct IMUData
 	int16_t temp;
 };
 
-struct PowerData
+struct __attribute__((packed)) IRData
+{
+	uint8_t range1;
+	uint8_t range2;
+	float distance;
+	float angle;
+};
+
+struct __attribute__((packed)) PowerData
 {
 	int16_t batt_voltage;
 	int16_t batt_current;
@@ -57,14 +65,14 @@ struct __attribute__((packed)) PoseData
 	uint32_t check;
 };
 
-struct /*__attribute__((packed))*/ Telemetry1
+struct __attribute__((packed)) Telemetry1
 {
 	char ch[2];
 
 
 };
 
-struct /*__attribute__((packed))*/ Telemetry2
+struct __attribute__((packed)) Telemetry2
 {
 	int a,b;
 	float data[2];
@@ -75,23 +83,23 @@ enum IMUCommand
 	CALIB_GYRO = 0, CALIB_ACC, CALIB_MAG
 };
 
-struct Pose
+struct __attribute__((packed)) Pose
 {
 	float x, y, z;
 	float yaw, pitch, roll;
 };
 
-union TCdata
+union __attribute__((packed)) TCdata
 {
 	IMUCommand imu_com;
 	Pose pose;
+	int16_t wheel_target_speed;
 };
 
-struct /*__attribute__((packed))*/ Telecommand
+struct __attribute__((packed)) Telecommand
 {
 	uint8_t id;
 	TCdata data;
-	int16_t wheel_target_speed;
 	//float data;
 	//char id;
 };

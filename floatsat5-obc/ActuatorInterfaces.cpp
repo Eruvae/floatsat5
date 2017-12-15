@@ -6,6 +6,7 @@
  */
 
 #include "ActuatorInterfaces.h"
+#include "Topics.h"
 
 HAL_GPIO dc_enable(GPIO_066); // PE2
 HAL_GPIO dc_test(GPIO_067); // PE3
@@ -34,6 +35,20 @@ void ActuatorInterfaces::init()
 	pwm_wheel.init(5000, 1000);
 }
 
+void setWheelDirection(bool forward)
+{
+	if (forward)
+	{
+		hbridge_a_inb.setPins(0);
+		hbridge_a_ina.setPins(1);
+	}
+	else
+	{
+		hbridge_a_ina.setPins(0);
+		hbridge_a_inb.setPins(1);
+	}
+}
+
 void ActuatorInterfaces::run()
 {
 	setPeriodicBeat(0, 500*MILLISECONDS);
@@ -59,6 +74,9 @@ void ActuatorInterfaces::run()
 		hbridge_b_ina.setPins(~hbridge_b_ina.readPins());
 		hbridge_b_inb.setPins(~hbridge_b_inb.readPins());*/
 
+
+		int16_t targetSpeed;
+		reactionWheelTargetSpeed.get(targetSpeed);
 
 		pwm_wheel.write(0);
 

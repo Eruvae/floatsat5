@@ -17,6 +17,8 @@ public:
 
 	void init();
 
+	void setWheelDirection(bool forward);
+
 	void run();
 };
 
