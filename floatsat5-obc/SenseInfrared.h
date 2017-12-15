@@ -11,6 +11,8 @@
 #include "rodos.h"
 #include "CommInterfaces.h"
 
+#define INFRARED_PRINT_VERBOSITY 75
+
 class SenseInfrared : public Thread
 {
 	void initializeSensors();

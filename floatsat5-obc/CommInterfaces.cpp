@@ -9,6 +9,8 @@
 #include "Topics.h"
 
 //HAL_UART bt_uart(UART_IDX2);
+HAL_UART raspiUART(UART_IDX7);
+
 HAL_SPI spi_bus(SPI_IDX1, GPIO_019, GPIO_020, GPIO_021); // SCK: PB3, MISO: PB4, MOSI: PB5
 HAL_I2C i2c_bus(I2C_IDX1, GPIO_024, GPIO_025); // SCL: PB8, SDA: PB9
 HAL_I2C i2c2_bus(I2C_IDX2);
@@ -80,6 +82,9 @@ void CommInterfaces::reset_i2c(HAL_I2C &bus)
 
 void CommInterfaces::init()
 {
+	printfVerbosity = 50;
+
+	raspiUART.init(115200);
 	gyro_cs.init(true, 1, 1);
 	xm_cs.init(true, 1, 1);
 	imu_enable.init(true, 1, 1);
@@ -115,7 +120,7 @@ void CommInterfaces::run()
 
 	TIME_LOOP(5*MILLISECONDS, 500*MILLISECONDS)
 	{
-		PRINTF("Wifi Status: %d\n", i);
+		//PRINTF("Wifi Status: %d\n", i);
 	}
 
 }

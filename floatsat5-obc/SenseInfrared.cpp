@@ -59,7 +59,7 @@ uint8_t SenseInfrared::readRange(uint8_t id)
 	//PRINTF("I2C read result: %x, %d\n", id, readRes);
 	if (readRes < 0)
 	{
-		PRINTF("I2C Sensor %d read failed!\n", readRes);
+		PRINTF_CONDITIONAL(INFRARED_PRINT_VERBOSITY, "I2C Sensor %d read failed!\n", readRes);
 		comm.reset_i2c(i2c2_bus);
 		initializeSensors();
 	}
@@ -83,9 +83,9 @@ void SenseInfrared::initializeSensors()
 	}
 
 	if (res < 0)
-		PRINTF("Changing Infrared I2C address failed: %d\n", res);
+		PRINTF_CONDITIONAL(INFRARED_PRINT_VERBOSITY, "Changing Infrared I2C address failed: %d\n", res);
 	else
-		PRINTF("Changing Infrared I2C address successful\n", res);
+		PRINTF_CONDITIONAL(INFRARED_PRINT_VERBOSITY, "Changing Infrared I2C address successful\n", res);
 
 	res = -1;
 	for(int i = 0; res < 0 && i < 10; i++)
@@ -95,9 +95,9 @@ void SenseInfrared::initializeSensors()
 	}
 
 	if (res < 0)
-		PRINTF("Initializing Infrared 2 failed: %d\n", res);
+		PRINTF_CONDITIONAL(INFRARED_PRINT_VERBOSITY, "Initializing Infrared 2 failed: %d\n", res);
 	else
-		PRINTF("Initializing Infrared 2 successful\n", res);
+		PRINTF_CONDITIONAL(INFRARED_PRINT_VERBOSITY, "Initializing Infrared 2 successful\n", res);
 
 	infrared_enable.setPins(1);
 	suspendCallerUntil(NOW() + 1*MILLISECONDS);
@@ -109,9 +109,9 @@ void SenseInfrared::initializeSensors()
 	}
 
 	if (res < 0)
-		PRINTF("Initializing Infrared 1 failed: %d\n", res);
+		PRINTF_CONDITIONAL(INFRARED_PRINT_VERBOSITY, "Initializing Infrared 1 failed: %d\n", res);
 	else
-		PRINTF("Initializing Infrared 1 successful\n", res);
+		PRINTF_CONDITIONAL(INFRARED_PRINT_VERBOSITY, "Initializing Infrared 1 successful\n", res);
 
 }
 
