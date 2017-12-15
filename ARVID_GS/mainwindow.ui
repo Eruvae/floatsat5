@@ -17,7 +17,16 @@
    <iconset resource="arvid_res.qrc">
     <normaloff>:/Project Images/Img/Arvid.png</normaloff>:/Project Images/Img/Arvid.png</iconset>
   </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="centralWidget">
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
    <widget class="QCustomPlot" name="graph_temp" native="true">
     <property name="geometry">
      <rect>
@@ -27,12 +36,15 @@
       <height>191</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
    </widget>
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
+      <y>20</y>
       <width>211</width>
       <height>91</height>
      </rect>
@@ -52,6 +64,9 @@
        </item>
        <item>
         <widget class="QLCDNumber" name="lcdVoltage">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
          <property name="lineWidth">
           <number>1</number>
          </property>
@@ -103,7 +118,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>210</x>
@@ -157,7 +172,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -211,6 +226,16 @@
      </item>
     </layout>
    </widget>
+   <widget class="QMeter" name="RWSpeed" native="true">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>230</y>
+      <width>221</width>
+      <height>171</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -249,7 +274,13 @@
   <customwidget>
    <class>QCustomPlot</class>
    <extends>QWidget</extends>
-   <header location="global">qcustomplot.h</header>
+   <header>qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QMeter</class>
+   <extends>QWidget</extends>
+   <header location="global">qmeter.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

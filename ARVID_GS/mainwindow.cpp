@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QMediaPlayer>
 
 int counter=0;
 int missedPackets;
@@ -15,11 +16,25 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
+    QMediaPlayer *player = new QMediaPlayer(this);
+    player->setMedia(QUrl("D:/Interstellar Main Theme - Extra Extended - Soundtrack by Hans Zimmer (mp3cut.net).mp3"));
+    player->setVolume(100);
+    player->play();
+    qDebug()<< player->errorString();
+
+
+
+
+
+
     link = new SatelliteLink(this);
     link->addTopic(Telemetry1Type);
     link->addTopic(Telemetry2Type);
     link->addTopic(PowerTelemetryType);
+    link->addTopic(FilteredPoseType);
     gsLink=new SatelliteLink(this, QHostAddress ("192.168.0.109"), QHostAddress("192.168.0.120"), 5000); //GSLink Connection
+
+    SetupRWSpeedMeter();
 
 
     SetupGraphCurrent();
@@ -106,7 +121,7 @@ Telecommand sendme;
 void MainWindow::sendtelecommand()
 {
    qDebug()<<"we are in sendTelecommand";
-   float data; char id;
+   //float data; char id;
    //sendme.data=ui->data->text().toFloat();
    //sendme.id = ui->comboTC->currentIndex();
 
