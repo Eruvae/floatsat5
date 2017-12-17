@@ -12,6 +12,9 @@
 
 class ActuatorInterfaces : public Thread
 {
+private:
+	CommBuffer<int16_t> reactionWheelSpeedBuffer;
+	Subscriber reactionWheelSpeedSub;
 public:
 	ActuatorInterfaces();
 

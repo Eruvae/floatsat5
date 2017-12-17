@@ -30,11 +30,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     link = new SatelliteLink(this);
+    // link = new SatelliteLink(this, QHostAddress ("192.168.137.1"), QHostAddress("192.168.137.147"), 5000); // for hotspot wifi
 //    link->addTopic(Telemetry1Type);
 //    link->addTopic(Telemetry2Type);
     link->addTopic(PowerTelemetryType);
     link->addTopic(FilteredPoseType);
-    gsLink=new SatelliteLink(this, QHostAddress ("192.168.0.109"), QHostAddress("192.168.0.120"), 5000); //GSLink Connection
+    link->addTopic(IMUDataType);
+    link->addTopic(ReactionWheelSpeedType);
+    //gsLink=new SatelliteLink(this, QHostAddress ("192.168.0.109"), QHostAddress("192.168.0.120"), 5000); //GSLink Connection
 
     //SetupRWSpeedMeter();
 
@@ -100,7 +103,7 @@ void MainWindow::readFromLink(){
         SetupRealtimeDataSlotCurrent(graphvaluecurrent);
         //qDebug() << "Graph Value = "<< graphvaluecurrent << endl;
 
-        gsLink->write<PowerTelemetry>(PowerTelemetryType, data);
+        //gsLink->write<PowerTelemetry>(PowerTelemetryType, data);
         break;
     } //end case PowerTelemetryType!
 
@@ -119,15 +122,17 @@ void MainWindow::readFromLink(){
 
     case IMUDataType:
     {
-        ui->lcdGx->display(payload.imuData.gyro[0]*2000.0/INT16_MAX);
-        ui->lcdGy->display(payload.imuData.gyro[1]*2000.0/INT16_MAX);
-        ui->lcdGz->display(payload.imuData.gyro[2]*2000.0/INT16_MAX);
-        ui->lcdAx->display(payload.imuData.acc[0]*2.0/INT16_MAX);
-        ui->lcdAy->display(payload.imuData.acc[1]*2.0/INT16_MAX);
-        ui->lcdAz->display(payload.imuData.acc[2]*2.0/INT16_MAX);
-        ui->lcdMx->display(payload.imuData.mag[0]*2.0/INT16_MAX);
-        ui->lcdMx->display(payload.imuData.mag[1]*2.0/INT16_MAX);
-        ui->lcdMx->display(payload.imuData.mag[2]*2.0/INT16_MAX);
+        qDebug() << "IMU Data received!" << endl;
+
+        ui->lcdGx->display(payload.imuData.gyro_x*2000.0/INT16_MAX);
+        ui->lcdGy->display(payload.imuData.gyro_y*2000.0/INT16_MAX);
+        ui->lcdGz->display(payload.imuData.gyro_z*2000.0/INT16_MAX);
+        ui->lcdAx->display(payload.imuData.acc_x*2.0/INT16_MAX);
+        ui->lcdAy->display(payload.imuData.acc_y*2.0/INT16_MAX);
+        ui->lcdAz->display(payload.imuData.acc_z*2.0/INT16_MAX);
+        ui->lcdMx->display(payload.imuData.mag_x*2.0/INT16_MAX);
+        ui->lcdMy->display(payload.imuData.mag_y*2.0/INT16_MAX);
+        ui->lcdMz->display(payload.imuData.mag_z*2.0/INT16_MAX);
         ui->lcdTemp->display(payload.imuData.temp*0.125);
         break;
     }

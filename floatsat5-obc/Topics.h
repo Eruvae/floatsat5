@@ -13,24 +13,24 @@
 
 // declare Topics and CommBuffers/Fifos as extern, define in Topics.cpp
 
-extern Topic<IMUData> imuTopic;
-extern CommBuffer<IMUData> imuBuffer;
-
-//extern Topic<bool> wifiStatus;
-
-// Thread commands
-extern Topic<IMUCommand> imuCommand;
-
-// Telemetry test topics
-extern Topic<Telemetry1> telemetry1;
-extern Topic<Telemetry2> telemetry2;
 extern Topic<Telecommand> telecommand;
-extern Topic<PowerData> powerTelemetry;
-extern Topic<int16_t> reactionWheelSpeed;
-extern Topic<IRData> infraredData;
-//extern Topic<int16_t> reactionWheelTargetSpeeed;
-extern CommBuffer<int16_t> reactionWheelSpeedBuffer;
-extern CommBuffer<int16_t> reactionWheelTargetSpeed;
-extern Topic<Pose> filteredPose;
+
+// Topics for internal communication
+extern Topic<PowerData> itPowerData;
+extern Topic<Pose> itFilteredPose;
+extern Topic<IMUData> itImuData;
+extern Topic<int16_t> itReactionWheelSpeed;
+extern Topic<IRData> itInfraredData;
+
+// TM topics, should only be published in TM Sender thread
+extern Topic<PowerData> tmPowerData;
+extern Topic<Pose> tmFilteredPose;
+extern Topic<IMUData> tmImuData;
+extern Topic<int16_t> tmReactionWheelSpeed;
+extern Topic<IRData> tmInfraredData;
+
+// TC CommBuffers
+extern CommBuffer<int16_t> tcReactionWheelTargetSpeed;
+extern CommBuffer<IMUCommand> tcImuCommand;
 
 #endif /* TOPICS_H_ */

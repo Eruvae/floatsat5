@@ -32,10 +32,7 @@ void SenseEncoder::run()
 
 		//PRINTF("Encoder reading: %d, %d, RPM: %d\n", ret, reg, rpm);
 
-		reactionWheelSpeed.publish(rpm);
-
-		int16_t targetSpeed = 4000;
-		//reactionWheelTargetSpeed.put(targetSpeed);
+		itReactionWheelSpeed.publish(rpm);
 
 		suspendUntilNextBeat();
 	}

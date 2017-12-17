@@ -7,7 +7,6 @@
 
 #include "PoseFilter.h"
 
-#include "Topics.h"
 #include <cmath>
 
 #ifndef M_PI
@@ -16,10 +15,8 @@
 
 PoseFilter poseFilter;
 
-PoseFilter::PoseFilter()
+PoseFilter::PoseFilter() : imuDataSub(itImuData, imuDataBuffer)
 {
-	// TODO Auto-generated constructor stub
-
 }
 
 void PoseFilter::run()
@@ -40,14 +37,14 @@ void PoseFilter::run()
 		PRINTF("Test: %f, %f, %f", res[0][0], res[1][0], res[2][0]);*/
 
 		IMUData imuData;
-		imuBuffer.get(imuData);
+		imuDataBuffer.get(imuData);
 
 		double gyro[3], acc[3], mag[3];
 		for (int i = 0; i < 3; i++)
 		{
-			gyro[i] = imuData.gyro[i]*(GYRO_FACTOR_2000DPS*M_PI/180.0);
-			acc[i] = imuData.acc[i]*ACC_FACTOR_2G;
-			mag[i] = imuData.mag[i]*MAG_FACTOR_2GA;
+			gyro[i] = *(&imuData.gyro_x + i)*(GYRO_FACTOR_2000DPS*M_PI/180.0);
+			acc[i] = *(&imuData.acc_x + i)*ACC_FACTOR_2G;
+			mag[i] = *(&imuData.mag_x + i)*MAG_FACTOR_2GA;
 		}
 
 		double pitchAccMag = atan2(acc[0], sqrt(acc[1]*acc[1]+acc[2]*acc[2]));
@@ -75,7 +72,7 @@ void PoseFilter::run()
 		pose.roll=filteredRoll*180.0/M_PI;
 		pose.yaw=filteredHeading*180.0/M_PI;
 
-		filteredPose.publish(pose);
+		itFilteredPose.publish(pose);
 
 		suspendUntilNextBeat();
 	}

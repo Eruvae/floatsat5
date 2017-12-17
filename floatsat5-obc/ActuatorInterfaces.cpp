@@ -19,13 +19,12 @@ HAL_GPIO hbridge_b_inb(GPIO_071);
 
 ActuatorInterfaces act;
 
-#define LIMIT(x, min, max)	((x) < (min) ?(min) : (x) > (max) ? (max) : (x))
-#define ABS(x)	((x) >= 0 ? (x) : -(x))
-#define SIGN(x)	((x) >= 0 ? 1 : -1)
+#define LIMIT(x, min, max)	((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
+#define ABS(x)	((x) < 0 ? -(x) : (x))
+#define SIGN(x)	((x) < 0 ? -1 : (x) > 0 ? 1 : 0)
 
-ActuatorInterfaces::ActuatorInterfaces()
+ActuatorInterfaces::ActuatorInterfaces() : reactionWheelSpeedBuffer(), reactionWheelSpeedSub(itReactionWheelSpeed, reactionWheelSpeedBuffer)
 {
-	// TODO Auto-generated constructor stub
 }
 
 void ActuatorInterfaces::init()
@@ -55,12 +54,13 @@ void ActuatorInterfaces::setWheelDirection(bool forward)
 
 void ActuatorInterfaces::run()
 {
-	float period = 0.5;
+	float period = 0.1;
 	setPeriodicBeat(0, period * SECONDS);
 	int i = 0;
 	float err_int = 0;
-	int16_t targetSpeed, wheelSpeed;
+	int16_t targetSpeed = 0, wheelSpeed = 0;
 	int16_t oldTargetWheelSpeed = 0;
+	int16_t oldWheelSpeed = 0;
 	while(1)
 	{
 		i++;
@@ -83,14 +83,16 @@ void ActuatorInterfaces::run()
 		hbridge_b_inb.setPins(~hbridge_b_inb.readPins());*/
 
 
-		const float p = 1.0f;
-		const float i = 1.0f;
+		const float p = 10.0f;
+		const float i = 0.1f;
+		const float d = 0.5f;
 
 
-		reactionWheelTargetSpeed.get(targetSpeed);
+		oldWheelSpeed = wheelSpeed;
+		tcReactionWheelTargetSpeed.get(targetSpeed);
 		reactionWheelSpeedBuffer.get(wheelSpeed);
 
-		PRINTF("Target Speed: %d, Current Speed: %d\n", targetSpeed, wheelSpeed);
+		//PRINTF("Target Speed: %d, Current Speed: %d\n", targetSpeed, wheelSpeed);
 
 		if (targetSpeed != oldTargetWheelSpeed)
 			err_int = 0; // if target speed changed, reset i part
@@ -101,13 +103,15 @@ void ActuatorInterfaces::run()
 
 		float error = targetSpeed - wheelSpeed;
 		err_int += error * period;
+		float err_dif = (wheelSpeed - oldWheelSpeed) / period;
 
 		float errorDutyCycle = p * error / 8617.5306;
 		float errorIntDutyCycle = i * err_int / 8617.5306;
+		float errorDifDutyCycle = d * err_dif / 8617.5306;
 
-		float dutyCycle = baseDutyCycle + errorDutyCycle +  errorIntDutyCycle;
+		float dutyCycle = baseDutyCycle + errorDutyCycle /*+ errorIntDutyCycle*/ - errorDifDutyCycle;
 
-		PRINTF("Base Duty Cylcle: %f, Calculated duty cycle: %f\n", baseDutyCycle, dutyCycle);
+		//PRINTF("Base Duty Cylcle: %f, Calculated duty cycle: %f\n", baseDutyCycle, dutyCycle);
 
 		setWheelDirection(dutyCycle >= 0);
 

@@ -20,7 +20,10 @@ SatelliteLink::SatelliteLink(QObject *parent, QHostAddress localAddress, QHostAd
 
 Payload SatelliteLink::read(){
     QByteArray buffer(1023, 0x00);
-    receivedBytes += socket.readDatagram(buffer.data(), buffer.size());
+
+    receivedBytes = socket.readDatagram(buffer.data(), buffer.size());
+
+    qDebug() << "Received Bytes: " << receivedBytes << endl;
 
     Payload payload(buffer);
 
@@ -35,7 +38,8 @@ Payload SatelliteLink::read(){
         checksum &= 0xFFFF;
     }
 
-    //qDebug() << "Topic ID: " << payload.topic << endl;
+    if (payload.topic == IMUDataType)
+        qDebug() << "IMU data received: " << checksum << "; " << payload.checksum << endl;
 
     if((!checkChecksum || checksum == payload.checksum) && topics.contains(payload.topic))
         return payload;

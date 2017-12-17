@@ -118,7 +118,7 @@ void SenseInfrared::initializeSensors()
 
 void SenseInfrared::run()
 {
-	setPeriodicBeat(0, 100*MILLISECONDS);
+	setPeriodicBeat(4*MILLISECONDS, 100*MILLISECONDS);
 
 	initializeSensors();
 
@@ -138,7 +138,7 @@ void SenseInfrared::run()
 		data.distance = ((double)data.range1 + data.range2) / 2.0f;
 		data.angle = atan((double)data.range1 - data.range2 / D);
 
-		infraredData.publish(data);
+		itInfraredData.publish(data);
 
 		//PRINTF("Test read IR: %d, %d\n", range1, range2);
 		suspendUntilNextBeat();

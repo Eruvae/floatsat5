@@ -130,7 +130,7 @@ void SensePower::run()
 		pd.batt_voltage = busVolt;
 		pd.batt_current = current;
 
-		powerTelemetry.publish(pd);
+		itPowerData.publish(pd);
 
 		//PRINTF("Power data published: %d, %d\n", pd.batt_voltage, pd.batt_current);
 

@@ -7,21 +7,24 @@
 
 #include "Topics.h"
 
-// define Topics, CommBuffers/Fifos and Subscribers here
+// define Topics and CommBuffers/Fifos here
 
-Topic<Telemetry1> telemetry1(5661,"Message1");
-Topic<Telemetry2> telemetry2(5771,"Message2");
 Topic<Telecommand> telecommand(100,"Message2");
-Topic<IMUCommand> imuCommand(500, "IMU command");
-Topic<Pose> filteredPose (5001, "Filtered Pose");
-Topic<PowerData> powerTelemetry(5000, "Power Telemetry");
-Topic<int16_t> reactionWheelSpeed(5003, "Reaction Wheel Speed");
-Topic<IRData> infraredData(5004, "Infrared Data");
-//Topic<int16_t> reactionWheelTargetSpeeed(6002, "Reaction Wheel Target Speed");
-CommBuffer<int16_t> reactionWheelSpeedBuffer;
-Subscriber reactionWheelSpeedSubscriber(reactionWheelSpeed, reactionWheelSpeedBuffer);
-CommBuffer<int16_t> reactionWheelTargetSpeed;
 
-Topic<IMUData> imuTopic(5002, "IMU raw data"); // might need to set fixed ID later
-CommBuffer<IMUData> imuBuffer;
-Subscriber imuSubscriber(imuTopic, imuBuffer);
+// Topics for internal communication
+Topic<PowerData> itPowerData(3000, "Power Data IT");
+Topic<Pose> itFilteredPose(3001, "Filtered Pose IT");
+Topic<IMUData> itImuData(3002, "IMU raw data IT");
+Topic<int16_t> itReactionWheelSpeed(3003, "Reaction Wheel Speed IT");
+Topic<IRData> itInfraredData(3004, "Infrared Data IT");
+
+// TM topics, should only be published in TM Sender thread
+Topic<PowerData> tmPowerData(5000, "Power Data TM");
+Topic<Pose> tmFilteredPose(5001, "Filtered Pose TM");
+Topic<IMUData> tmImuData(5002, "IMU raw data TM");
+Topic<int16_t> tmReactionWheelSpeed(5003, "Reaction Wheel Speed TM");
+Topic<IRData> tmInfraredData(5004, "Infrared Data TM");
+
+// TC CommBuffers
+CommBuffer<int16_t> tcReactionWheelTargetSpeed;
+CommBuffer<IMUCommand> tcImuCommand;

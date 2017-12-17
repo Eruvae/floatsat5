@@ -20,7 +20,7 @@ void TelecommandReceiver::put(Telecommand &data)
 	if (data.id == CALIB_IMU)
 	{
 		PRINTF("Calibrate command received (%d)\n", data.data.imu_com);
-		imuCommand.publishConst(data.data.imu_com);
+		tcImuCommand.put(data.data.imu_com);
 	}
 	else if (data.id == SEND_POSE)
 	{
@@ -31,6 +31,6 @@ void TelecommandReceiver::put(Telecommand &data)
 	else if (data.id == SEND_RW_SPEED)
 	{
 		int16_t speed = data.data.wheel_target_speed;
-		reactionWheelTargetSpeed.put(speed);
+		tcReactionWheelTargetSpeed.put(speed);
 	}
 }

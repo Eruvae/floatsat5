@@ -10,9 +10,13 @@
 
 #include <rodos.h>
 #include "Matrix.h"
+#include "Topics.h"
 
 class PoseFilter : public Thread
 {
+private:
+	CommBuffer<IMUData> imuDataBuffer;
+	Subscriber imuDataSub;
 public:
 	PoseFilter();
 

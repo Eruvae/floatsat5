@@ -275,7 +275,7 @@ void SenseIMU::calibrateMag()
 
 void SenseIMU::run()
 {
-	uint8_t read_waig = WHO_AM_I_G | READ_FLAG;
+	/*uint8_t read_waig = WHO_AM_I_G | READ_FLAG;
 	comm.selectSPISlave(GYRO);
 	uint8_t waig;
 	spi_bus.write(&read_waig, 1);
@@ -287,13 +287,13 @@ void SenseIMU::run()
 	uint8_t waix;
 	spi_bus.write(&read_waix, 1);
 	spi_bus.read(&waix, 1);
-	comm.disableSPISlaves();
+	comm.disableSPISlaves();*/
 
 	initGyro();
 	initXM();
 	//calibrateGyro();
 	//calibrateAcc();
-	setPeriodicBeat(0, 100*MILLISECONDS);
+	setPeriodicBeat(0, 10*MILLISECONDS);
 	while(1)
 	{
 		//PRINTF("Gyro WHO_AM_I: %d\n", waig);
@@ -301,15 +301,16 @@ void SenseIMU::run()
 		//PRINTF("XM WHO_AM_I: %d\n", waix);
 
 		IMUData data;
-		readGyro(data.gyro);
-		readAcc(data.acc);
-		readMag(data.mag, false);
+		readGyro(&data.gyro_x);
+		readAcc(&data.acc_x);
+		readMag(&data.mag_x, false);
 		readTemp(&data.temp);
-		//PRINTF("Gyro Raw: %f, %f, %f\n", data.gyroData[0]*GYRO_FACTOR_2000DPS, data.gyroData[1]*GYRO_FACTOR_2000DPS, data.gyroData[2]*GYRO_FACTOR_2000DPS);
-		//PRINTF("Acc Raw: %f, %f, %f\n", data.accData[0]*ACC_FACTOR_2G, data.accData[1]*ACC_FACTOR_2G, data.accData[2]*ACC_FACTOR_2G);
-		//PRINTF("Mag Raw: %d, %d, %d\n\n", data.magData[0]/**MAG_FACTOR_2GA*/, data.magData[1]/**MAG_FACTOR_2GA*/, data.magData[2]/**MAG_FACTOR_2GA*/);
-		//PRINTF("Temperature: %f\n", data.tempData*TEMP_FACTOR);
-		imuTopic.publish(data);
+		//PRINTF("Size: %d\n", sizeof(IMUData));
+		//PRINTF("Gyro Raw: %f, %f, %f\n", data.gyro_x*GYRO_FACTOR_2000DPS, data.gyro_y*GYRO_FACTOR_2000DPS, data.gyro_z*GYRO_FACTOR_2000DPS);
+		//PRINTF("Acc Raw: %f, %f, %f\n", data.acc_x*ACC_FACTOR_2G, data.acc_y*ACC_FACTOR_2G, data.acc_z*ACC_FACTOR_2G);
+		//PRINTF("Mag Raw: %f, %f, %f\n\n", data.mag_x*MAG_FACTOR_2GA, data.mag_y*MAG_FACTOR_2GA, data.mag_z*MAG_FACTOR_2GA);
+		//PRINTF("Temperature: %f\n", data.temp*TEMP_FACTOR);
+		itImuData.publish(data);
 
 		suspendUntilNextBeat();
 	}

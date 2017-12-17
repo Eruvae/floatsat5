@@ -27,9 +27,9 @@
 
 struct __attribute__((packed)) IMUData
 {
-	int16_t gyro[3];
-	int16_t acc[3];
-	int16_t mag[3];
+	int16_t gyro_x, gyro_y, gyro_z;
+	int16_t acc_x, acc_y, acc_z;
+	int16_t mag_x, mag_y, mag_z;
 	int16_t temp;
 };
 

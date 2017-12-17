@@ -33,7 +33,7 @@ ESP8266 wf(&gatewayWifi,&enable,&gpio0);
 #endif
 
 LinkinterfaceWifi linkifwf(&wf);
-Gateway gw(&linkifwf,true);
+Gateway gw(&linkifwf);
 
 CommInterfaces comm;
 
@@ -94,12 +94,15 @@ void CommInterfaces::init()
 	i2c2_bus.init(400000);
 	//bt_uart.init(921600);
 
-	gw.resetTopicsToForward();
-	gw.addTopicsToForward(&telemetry1);
-	gw.addTopicsToForward(&telemetry2);
+	//gw.resetTopicsToForward();
 	gw.addTopicsToForward(&telecommand);
-	gw.addTopicsToForward(&powerTelemetry);
-	gw.addTopicsToForward(&filteredPose);
+
+	gw.addTopicsToForward(&tmPowerData);
+	gw.addTopicsToForward(&tmFilteredPose);
+	gw.addTopicsToForward(&tmImuData);
+	gw.addTopicsToForward(&tmReactionWheelSpeed);
+	gw.addTopicsToForward(&tmInfraredData);
+
 	//.... More Topics to come
 }
 
@@ -110,7 +113,8 @@ void CommInterfaces::run()
 	//int i = wf.init("EruvaeFS","194a69^V");
 
 	PRINTF("Init finished\n");
-	wf.enableUDPConnection(0x6D00A8C0,5000); // 192.168.0.109, 192.168.
+	wf.enableUDPConnection(0x6D00A8C0,5000); // 192.168.0.109
+	//wf.enableUDPConnection(0x0189A8C0, 5000); // 192.168.137.1; for hotspot wifi
 		// 0x6400A8C0 = 192.168.0.100
 		// 0x6500A8C0 = 192.168.0.101
 
@@ -118,9 +122,9 @@ void CommInterfaces::run()
 	// Target Port: 2000
 	/**************************/
 
-	TIME_LOOP(5*MILLISECONDS, 500*MILLISECONDS)
+	/*TIME_LOOP(5*MILLISECONDS, 500*MILLISECONDS)
 	{
-		//PRINTF("Wifi Status: %d\n", i);
-	}
+		PRINTF("Wifi Status: %d\n", i);
+	}*/
 
 }

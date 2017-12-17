@@ -6,38 +6,49 @@
  */
 
 #include "TelemetrySender.h"
-#include "Topics.h"
 
 TelemetrySender telemetrySender;
 
-TelemetrySender::TelemetrySender()
+TelemetrySender::TelemetrySender() : powerDataSub(itPowerData, powerDataBuffer),
+		filteredPoseSub(itFilteredPose, filteredPoseBuffer),
+		imuDataSub(itImuData, imuDataBuffer),
+		reactionWheelSpeedSub(itReactionWheelSpeed, reactionWheelSpeedBuffer),
+		infraredDataSub(itInfraredData, infraredDataBuffer)
 {
 }
 
 void TelemetrySender::run()
 {
-	int counter = 0;
-	Telemetry1 sensor1;
-	Telemetry2 sensor2;
+	//int counter = 0;
 
-	setPeriodicBeat(0, 10*MILLISECONDS);
+	setPeriodicBeat(20*MILLISECONDS, 200*MILLISECONDS);
 	while(1)
 	{
-		sensor2.a=counter; sensor2.b=30;
-		sensor2.data[0]=12.5;sensor2.data[1]=29.3;
-		//telemetry2.publish(sensor2);
+		PowerData powerData;
+		Pose filteredPose;
+		IMUData imuData;
+		int16_t reactionWheelSpeed;
+		IRData infraredData;
 
-		if (counter % 100 == 0)
-		{
-			sensor1.ch[0]='K';
-			sensor1.ch[1]='S';
+		powerDataBuffer.get(powerData);
+		filteredPoseBuffer.get(filteredPose);
+		imuDataBuffer.get(imuData);
+		reactionWheelSpeedBuffer.get(reactionWheelSpeed);
+		infraredDataBuffer.get(infraredData);
 
-			telemetry1.publish(sensor1);
+		//PRINTF("TM rw speed: %d\n", reactionWheelSpeed);
 
-			PRINTF("Sending telemetry\n");
-		}
+		tmPowerData.publish(powerData);
+		suspendCallerUntil(NOW() + 10*MILLISECONDS);
+		tmFilteredPose.publish(filteredPose);
+		suspendCallerUntil(NOW() + 10*MILLISECONDS);
+		tmImuData.publish(imuData);
+		suspendCallerUntil(NOW() + 10*MILLISECONDS);
+		tmReactionWheelSpeed.publish(reactionWheelSpeed);
+		suspendCallerUntil(NOW() + 10*MILLISECONDS);
+		tmInfraredData.publish(infraredData);
 
-		counter++;
+		//counter++;
 		suspendUntilNextBeat();
 	}
 }
