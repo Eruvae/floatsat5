@@ -45,6 +45,15 @@ struct __attribute__((packed)) PowerData
 {
 	int16_t batt_voltage;
 	int16_t batt_current;
+	int16_t mota_voltage;
+	int16_t mota_current;
+	int16_t motb_voltage;
+	int16_t motb_current;
+	int16_t motc_voltage;
+	int16_t motc_current;
+	int16_t motd_voltage;
+	int16_t motd_current;
+
 };
 
 // Structs for Telecommunication; always use __attribute__((packed))

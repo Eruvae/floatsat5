@@ -82,17 +82,28 @@ void PoseFilter::run()
 
 		MAXDIF_PI(pitchGyro, pitchAccMag);
 		filteredPitch = alpha * pitchGyro + (1 - alpha) * pitchAccMag;
-		MOD(filteredPitch, -M_PI, M_PI);
-		MAXDIF_PI(rollGyro, rollGyro);
-		filteredRoll = alpha * rollGyro + (1 - alpha) * rollGyro;
-		MOD(filteredRoll, -M_PI, M_PI);
+		MAXDIF_PI(rollGyro, rollAccMag);
+		filteredRoll = alpha * rollGyro + (1 - alpha) * rollAccMag;
 		MAXDIF_PI(headingGyro, headingAccMag);
 		filteredHeading = alpha * headingGyro + (1 - alpha) * headingAccMag;
+
+		double dpitch = (filteredPitch - oldFilteredPitch);
+		MOD(dpitch, -M_PI, M_PI);
+		dpitch /= delt;
+		double droll = (filteredRoll - oldFilteredRoll);
+		MOD(droll, -M_PI, M_PI);
+		droll /= delt;
+		double dyaw = (filteredHeading - oldFilteredHeading);
+		MOD(dyaw, -M_PI, M_PI);
+		dyaw /= delt;
+
+		MOD(filteredPitch, -M_PI, M_PI);
+		MOD(filteredRoll, -M_PI, M_PI);
 		MOD(filteredHeading, -M_PI, M_PI);
 
-		double dpitch = (filteredPitch - oldFilteredPitch) / delt;
-		double droll = (filteredRoll - oldFilteredRoll) / delt;
-		double dyaw = (filteredHeading - oldFilteredHeading) / delt;
+		oldFilteredPitch = filteredPitch;
+		oldFilteredRoll = filteredRoll;
+		oldFilteredHeading = filteredHeading;
 
 		Pose pose;
 		pose.x = 0;

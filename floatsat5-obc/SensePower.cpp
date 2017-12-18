@@ -118,17 +118,28 @@ void SensePower::run()
 	initSensor(CURR_BATT_I2C_ADDR);
 	while(1)
 	{
-		int16_t shuntVolt = readReg(CURR_BATT_I2C_ADDR, SHUNT_VOLT_REG);
-		int16_t busVolt = readReg(CURR_BATT_I2C_ADDR, BUS_VOLT_REG);
-		int16_t current = readReg(CURR_BATT_I2C_ADDR, CURRENT_REG);
-		int16_t power = readReg(CURR_BATT_I2C_ADDR, POWER_REG);
+		PowerData pd;
+		//int16_t batShuntVolt = readReg(CURR_BATT_I2C_ADDR, SHUNT_VOLT_REG);
+		pd.batt_voltage = readReg(CURR_BATT_I2C_ADDR, BUS_VOLT_REG);
+		pd.batt_current = readReg(CURR_BATT_I2C_ADDR, CURRENT_REG);
+		//int16_t batPower = readReg(CURR_BATT_I2C_ADDR, POWER_REG);
+		pd.mota_voltage = readReg(CURR_MOTA_I2C_ADDR, BUS_VOLT_REG);
+		pd.mota_current = readReg(CURR_MOTA_I2C_ADDR, CURRENT_REG);
+
+		pd.motb_voltage = readReg(CURR_MOTB_I2C_ADDR, BUS_VOLT_REG);
+		pd.motb_current = readReg(CURR_MOTB_I2C_ADDR, CURRENT_REG);
+
+		pd.motc_voltage = readReg(CURR_MOTC_I2C_ADDR, BUS_VOLT_REG);
+		pd.motc_current = readReg(CURR_MOTC_I2C_ADDR, CURRENT_REG);
+
+		pd.motd_voltage = readReg(CURR_MOTD_I2C_ADDR, BUS_VOLT_REG);
+		pd.motd_current = readReg(CURR_MOTD_I2C_ADDR, CURRENT_REG);
+
 
 		//PRINTF("Shunt Voltage: %fmV; Bus Voltage: %fV\n", shuntVolt*SHUNT_VOLT_FACTOR, busVolt*BUS_VOLT_FACTOR);
 		//PRINTF("Current: %fmA, Power: %fmW, %fW\n", current*0.32 - 165, busVolt*BUS_VOLT_FACTOR*(current*0.32 - 165), power*1.0);
 
-		PowerData pd;
-		pd.batt_voltage = busVolt;
-		pd.batt_current = current;
+
 
 		itPowerData.publish(pd);
 
