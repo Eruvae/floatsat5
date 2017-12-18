@@ -6,6 +6,7 @@
 #include "tcwindow.h"
 
 
+
 namespace Ui {
 class MainWindow;
 }
@@ -23,14 +24,16 @@ public:
 private:
     Ui::MainWindow *ui;
     TCWindow *tcwindow;
+
+
 signals:
     void PacketSignal(double newValue);
     void powerDataUpdate();
+
 public slots:
 void readFromLink();
 void sendtelecommand();
 void SetupGraphCurrent();
-void SetupCompass();
 //void SetupRWSpeedMeter();
 void SetupRealtimeDataSlotCurrent(double newValue);
 //void setSignal(QColor color);

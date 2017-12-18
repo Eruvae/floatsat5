@@ -37,8 +37,16 @@ void TCWindow::sendtelecommand()
        case 2: // SEND_RW_SPEED
            sendme.data.wheel_target_speed=ui->RWSpeed->value();
            break;
-       }
 
+
+       case 3: //THRUSTER_CONTROL
+           uint8_t data = 0;
+           if (ui->T1->isChecked()) data |= 0b1;
+           if (ui->T2->isChecked()) data |= 0b10;
+           if (ui->T3->isChecked()) data |= 0b100;
+           sendme.data.valveControl = data;
+           break;
+}
 
        int written = TCLink->write<Telecommand>(TelecommandType,sendme);
        qDebug() << "Bytes written: " << written << endl;

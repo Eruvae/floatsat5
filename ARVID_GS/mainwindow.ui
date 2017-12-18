@@ -193,7 +193,7 @@
    <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
-      <x>330</x>
+      <x>340</x>
       <y>20</y>
       <width>311</width>
       <height>141</height>
@@ -207,7 +207,7 @@
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>291</width>
+       <width>310</width>
        <height>93</height>
       </rect>
      </property>
@@ -358,7 +358,7 @@
      <rect>
       <x>10</x>
       <y>160</y>
-      <width>631</width>
+      <width>641</width>
       <height>241</height>
      </rect>
     </property>
@@ -383,7 +383,7 @@
       <rect>
        <x>480</x>
        <y>30</y>
-       <width>141</width>
+       <width>151</width>
        <height>91</height>
       </rect>
      </property>
@@ -460,21 +460,21 @@
      <property name="geometry">
       <rect>
        <x>510</x>
-       <y>180</y>
+       <y>130</y>
        <width>111</width>
        <height>28</height>
       </rect>
      </property>
      <property name="text">
-      <string>Power Diagnostics</string>
+      <string>More Details &gt;&gt;</string>
      </property>
     </widget>
     <widget class="QProgressBar" name="batterybar">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>90</x>
        <y>200</y>
-       <width>451</width>
+       <width>371</width>
        <height>23</height>
       </rect>
      </property>
@@ -482,44 +482,44 @@
       <number>24</number>
      </property>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QLabel" name="label_26">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>200</y>
+       <width>81</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Battery SOC</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_27">
      <property name="geometry">
       <rect>
        <x>480</x>
-       <y>130</y>
-       <width>141</width>
-       <height>41</height>
+       <y>10</y>
+       <width>55</width>
+       <height>16</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_8">
-      <item>
-       <widget class="QLabel" name="label_24">
-        <property name="text">
-         <string>More power readings? </string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_25">
-        <property name="text">
-         <string>Click below!</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <property name="text">
+      <string>Main Bus</string>
+     </property>
     </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox_4">
     <property name="geometry">
      <rect>
-      <x>660</x>
-      <y>90</y>
-      <width>311</width>
-      <height>311</height>
+      <x>670</x>
+      <y>20</y>
+      <width>191</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="title">
-     <string>GroupBox</string>
+     <string>Reaction Wheel</string>
     </property>
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
@@ -543,23 +543,13 @@
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="widget" native="true">
-     <property name="geometry">
-      <rect>
-       <x>9</x>
-       <y>69</y>
-       <width>291</width>
-       <height>231</height>
-      </rect>
-     </property>
-    </widget>
    </widget>
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>660</x>
-      <y>30</y>
-      <width>148</width>
+      <x>670</x>
+      <y>160</y>
+      <width>191</width>
       <height>25</height>
      </rect>
     </property>
@@ -575,6 +565,79 @@
       <widget class="QLCDNumber" name="lcdTemp"/>
      </item>
     </layout>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_5">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>250</y>
+      <width>191</width>
+      <height>151</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Infrared Sensor</string>
+    </property>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>161</width>
+       <height>117</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_30">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_9">
+        <item>
+         <widget class="QLabel" name="label_24">
+          <property name="text">
+           <string>Range 1 (mm)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_25">
+          <property name="text">
+           <string>Range 2 (mm)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_28">
+          <property name="text">
+           <string>Distance (mm)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_29">
+          <property name="text">
+           <string>Angle (deg)</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_8">
+        <item>
+         <widget class="QLCDNumber" name="lcdrange1"/>
+        </item>
+        <item>
+         <widget class="QLCDNumber" name="lcdrange2"/>
+        </item>
+        <item>
+         <widget class="QLCDNumber" name="lcddistance"/>
+        </item>
+        <item>
+         <widget class="QLCDNumber" name="lcdangle"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">

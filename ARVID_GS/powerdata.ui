@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Power Diagnostics</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="arvid_res.qrc">
+    <normaloff>:/Project Images/Img/electric.png</normaloff>:/Project Images/Img/electric.png</iconset>
+  </property>
   <widget class="QLabel" name="label_9">
    <property name="geometry">
     <rect>
@@ -228,6 +232,8 @@
   <zorder>label_8</zorder>
   <zorder>groupBox</zorder>
  </widget>
- <resources/>
+ <resources>
+  <include location="arvid_res.qrc"/>
+ </resources>
  <connections/>
 </ui>

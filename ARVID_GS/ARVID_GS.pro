@@ -33,9 +33,9 @@ SOURCES += \
     Qcustomplot/qcustomplot.cpp \
     Graphsource/graphsource.cpp \
     tcwindow.cpp \
-    Compass/compass.cpp \
-    QcGaugeWidget/qcgaugewidget.cpp \
-    powerdata.cpp
+    powerdata.cpp \
+    QMeter/qmeter.cpp \
+    QMeter/qmeterdrawfunctions.cpp
 
 HEADERS  += \
     WifiWrapper/basics.h \
@@ -44,14 +44,17 @@ HEADERS  += \
     mainwindow.h \
     Qcustomplot/qcustomplot.h \
     tcwindow.h \
-    QcGaugeWidget/qcgaugewidget.h \
-    powerdata.h
+    powerdata.h \
+    QMeter/qmeter.h
 INCLUDEPATH += \
            WifiWrapper \
            Qcustomplot \
            Graphsource\
            QcGaugeWidget\
-           Compass
+           Compass\
+           led\
+           QcLedIndicator\
+           QMeter
 
 FORMS    += \
     mainwindow.ui \

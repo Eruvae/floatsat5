@@ -4,6 +4,10 @@
 #include <QMediaPlayer>
 #include "tcwindow.h"
 #include "powerdata.h"
+#include "qmeter.h"
+
+
+#define LIMIT(x,min,max)   ((x)<(min)?(min):(x)>(max)?(max):(x))
 
 int16_t voltagema, currentma,voltagemb, currentmb,voltagemc, currentmc,voltagemd, currentmd;
 int counter=0;
@@ -20,12 +24,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
+
+
+
     QMediaPlayer *player = new QMediaPlayer(this);
     player->setMedia(QUrl("D:/Interstellar Main Theme - Extra Extended - Soundtrack by Hans Zimmer (mp3cut.net).mp3"));
     player->setVolume(100);
     player->play();
     qDebug()<< player->errorString();
-
 
 
 
@@ -39,16 +45,17 @@ MainWindow::MainWindow(QWidget *parent) :
     link->addTopic(FilteredPoseType);
     link->addTopic(IMUDataType);
     link->addTopic(ReactionWheelSpeedType);
+    link->addTopic(ActuatorDataType);
     //gsLink=new SatelliteLink(this, QHostAddress ("192.168.0.109"), QHostAddress("192.168.0.120"), 5000); //GSLink Connection
 
-    //SetupRWSpeedMeter();
+    //SetupRWRWSpeed();
 
 
     SetupGraphCurrent();
     QTimer *timer = new QTimer(this);
     timer->start(100);
 
-    SetupCompass();
+
 
 
     //connect(this, SIGNAL(PacketSignal(double)), this, SLOT(SetupRealtimeDataSlotCurrent(double)));
@@ -103,8 +110,9 @@ void MainWindow::readFromLink(){
         ui->lcdPower->display(Power);
         double graphvaluecurrent=(data.current*0.32-165)/1000;
         SetupRealtimeDataSlotCurrent(graphvaluecurrent);
-        int scale=(data.voltage-12.6)*111.11;
-        ui->batterybar->valueChanged(scale);
+        int scale=LIMIT(((data.voltage*0.004)-12.2)*100,0,100);
+
+        ui->batterybar->setValue(scale);
 
         voltagema=data.mota_voltage;
         currentma=data.mota_current;
@@ -150,15 +158,33 @@ void MainWindow::readFromLink(){
         ui->lcdMy->display(payload.imuData.mag_y*2.0/INT16_MAX);
         ui->lcdMz->display(payload.imuData.mag_z*2.0/INT16_MAX);
         ui->lcdTemp->display(payload.imuData.temp*0.125);
+
         break;
     }
 
     case ReactionWheelSpeedType:
     {
         ui->lcdRWSpeed->display(payload.reactionWheelSpeed);
+
+
         break;
     }
 
+    case ActuatorDataType:
+    {
+        ActuatorData data(payload);
+        //ui->test->display(data.dutyCycle);
+        break;
+    }
+    case IRSensorDataType:
+    {
+        IRSensorData data(payload);
+        ui->lcdrange1->display(data.range1);
+        ui->lcdrange2->display(data.range2);
+        ui->lcddistance->display(data.distance);
+        ui->lcdangle->display(data.angle*180/M_PI);
+
+    }
 
     default:
         break;

@@ -15,6 +15,7 @@ enum PayloadType{
     IMUDataType=5002,
     ReactionWheelSpeedType=5003,
     IRSensorDataType=5004,
+    ActuatorDataType=5005,
 
     //Telecommand Type
     TelecommandType=100
@@ -54,6 +55,14 @@ struct __attribute__((packed)) Payload
     Payload(const QByteArray &buffer);
 };
 
+struct __attribute__((packed))ActuatorData
+{
+    uint8_t valveStatus;
+    uint8_t rwDirection;
+    float dutyCycle;
+
+    ActuatorData(Payload payload);
+};
 
 struct __attribute__((packed))PowerTelemetry
 {
@@ -80,7 +89,14 @@ struct __attribute__((packed))FilteredPose
 
 };
 
-
+struct __attribute__((packed)) IRSensorData
+{
+    uint8_t range1;
+    uint8_t range2;
+    float distance;
+    float angle;
+    IRSensorData(const Payload Payload);
+};
 
 
 enum IMUCommand
@@ -99,6 +115,7 @@ union __attribute__((packed)) TCdata
     IMUCommand imu_com;
     Pose pose;
     int16_t wheel_target_speed;
+    uint8_t valveControl;
 };
 
 struct __attribute__((packed)) Telecommand
@@ -106,6 +123,8 @@ struct __attribute__((packed)) Telecommand
     uint8_t id;
     TCdata data;
 };
+
+
 
 
 

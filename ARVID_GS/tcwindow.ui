@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Telecommand Interface</string>
   </property>
   <property name="windowIcon">
    <iconset resource="arvid_res.qrc">
@@ -49,7 +49,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedTCData">
        <property name="currentIndex">
-        <number>0</number>
+        <number>3</number>
        </property>
        <widget class="QWidget" name="pageCalIMU">
         <widget class="QComboBox" name="comboIMUcal">
@@ -252,6 +252,41 @@
          </layout>
         </widget>
        </widget>
+       <widget class="QWidget" name="page_2">
+        <widget class="QWidget" name="">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>30</y>
+           <width>89</width>
+           <height>76</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QCheckBox" name="T1">
+            <property name="text">
+             <string>Thruster 1</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="T2">
+            <property name="text">
+             <string>Thruster 2</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="T3">
+            <property name="text">
+             <string>Thruster 3</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
       </widget>
      </item>
     </layout>
@@ -301,6 +336,11 @@
        <item>
         <property name="text">
          <string>SEND_RW_SPEED</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>THRUSTER_CONTROL</string>
         </property>
        </item>
       </widget>

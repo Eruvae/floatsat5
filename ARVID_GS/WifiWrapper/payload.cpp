@@ -45,6 +45,12 @@ Payload::Payload(const QByteArray &buffer) : checksum(0), senderNode(0), timesta
 //    data[1]=payload.userDataFloat[3];
 
 //}
+ActuatorData::ActuatorData(const Payload payload)
+{
+    valveStatus=payload.userData8[0];
+    rwDirection=payload.userData8[1];
+    dutyCycle=*(float*)(&payload.userData8[2]);
+}
 
 PowerTelemetry::PowerTelemetry(const Payload payload)
 {
@@ -58,6 +64,14 @@ PowerTelemetry::PowerTelemetry(const Payload payload)
     motc_current=payload.userData16[7];
     motd_voltage=payload.userData16[8];
     motd_current=payload.userData16[9];
+}
+
+IRSensorData::IRSensorData(const Payload payload)
+{
+    range1=payload.userData8[0];
+    range2=payload.userData8[1];
+    distance=*(float*)(&payload.userData8[2]);
+    angle=*(float*)(&payload.userData8[6]);
 }
 
 FilteredPose::FilteredPose(const Payload payload)
