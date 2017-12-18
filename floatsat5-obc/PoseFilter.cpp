@@ -13,6 +13,18 @@
 #define M_PI           3.14159265358979323846  /* pi */
 #endif
 
+#define MOD(x, min, max) \
+	do { \
+		while((x) > (max)) x -= ((max) - (min)); \
+		while((x) < (min)) x += ((max) - (min)); \
+	} while(0)
+
+#define MAXDIF_PI(x, y) \
+	do { \
+		if ((x) - (y) > M_PI) (y) += 2*M_PI; \
+		else if ((y) - (x) > M_PI) (x) += 2*M_PI; \
+	} while(0)
+
 PoseFilter poseFilter;
 
 PoseFilter::PoseFilter() : imuDataSub(itImuData, imuDataBuffer)
@@ -21,10 +33,11 @@ PoseFilter::PoseFilter() : imuDataSub(itImuData, imuDataBuffer)
 
 void PoseFilter::run()
 {
-	double delt = 100;
+	double delt = 0.05;
 	double alpha = 0.9;
+	double oldFilteredRoll = 0, oldFilteredPitch = 0, oldFilteredHeading = 0;
 	double filteredRoll = 0, filteredPitch = 0, filteredHeading = 0;
-	setPeriodicBeat(15*MILLISECONDS, delt*MILLISECONDS);
+	setPeriodicBeat(15*MILLISECONDS, delt*SECONDS);
 	while(1)
 	{
 		/*double rota[3][3] = { {0, 1, 0}, {1, 0, 0}, {0, 0, 1} };
@@ -59,18 +72,38 @@ void PoseFilter::run()
 		double dr = (cos(filteredPitch)*gyro[0] + sin(filteredRoll)*sin(filteredPitch)*gyro[1] + cos(filteredRoll)*sin(filteredPitch)*gyro[2]) / cos(filteredPitch);
 		double dh = (sin(filteredRoll)*gyro[1] + cos(filteredRoll)*gyro[2]) / cos(filteredPitch);
 
-		double pitchGyro = fmod(filteredPitch +  dp*delt/1000, 2*M_PI);
-		double rollGyro = fmod(filteredRoll + dr*delt/1000, 2*M_PI);
-		double headingGyro = fmod(filteredHeading + dh*delt/1000, 2*M_PI);
+		double pitchGyro = filteredPitch + dp*delt;
+		MOD(pitchGyro, -M_PI, M_PI);
+		double rollGyro = filteredRoll + dr*delt;
+		MOD(rollGyro, -M_PI, M_PI);
+		double headingGyro = filteredHeading + dh*delt;
+		MOD(headingGyro, -M_PI, M_PI);
 
+
+		MAXDIF_PI(pitchGyro, pitchAccMag);
 		filteredPitch = alpha * pitchGyro + (1 - alpha) * pitchAccMag;
-		filteredRoll = alpha * rollGyro + (1 - alpha) * rollAccMag;
+		MOD(filteredPitch, -M_PI, M_PI);
+		MAXDIF_PI(rollGyro, rollGyro);
+		filteredRoll = alpha * rollGyro + (1 - alpha) * rollGyro;
+		MOD(filteredRoll, -M_PI, M_PI);
+		MAXDIF_PI(headingGyro, headingAccMag);
 		filteredHeading = alpha * headingGyro + (1 - alpha) * headingAccMag;
+		MOD(filteredHeading, -M_PI, M_PI);
+
+		double dpitch = (filteredPitch - oldFilteredPitch) / delt;
+		double droll = (filteredRoll - oldFilteredRoll) / delt;
+		double dyaw = (filteredHeading - oldFilteredHeading) / delt;
 
 		Pose pose;
-		pose.pitch=filteredPitch*180.0/M_PI;
-		pose.roll=filteredRoll*180.0/M_PI;
-		pose.yaw=filteredHeading*180.0/M_PI;
+		pose.x = 0;
+		pose.y = 0;
+		pose.z = 0;
+		pose.pitch = filteredPitch*180.0/M_PI;
+		pose.roll = filteredRoll*180.0/M_PI;
+		pose.yaw = filteredHeading*180.0/M_PI;
+		pose.dpitch = dpitch*180/M_PI;
+		pose.droll = droll*180/M_PI;
+		pose.dyaw = dyaw*180/M_PI;
 
 		itFilteredPose.publish(pose);
 

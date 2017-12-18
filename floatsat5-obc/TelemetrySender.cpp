@@ -21,6 +21,7 @@ void TelemetrySender::run()
 {
 	//int counter = 0;
 
+	const uint32_t tm_pause_period = 10;
 	setPeriodicBeat(20*MILLISECONDS, 200*MILLISECONDS);
 	while(1)
 	{
@@ -39,13 +40,13 @@ void TelemetrySender::run()
 		//PRINTF("TM rw speed: %d\n", reactionWheelSpeed);
 
 		tmPowerData.publish(powerData);
-		suspendCallerUntil(NOW() + 10*MILLISECONDS);
+		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
 		tmFilteredPose.publish(filteredPose);
-		suspendCallerUntil(NOW() + 10*MILLISECONDS);
+		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
 		tmImuData.publish(imuData);
-		suspendCallerUntil(NOW() + 10*MILLISECONDS);
+		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
 		tmReactionWheelSpeed.publish(reactionWheelSpeed);
-		suspendCallerUntil(NOW() + 10*MILLISECONDS);
+		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
 		tmInfraredData.publish(infraredData);
 
 		//counter++;

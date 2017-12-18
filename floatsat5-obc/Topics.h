@@ -31,6 +31,6 @@ extern Topic<IRData> tmInfraredData;
 
 // TC CommBuffers
 extern CommBuffer<int16_t> tcReactionWheelTargetSpeed;
-extern CommBuffer<IMUCommand> tcImuCommand;
+extern Fifo<IMUCommand, 10> tcImuCommand;
 
 #endif /* TOPICS_H_ */

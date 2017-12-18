@@ -27,4 +27,4 @@ Topic<IRData> tmInfraredData(5004, "Infrared Data TM");
 
 // TC CommBuffers
 CommBuffer<int16_t> tcReactionWheelTargetSpeed;
-CommBuffer<IMUCommand> tcImuCommand;
+Fifo<IMUCommand, 10> tcImuCommand;

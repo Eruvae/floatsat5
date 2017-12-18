@@ -122,8 +122,6 @@ void MainWindow::readFromLink(){
 
     case IMUDataType:
     {
-        qDebug() << "IMU Data received!" << endl;
-
         ui->lcdGx->display(payload.imuData.gyro_x*2000.0/INT16_MAX);
         ui->lcdGy->display(payload.imuData.gyro_y*2000.0/INT16_MAX);
         ui->lcdGz->display(payload.imuData.gyro_z*2000.0/INT16_MAX);

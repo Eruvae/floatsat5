@@ -60,6 +60,9 @@ FilteredPose::FilteredPose(const Payload payload)
     yaw=payload.userDataFloat[3];
     pitch=payload.userDataFloat[4];
     roll=payload.userDataFloat[5];
+    dyaw=payload.userDataFloat[6];
+    dpitch=payload.userDataFloat[7];
+    droll=payload.userDataFloat[8];
 }
 
 //IMUData::IMUData(const Payload payload)

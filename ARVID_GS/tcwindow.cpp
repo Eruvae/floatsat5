@@ -7,6 +7,7 @@ TCWindow::TCWindow(QWidget *parent, SatelliteLink *link) :
     TCLink(link)
 {
     ui->setupUi(this);
+    ui->stackedTCData->setCurrentIndex(ui->comboTC->currentIndex());
     connect(ui->comboTC, SIGNAL(currentIndexChanged(int)), ui->stackedTCData, SLOT(setCurrentIndex(int)));
 }
 

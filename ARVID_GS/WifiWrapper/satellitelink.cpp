@@ -23,7 +23,7 @@ Payload SatelliteLink::read(){
 
     receivedBytes = socket.readDatagram(buffer.data(), buffer.size());
 
-    qDebug() << "Received Bytes: " << receivedBytes << endl;
+    //qDebug() << "Received Bytes: " << receivedBytes << endl;
 
     Payload payload(buffer);
 

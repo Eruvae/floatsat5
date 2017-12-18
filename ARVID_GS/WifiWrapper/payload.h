@@ -66,6 +66,7 @@ struct __attribute__((packed))FilteredPose
 {
     float x, y, z;
     float yaw, pitch, roll;
+    float dyaw, dpitch, droll;
     FilteredPose(const Payload payload);
 
 };
