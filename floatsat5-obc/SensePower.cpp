@@ -116,6 +116,10 @@ void SensePower::run()
 {
 	setPeriodicBeat(2*MILLISECONDS, 100*MILLISECONDS);
 	initSensor(CURR_BATT_I2C_ADDR);
+	initSensor(CURR_MOTA_I2C_ADDR);
+	initSensor(CURR_MOTB_I2C_ADDR);
+	initSensor(CURR_MOTC_I2C_ADDR);
+	initSensor(CURR_MOTD_I2C_ADDR);
 	while(1)
 	{
 		PowerData pd;
@@ -138,7 +142,6 @@ void SensePower::run()
 
 		//PRINTF("Shunt Voltage: %fmV; Bus Voltage: %fV\n", shuntVolt*SHUNT_VOLT_FACTOR, busVolt*BUS_VOLT_FACTOR);
 		//PRINTF("Current: %fmA, Power: %fmW, %fW\n", current*0.32 - 165, busVolt*BUS_VOLT_FACTOR*(current*0.32 - 165), power*1.0);
-
 
 
 		itPowerData.publish(pd);
