@@ -50,6 +50,14 @@ PowerTelemetry::PowerTelemetry(const Payload payload)
 {
     voltage = payload.userData16[0];
     current = payload.userData16[1];
+    mota_voltage=payload.userData16[2];
+    mota_current=payload.userData16[3];
+    motb_voltage=payload.userData16[4];
+    motb_current=payload.userData16[5];
+    motc_voltage=payload.userData16[6];
+    motc_current=payload.userData16[7];
+    motd_voltage=payload.userData16[8];
+    motd_current=payload.userData16[9];
 }
 
 FilteredPose::FilteredPose(const Payload payload)

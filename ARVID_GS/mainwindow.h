@@ -25,6 +25,7 @@ private:
     TCWindow *tcwindow;
 signals:
     void PacketSignal(double newValue);
+    void powerDataUpdate();
 public slots:
 void readFromLink();
 void sendtelecommand();
@@ -37,6 +38,7 @@ void SetupRealtimeDataSlotCurrent(double newValue);
 
 private slots:
 void on_actionTelecommand_Interface_triggered();
+void on_pushButton_clicked();
 };
 
 #endif // MAINWINDOW_H

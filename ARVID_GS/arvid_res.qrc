@@ -9,4 +9,7 @@
     <qresource prefix="/Project Sounds">
         <file>Sounds/ltbb_001.mp3</file>
     </qresource>
+    <qresource prefix="/">
+        <file>Img/thrust.png</file>
+    </qresource>
 </RCC>

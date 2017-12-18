@@ -59,6 +59,15 @@ struct __attribute__((packed))PowerTelemetry
 {
     int16_t voltage;
     int16_t current;
+    int16_t mota_voltage;
+    int16_t mota_current;
+    int16_t motb_voltage;
+    int16_t motb_current;
+    int16_t motc_voltage;
+    int16_t motc_current;
+    int16_t motd_voltage;
+    int16_t motd_current;
+
     PowerTelemetry(const Payload payload);
 };
 

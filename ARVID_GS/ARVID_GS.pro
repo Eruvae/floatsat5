@@ -34,7 +34,8 @@ SOURCES += \
     Graphsource/graphsource.cpp \
     tcwindow.cpp \
     Compass/compass.cpp \
-    QcGaugeWidget/qcgaugewidget.cpp
+    QcGaugeWidget/qcgaugewidget.cpp \
+    powerdata.cpp
 
 HEADERS  += \
     WifiWrapper/basics.h \
@@ -43,7 +44,8 @@ HEADERS  += \
     mainwindow.h \
     Qcustomplot/qcustomplot.h \
     tcwindow.h \
-    QcGaugeWidget/qcgaugewidget.h
+    QcGaugeWidget/qcgaugewidget.h \
+    powerdata.h
 INCLUDEPATH += \
            WifiWrapper \
            Qcustomplot \
@@ -53,7 +55,8 @@ INCLUDEPATH += \
 
 FORMS    += \
     mainwindow.ui \
-    tcwindow.ui
+    tcwindow.ui \
+    powerdata.ui
 
 
 RESOURCES += \

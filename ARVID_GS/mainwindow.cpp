@@ -3,7 +3,9 @@
 #include "ui_mainwindow.h"
 #include <QMediaPlayer>
 #include "tcwindow.h"
+#include "powerdata.h"
 
+int16_t voltagema, currentma,voltagemb, currentmb,voltagemc, currentmc,voltagemd, currentmd;
 int counter=0;
 int missedPackets;
 //double graphvaluecurrent=0;
@@ -101,6 +103,19 @@ void MainWindow::readFromLink(){
         ui->lcdPower->display(Power);
         double graphvaluecurrent=(data.current*0.32-165)/1000;
         SetupRealtimeDataSlotCurrent(graphvaluecurrent);
+        int scale=(data.voltage-12.6)*111.11;
+        ui->batterybar->valueChanged(scale);
+
+        voltagema=data.mota_voltage;
+        currentma=data.mota_current;
+        voltagemb=data.motb_voltage;
+        currentmb=data.motb_current;
+        currentmc=data.motc_current;
+        voltagemc=data.motc_voltage;
+        currentmd=data.motd_current;
+        voltagemd=data.motd_voltage;
+
+        emit powerDataUpdate();
         //qDebug() << "Graph Value = "<< graphvaluecurrent << endl;
 
         //gsLink->write<PowerTelemetry>(PowerTelemetryType, data);
@@ -117,6 +132,9 @@ void MainWindow::readFromLink(){
         ui->lcdyaw->display(data.yaw);
         ui->lcdpitch->display(data.pitch);
         ui->lcdroll->display(data.roll);
+        ui->lcddyaw->display(data.dyaw);
+        ui->lcddpitch->display(data.dpitch);
+        ui->lcddroll->display(data.droll);
         break;
     }
 
@@ -207,5 +225,15 @@ void MainWindow::on_actionTelecommand_Interface_triggered()
 {
     tcwindow = new TCWindow(this, link);
     tcwindow->show();
+
+}
+
+
+
+void MainWindow::on_pushButton_clicked()
+{
+    PowerData powerdata(this, link);
+    powerdata.setModal(true);
+    powerdata.exec();
 
 }
