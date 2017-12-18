@@ -56,6 +56,13 @@ struct __attribute__((packed)) PowerData
 
 };
 
+struct __attribute__((packed)) ActuatorData
+{
+	uint8_t valveStatus;
+	uint8_t rwDirection;
+	float dutyCycle;
+};
+
 // Structs for Telecommunication; always use __attribute__((packed))
 
 enum IMUCommand

@@ -102,6 +102,7 @@ void CommInterfaces::init()
 	gw.addTopicsToForward(&tmImuData);
 	gw.addTopicsToForward(&tmReactionWheelSpeed);
 	gw.addTopicsToForward(&tmInfraredData);
+	gw.addTopicsToForward(&tmActuatorData);
 
 	//.... More Topics to come
 }

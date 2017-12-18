@@ -14,8 +14,9 @@ HAL_GPIO hbridge_a_ina(GPIO_036); // PC4
 HAL_GPIO hbridge_a_inb(GPIO_017); //PB1
 HAL_PWM pwm_wheel(PWM_IDX12); // PB12
 
-HAL_GPIO hbridge_b_ina(GPIO_016);
-HAL_GPIO hbridge_b_inb(GPIO_071);
+HAL_GPIO hbridge_valve1(GPIO_016); // hbridge_b_ina
+HAL_GPIO hbridge_valve2(GPIO_071); // hbridge_b_inb
+HAL_GPIO hbridge_valve3(GPIO_072); // hbridge_c_ina
 
 ActuatorInterfaces act;
 
@@ -31,11 +32,14 @@ void ActuatorInterfaces::init()
 {
 	dc_enable.init(true, 1, 1);
 	dc_test.init(false, 1, 0);
+
 	hbridge_a_ina.init(true, 1, 1);
 	hbridge_a_inb.init(true, 1, 0);
-	hbridge_b_ina.init(true, 1, 0);
-	hbridge_b_inb.init(true, 1, 1);
 	pwm_wheel.init(5000, 1000);
+
+	hbridge_valve1.init(true, 1, 0);
+	hbridge_valve2.init(true, 1, 0);
+	hbridge_valve3.init(true, 1, 0);
 }
 
 void ActuatorInterfaces::setWheelDirection(bool forward)
@@ -113,11 +117,22 @@ void ActuatorInterfaces::run()
 
 		//PRINTF("Base Duty Cylcle: %f, Calculated duty cycle: %f\n", baseDutyCycle, dutyCycle);
 
-		setWheelDirection(dutyCycle >= 0);
+		uint8_t wheelDirection = SIGN(dutyCycle);
+		setWheelDirection(wheelDirection >= 0);
 
 		dutyCycle = LIMIT(ABS(dutyCycle), 0, 1);
 
 		pwm_wheel.write(dutyCycle*1000);
+
+		ActuatorData data;
+		uint8_t valve1 = hbridge_valve1.readPins();
+		uint8_t valve2 = hbridge_valve2.readPins();
+		uint8_t valve3 = hbridge_valve3.readPins();
+
+		data.valveStatus = valve1 | (valve2 << 1) | (valve3 << 2);
+		data.rwDirection = wheelDirection;
+		data.dutyCycle = dutyCycle;
+		itActuatorData.publish(data);
 
 		suspendUntilNextBeat();
 	}

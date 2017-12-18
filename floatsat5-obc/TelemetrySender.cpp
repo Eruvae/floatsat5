@@ -13,7 +13,8 @@ TelemetrySender::TelemetrySender() : powerDataSub(itPowerData, powerDataBuffer),
 		filteredPoseSub(itFilteredPose, filteredPoseBuffer),
 		imuDataSub(itImuData, imuDataBuffer),
 		reactionWheelSpeedSub(itReactionWheelSpeed, reactionWheelSpeedBuffer),
-		infraredDataSub(itInfraredData, infraredDataBuffer)
+		infraredDataSub(itInfraredData, infraredDataBuffer),
+		actuatorDataSub(itActuatorData, actuatorDataBuffer)
 {
 }
 
@@ -30,12 +31,14 @@ void TelemetrySender::run()
 		IMUData imuData;
 		int16_t reactionWheelSpeed;
 		IRData infraredData;
+		ActuatorData actuatorStatus;
 
 		powerDataBuffer.get(powerData);
 		filteredPoseBuffer.get(filteredPose);
 		imuDataBuffer.get(imuData);
 		reactionWheelSpeedBuffer.get(reactionWheelSpeed);
 		infraredDataBuffer.get(infraredData);
+		actuatorDataBuffer.get(actuatorStatus);
 
 		//PRINTF("TM rw speed: %d\n", reactionWheelSpeed);
 
@@ -48,6 +51,8 @@ void TelemetrySender::run()
 		tmReactionWheelSpeed.publish(reactionWheelSpeed);
 		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
 		tmInfraredData.publish(infraredData);
+		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
+		tmActuatorData.publish(actuatorStatus);
 
 		//counter++;
 		suspendUntilNextBeat();

@@ -21,6 +21,7 @@ extern Topic<Pose> itFilteredPose;
 extern Topic<IMUData> itImuData;
 extern Topic<int16_t> itReactionWheelSpeed;
 extern Topic<IRData> itInfraredData;
+extern Topic<ActuatorData> itActuatorData;
 
 // TM topics, should only be published in TM Sender thread
 extern Topic<PowerData> tmPowerData;
@@ -28,6 +29,7 @@ extern Topic<Pose> tmFilteredPose;
 extern Topic<IMUData> tmImuData;
 extern Topic<int16_t> tmReactionWheelSpeed;
 extern Topic<IRData> tmInfraredData;
+extern Topic<ActuatorData> tmActuatorData;
 
 // TC CommBuffers
 extern CommBuffer<int16_t> tcReactionWheelTargetSpeed;

@@ -19,12 +19,14 @@ private:
 	CommBuffer<IMUData> imuDataBuffer;
 	CommBuffer<int16_t> reactionWheelSpeedBuffer;
 	CommBuffer<IRData> infraredDataBuffer;
+	CommBuffer<ActuatorData> actuatorDataBuffer;
 
 	Subscriber powerDataSub;
 	Subscriber filteredPoseSub;
 	Subscriber imuDataSub;
 	Subscriber reactionWheelSpeedSub;
 	Subscriber infraredDataSub;
+	Subscriber actuatorDataSub;
 public:
 	TelemetrySender();
 	void run();
