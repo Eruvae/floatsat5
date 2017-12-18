@@ -22,7 +22,11 @@ public:
 
 	void setWheelDirection(bool forward);
 
+	void setThrusterStatus(int number, bool status);
+
 	void run();
 };
+
+extern ActuatorInterfaces actuatorInterfaces;
 
 #endif /* ACTUATORINTERFACES_H_ */

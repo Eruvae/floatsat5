@@ -7,11 +7,13 @@
 
 #include "TelecommandReceiver.h"
 #include "Topics.h"
+#include "ActuatorInterfaces.h"
 
 // TC IDs
 #define CALIB_IMU 0x00
 #define SEND_POSE 0x01
 #define SEND_RW_SPEED 0x02
+#define THRUSTER_CONTROL 0x03
 
 TelecommandReceiver telecommandReceiver;
 
@@ -32,5 +34,11 @@ void TelecommandReceiver::put(Telecommand &data)
 	{
 		int16_t speed = data.data.wheel_target_speed;
 		tcReactionWheelTargetSpeed.put(speed);
+	}
+	else if (data.id == THRUSTER_CONTROL)
+	{
+		actuatorInterfaces.setThrusterStatus(1, (data.data.valveControl & 0b1) == 0b1);
+		actuatorInterfaces.setThrusterStatus(2, (data.data.valveControl & 0b10) == 0b10);
+		actuatorInterfaces.setThrusterStatus(3, (data.data.valveControl & 0b100) == 0b100);
 	}
 }

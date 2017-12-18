@@ -14,11 +14,11 @@ HAL_GPIO hbridge_a_ina(GPIO_036); // PC4
 HAL_GPIO hbridge_a_inb(GPIO_017); //PB1
 HAL_PWM pwm_wheel(PWM_IDX12); // PB12
 
-HAL_GPIO hbridge_valve1(GPIO_016); // hbridge_b_ina
+HAL_GPIO hbridge_valve1(GPIO_072); // hbridge_c_ina
 HAL_GPIO hbridge_valve2(GPIO_071); // hbridge_b_inb
-HAL_GPIO hbridge_valve3(GPIO_072); // hbridge_c_ina
+HAL_GPIO hbridge_valve3(GPIO_016); // hbridge_b_ina
 
-ActuatorInterfaces act;
+ActuatorInterfaces actuatorInterfaces;
 
 #define LIMIT(x, min, max)	((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
 #define ABS(x)	((x) < 0 ? -(x) : (x))
@@ -54,6 +54,16 @@ void ActuatorInterfaces::setWheelDirection(bool forward)
 		hbridge_a_ina.setPins(0);
 		hbridge_a_inb.setPins(1);
 	}
+}
+
+void ActuatorInterfaces::setThrusterStatus(int number, bool status)
+{
+	if (number == 1)
+		hbridge_valve1.setPins(status);
+	else if (number == 2)
+		hbridge_valve2.setPins(status);
+	else if (number == 3)
+		hbridge_valve3.setPins(status);
 }
 
 void ActuatorInterfaces::run()
@@ -117,7 +127,7 @@ void ActuatorInterfaces::run()
 
 		//PRINTF("Base Duty Cylcle: %f, Calculated duty cycle: %f\n", baseDutyCycle, dutyCycle);
 
-		uint8_t wheelDirection = SIGN(dutyCycle);
+		int8_t wheelDirection = SIGN(dutyCycle);
 		setWheelDirection(wheelDirection >= 0);
 
 		dutyCycle = LIMIT(ABS(dutyCycle), 0, 1);

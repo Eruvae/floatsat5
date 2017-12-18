@@ -82,6 +82,7 @@ union __attribute__((packed)) TCdata
 	IMUCommand imu_com;
 	Pose pose;
 	int16_t wheel_target_speed;
+	uint8_t valveControl;
 };
 
 struct __attribute__((packed)) Telecommand
