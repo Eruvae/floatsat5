@@ -39,7 +39,7 @@
     <property name="title">
      <string>IMU Data</string>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -61,7 +61,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLCDNumber" name="lcdAx"/>
+           <widget class="QLCDNumber" name="lcdAx">
+            <property name="segmentStyle">
+             <enum>QLCDNumber::Flat</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -75,7 +79,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLCDNumber" name="lcdAy"/>
+           <widget class="QLCDNumber" name="lcdAy">
+            <property name="segmentStyle">
+             <enum>QLCDNumber::Flat</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -89,7 +97,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLCDNumber" name="lcdAz"/>
+           <widget class="QLCDNumber" name="lcdAz">
+            <property name="segmentStyle">
+             <enum>QLCDNumber::Flat</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -107,7 +119,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLCDNumber" name="lcdGx"/>
+           <widget class="QLCDNumber" name="lcdGx">
+            <property name="segmentStyle">
+             <enum>QLCDNumber::Flat</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -121,7 +137,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLCDNumber" name="lcdGy"/>
+           <widget class="QLCDNumber" name="lcdGy">
+            <property name="segmentStyle">
+             <enum>QLCDNumber::Flat</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -135,7 +155,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLCDNumber" name="lcdGz"/>
+           <widget class="QLCDNumber" name="lcdGz">
+            <property name="segmentStyle">
+             <enum>QLCDNumber::Flat</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -153,7 +177,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLCDNumber" name="lcdMx"/>
+           <widget class="QLCDNumber" name="lcdMx">
+            <property name="segmentStyle">
+             <enum>QLCDNumber::Flat</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -167,7 +195,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLCDNumber" name="lcdMy"/>
+           <widget class="QLCDNumber" name="lcdMy">
+            <property name="segmentStyle">
+             <enum>QLCDNumber::Flat</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -181,7 +213,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLCDNumber" name="lcdMz"/>
+           <widget class="QLCDNumber" name="lcdMz">
+            <property name="segmentStyle">
+             <enum>QLCDNumber::Flat</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -202,12 +238,12 @@
     <property name="title">
      <string>Pose</string>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>310</width>
+       <width>291</width>
        <height>93</height>
       </rect>
      </property>
@@ -224,7 +260,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLCDNumber" name="lcdx"/>
+           <widget class="QLCDNumber" name="lcdx">
+            <property name="segmentStyle">
+             <enum>QLCDNumber::Flat</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -238,7 +278,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLCDNumber" name="lcdy"/>
+           <widget class="QLCDNumber" name="lcdy">
+            <property name="segmentStyle">
+             <enum>QLCDNumber::Flat</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -252,7 +296,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLCDNumber" name="lcdz"/>
+           <widget class="QLCDNumber" name="lcdz">
+            <property name="segmentStyle">
+             <enum>QLCDNumber::Flat</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -270,7 +318,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLCDNumber" name="lcdyaw"/>
+           <widget class="QLCDNumber" name="lcdyaw">
+            <property name="segmentStyle">
+             <enum>QLCDNumber::Flat</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -284,7 +336,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLCDNumber" name="lcdpitch"/>
+           <widget class="QLCDNumber" name="lcdpitch">
+            <property name="segmentStyle">
+             <enum>QLCDNumber::Flat</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -298,7 +354,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLCDNumber" name="lcdroll"/>
+           <widget class="QLCDNumber" name="lcdroll">
+            <property name="segmentStyle">
+             <enum>QLCDNumber::Flat</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -316,7 +376,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLCDNumber" name="lcddyaw"/>
+           <widget class="QLCDNumber" name="lcddyaw">
+            <property name="segmentStyle">
+             <enum>QLCDNumber::Flat</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -330,7 +394,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLCDNumber" name="lcddpitch"/>
+           <widget class="QLCDNumber" name="lcddpitch">
+            <property name="segmentStyle">
+             <enum>QLCDNumber::Flat</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -344,7 +412,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLCDNumber" name="lcddroll"/>
+           <widget class="QLCDNumber" name="lcddroll">
+            <property name="segmentStyle">
+             <enum>QLCDNumber::Flat</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -377,84 +449,6 @@
      <property name="styleSheet">
       <string notr="true"/>
      </property>
-    </widget>
-    <widget class="QWidget" name="layoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>480</x>
-       <y>30</y>
-       <width>151</width>
-       <height>91</height>
-      </rect>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_4">
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="layoutDirection">
-           <enum>Qt::LeftToRight</enum>
-          </property>
-          <property name="text">
-           <string>Voltage (V)</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLCDNumber" name="lcdVoltage">
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
-          <property name="lineWidth">
-           <number>1</number>
-          </property>
-          <property name="segmentStyle">
-           <enum>QLCDNumber::Flat</enum>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <item>
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Current (mA)</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLCDNumber" name="lcdCurrent">
-          <property name="segmentStyle">
-           <enum>QLCDNumber::Flat</enum>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_5">
-        <item>
-         <widget class="QLabel" name="label_3">
-          <property name="whatsThis">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="text">
-           <string>Power (W)</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLCDNumber" name="lcdPower">
-          <property name="segmentStyle">
-           <enum>QLCDNumber::Flat</enum>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
     </widget>
     <widget class="QPushButton" name="pushButton">
      <property name="geometry">
@@ -508,14 +502,88 @@
       <string>Main Bus</string>
      </property>
     </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>480</x>
+       <y>30</y>
+       <width>153</width>
+       <height>87</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_26">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_11">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="text">
+           <string>Voltage (V)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Current (mA)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="whatsThis">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Power (W)</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_10">
+        <item>
+         <widget class="QLCDNumber" name="lcdVoltage">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="lineWidth">
+           <number>1</number>
+          </property>
+          <property name="segmentStyle">
+           <enum>QLCDNumber::Flat</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLCDNumber" name="lcdCurrent">
+          <property name="segmentStyle">
+           <enum>QLCDNumber::Flat</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLCDNumber" name="lcdPower">
+          <property name="segmentStyle">
+           <enum>QLCDNumber::Flat</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox_4">
     <property name="geometry">
      <rect>
       <x>670</x>
       <y>20</y>
-      <width>191</width>
-      <height>71</height>
+      <width>281</width>
+      <height>271</height>
      </rect>
     </property>
     <property name="title">
@@ -539,17 +607,31 @@
        </widget>
       </item>
       <item>
-       <widget class="QLCDNumber" name="lcdRWSpeed"/>
+       <widget class="QLCDNumber" name="lcdRWSpeed">
+        <property name="segmentStyle">
+         <enum>QLCDNumber::Flat</enum>
+        </property>
+       </widget>
       </item>
      </layout>
+    </widget>
+    <widget class="QMeter" name="speedmeter" native="true">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>70</y>
+       <width>261</width>
+       <height>191</height>
+      </rect>
+     </property>
     </widget>
    </widget>
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>160</y>
-      <width>191</width>
+      <y>330</y>
+      <width>281</width>
       <height>25</height>
      </rect>
     </property>
@@ -569,8 +651,8 @@
    <widget class="QGroupBox" name="groupBox_5">
     <property name="geometry">
      <rect>
-      <x>670</x>
-      <y>250</y>
+      <x>10</x>
+      <y>410</y>
       <width>191</width>
       <height>151</height>
      </rect>
@@ -578,12 +660,12 @@
     <property name="title">
      <string>Infrared Sensor</string>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>161</width>
+       <width>171</width>
        <height>117</height>
       </rect>
      </property>
@@ -623,16 +705,32 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_8">
         <item>
-         <widget class="QLCDNumber" name="lcdrange1"/>
+         <widget class="QLCDNumber" name="lcdrange1">
+          <property name="segmentStyle">
+           <enum>QLCDNumber::Flat</enum>
+          </property>
+         </widget>
         </item>
         <item>
-         <widget class="QLCDNumber" name="lcdrange2"/>
+         <widget class="QLCDNumber" name="lcdrange2">
+          <property name="segmentStyle">
+           <enum>QLCDNumber::Flat</enum>
+          </property>
+         </widget>
         </item>
         <item>
-         <widget class="QLCDNumber" name="lcddistance"/>
+         <widget class="QLCDNumber" name="lcddistance">
+          <property name="segmentStyle">
+           <enum>QLCDNumber::Flat</enum>
+          </property>
+         </widget>
         </item>
         <item>
-         <widget class="QLCDNumber" name="lcdangle"/>
+         <widget class="QLCDNumber" name="lcdangle">
+          <property name="segmentStyle">
+           <enum>QLCDNumber::Flat</enum>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -682,6 +780,12 @@
    <class>QCustomPlot</class>
    <extends>QWidget</extends>
    <header>qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QMeter</class>
+   <extends>QWidget</extends>
+   <header>qmeter.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

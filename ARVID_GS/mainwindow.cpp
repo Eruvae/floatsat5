@@ -27,11 +27,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
-    QMediaPlayer *player = new QMediaPlayer(this);
-    player->setMedia(QUrl("D:/Interstellar Main Theme - Extra Extended - Soundtrack by Hans Zimmer (mp3cut.net).mp3"));
-    player->setVolume(100);
-    player->play();
-    qDebug()<< player->errorString();
+//    QMediaPlayer *player = new QMediaPlayer(this);
+//    player->setMedia(QUrl("D:/Interstellar Main Theme - Extra Extended - Soundtrack by Hans Zimmer (mp3cut.net).mp3"));
+//    player->setVolume(100);
+//    player->play();
+//    qDebug()<< player->errorString();
 
 
 
@@ -49,6 +49,13 @@ MainWindow::MainWindow(QWidget *parent) :
     //gsLink=new SatelliteLink(this, QHostAddress ("192.168.0.109"), QHostAddress("192.168.0.120"), 5000); //GSLink Connection
 
     //SetupRWRWSpeed();
+
+    ui->speedmeter->setMaxValue(8000);
+    ui->speedmeter->setMinValue(-8000);
+    ui->speedmeter->setThresholdEnabled(0);
+    ui->speedmeter->setForeground(QColor(255, 255, 255));
+    ui->speedmeter->setBackground(QColor(0, 0, 0));
+
 
 
     SetupGraphCurrent();
@@ -165,6 +172,8 @@ void MainWindow::readFromLink(){
     case ReactionWheelSpeedType:
     {
         ui->lcdRWSpeed->display(payload.reactionWheelSpeed);
+
+        ui->speedmeter->setValue(payload.reactionWheelSpeed);
 
 
         break;

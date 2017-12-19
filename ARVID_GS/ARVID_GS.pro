@@ -50,10 +50,6 @@ INCLUDEPATH += \
            WifiWrapper \
            Qcustomplot \
            Graphsource\
-           QcGaugeWidget\
-           Compass\
-           led\
-           QcLedIndicator\
            QMeter
 
 FORMS    += \

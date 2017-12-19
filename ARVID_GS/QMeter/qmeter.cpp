@@ -14,7 +14,7 @@ QMeter::QMeter(QWidget *parent)
     : QWidget(parent)
 {
    m_precision=0;	
-   m_steps=10;
+   m_steps=8;
    m_thresholdFlag=false;
    m_foreground=QColor(Qt::black);
    m_background=QColor(Qt::white);
@@ -30,7 +30,7 @@ QMeter::QMeter(QWidget *parent)
    setStartAngle(225);
    setEndAngle(-45);
    setMinimumSize(QSize(80,80));
-   setLabel("RW Speed");
+   setLabel("Angular Velocity");
    setUnits("RPM");
    setThreshold(80);
    setEnableValidWindow(false);
