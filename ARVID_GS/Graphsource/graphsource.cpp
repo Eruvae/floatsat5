@@ -20,7 +20,7 @@ void MainWindow::SetupGraphCurrent()
     ui->graph_temp->axisRect()->setBackground(Qt::white);
 
     ui->graph_temp->xAxis->setLabel("Time Elapsed");
-    ui->graph_temp->yAxis->setLabel("Current (mA)");
+    ui->graph_temp->yAxis->setLabel("Current (A)");
 
     ui->graph_temp->xAxis->setTickLabelType(QCPAxis::ltDateTime);
     ui->graph_temp->xAxis->setDateTimeFormat("hh:mm:ss");
