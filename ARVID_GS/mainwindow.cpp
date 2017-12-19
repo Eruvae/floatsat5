@@ -9,7 +9,8 @@
 
 #define LIMIT(x,min,max)   ((x)<(min)?(min):(x)>(max)?(max):(x))
 
-int16_t voltagema, currentma,voltagemb, currentmb,voltagemc, currentmc,voltagemd, currentmd;
+float voltagema, currentma,voltagemb, currentmb,voltagemc, currentmc,voltagemd, currentmd;
+bool valve1=false, valve2=false, valve3=false;
 int counter=0;
 int missedPackets;
 //double graphvaluecurrent=0;
@@ -46,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
     link->addTopic(IMUDataType);
     link->addTopic(ReactionWheelSpeedType);
     link->addTopic(ActuatorDataType);
+    link->addTopic(IRSensorDataType);
     //gsLink=new SatelliteLink(this, QHostAddress ("192.168.0.109"), QHostAddress("192.168.0.120"), 5000); //GSLink Connection
 
     //SetupRWRWSpeed();
@@ -121,14 +123,14 @@ void MainWindow::readFromLink(){
 
         ui->batterybar->setValue(scale);
 
-        voltagema=data.mota_voltage;
-        currentma=data.mota_current;
-        voltagemb=data.motb_voltage;
-        currentmb=data.motb_current;
-        currentmc=data.motc_current;
-        voltagemc=data.motc_voltage;
-        currentmd=data.motd_current;
-        voltagemd=data.motd_voltage;
+        voltagema=data.mota_voltage*0.004;
+        currentma=data.mota_current*0.2;
+        voltagemb=data.motb_voltage*0.004;
+        currentmb=data.motb_current*0.2;
+        currentmc=data.motc_current*0.2;
+        voltagemc=data.motc_voltage*0.004;
+        currentmd=data.motd_current*0.2;
+        voltagemd=data.motd_voltage*0.004;
 
         emit powerDataUpdate();
         //qDebug() << "Graph Value = "<< graphvaluecurrent << endl;
@@ -182,6 +184,10 @@ void MainWindow::readFromLink(){
     case ActuatorDataType:
     {
         ActuatorData data(payload);
+        valve1=(data.valveStatus&0b1)==0b1;
+        valve2=(data.valveStatus&0b10)==0b10;
+        valve3=(data.valveStatus&0b100)==0b100;
+
         //ui->test->display(data.dutyCycle);
         break;
     }

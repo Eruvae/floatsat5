@@ -13,7 +13,8 @@
 QMeter::QMeter(QWidget *parent)
     : QWidget(parent)
 {
-   m_precision=0;	
+   m_precision=0;
+   m_precisionNumeric=0;
    m_steps=8;
    m_thresholdFlag=false;
    m_foreground=QColor(Qt::black);
@@ -39,6 +40,7 @@ QMeter::QMeter(QWidget *parent)
    setEnableWarningWindow(false);
    setBeginWarningValue(30.0);
    setEndWarningValue(60.0);
+
 
    // Needle animation parameters
    m_valAnimation.setTargetObject(this);
