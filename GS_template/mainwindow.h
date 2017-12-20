@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "satellitelink.h"
+#include "manualcontrol.h"
 
 extern bool graphvalue;
 namespace Ui {
@@ -21,6 +22,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    ManualControl *mcWindow;
 signals:
     void PacketSignal(void);
 public slots:
@@ -31,6 +33,8 @@ void setupGraph();
 void setupGraphrealtimeDataSlot(void);
 void setSignal(QColor color);
 void on_pushButton_clicked(void);
+private slots:
+void on_pbManualControl_clicked();
 };
 
 #endif // MAINWINDOW_H

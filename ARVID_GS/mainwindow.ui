@@ -243,7 +243,7 @@
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>291</width>
+       <width>294</width>
        <height>93</height>
       </rect>
      </property>
@@ -744,7 +744,7 @@
      <x>0</x>
      <y>0</y>
      <width>983</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMenu">
@@ -752,6 +752,7 @@
      <string>Menu</string>
     </property>
     <addaction name="actionTelecommand_Interface"/>
+    <addaction name="actionManual_Control"/>
    </widget>
    <addaction name="menuMenu"/>
   </widget>
@@ -771,6 +772,11 @@
    </property>
    <property name="text">
     <string>Telecommand Interface</string>
+   </property>
+  </action>
+  <action name="actionManual_Control">
+   <property name="text">
+    <string>Manual Control</string>
    </property>
   </action>
  </widget>

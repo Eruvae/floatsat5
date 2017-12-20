@@ -8,6 +8,7 @@ QT       += core gui network serialport
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 QT       += core gui
 QT       += network
+QT       += gamepad
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = GS_template_Windows
@@ -20,18 +21,24 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     Qcustomplot/qcustomplot.cpp \
-    Graphsource/graphsource.cpp
+    Graphsource/graphsource.cpp \
+    manualcontrol.cpp
 
 HEADERS  += \
     WifiWrapper/basics.h \
     WifiWrapper/payload.h \
     WifiWrapper/satellitelink.h \
     mainwindow.h \
-    Qcustomplot/qcustomplot.h
+    Qcustomplot/qcustomplot.h \
+    manualcontrol.h \
+    XInputWrapper/iwindows_xinput_wrapper.h
 INCLUDEPATH += \
            WifiWrapper \
            Qcustomplot \
            Graphsource
 
 FORMS    += \
-    mainwindow.ui
+    mainwindow.ui \
+    manualcontrol.ui
+
+LIBS += -lXInput

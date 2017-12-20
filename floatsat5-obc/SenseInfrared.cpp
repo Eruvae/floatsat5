@@ -136,7 +136,7 @@ void SenseInfrared::run()
 		data.range2 = readRange(INFRARED2_I2C_ADDR);
 
 		data.distance = ((double)data.range1 + data.range2) / 2.0f;
-		data.angle = atan((double)data.range1 - data.range2 / D);
+		data.angle = atan(((double)data.range1 - (double)data.range2) / D);
 
 		itInfraredData.publish(data);
 

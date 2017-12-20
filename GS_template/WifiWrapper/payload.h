@@ -10,31 +10,39 @@
 enum PayloadType{
     Telemetry1Type=5661,
     Telemetry2Type=5771,
-    PowerTelemetryType=6000,
-    TelecommandType=300
+
+    PowerTelemetryType=5000,
+    FilteredPoseType=5001,
+    IMUDataType=5002,
+    ReactionWheelSpeedType=5003,
+    IRSensorDataType=5004,
+    ActuatorDataType=5005,
+
+    //Telecommand Type
+    TelecommandType=100
 };
 
-struct PowerTelemetry
+struct __attribute__((packed)) PowerTelemetry
 {
     int16_t voltage;
     int16_t current;
     //PowerTelemetry(const Payload payload);
 };
 
-struct Telemetry1
+struct __attribute__((packed)) Telemetry1
 {
     char ch[2];
     //Telemetry1(const Payload payload);
 };
 
-struct Telemetry2
+struct __attribute__((packed)) Telemetry2
 {
     quint32 a,b;
     float data[2];
     //Telemetry2(const Payload payload);
 };
 
-struct Payload{
+struct __attribute__((packed)) Payload{
     quint16 checksum;
     quint32 senderNode;
     quint64 timestamp;
@@ -65,19 +73,21 @@ enum IMUCommand
     CALIB_GYRO = 0, CALIB_ACC, CALIB_MAG
 };
 
-struct Pose
+struct __attribute__((packed)) Pose
 {
     float x, y, z;
     float yaw, pitch, roll;
 };
 
-union TCdata
+union __attribute__((packed)) TCdata
 {
     IMUCommand imu_com;
     Pose pose;
+    int16_t wheel_target_speed;
+    uint8_t valveControl;
 };
 
-struct Telecommand
+struct __attribute__((packed)) Telecommand
 {
     uint8_t id;
     TCdata data;

@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include "satellitelink.h"
 #include "tcwindow.h"
-
+#include "manualcontrol.h"
 
 
 namespace Ui {
@@ -24,6 +24,7 @@ public:
 private:
     Ui::MainWindow *ui;
     TCWindow *tcwindow;
+    ManualControl *manualControl;
 
 
 signals:
@@ -41,6 +42,7 @@ void SetupRealtimeDataSlotCurrent(double newValue);
 
 private slots:
 void on_actionTelecommand_Interface_triggered();
+void on_actionManual_Control_triggered();
 void on_pushButton_clicked();
 };
 

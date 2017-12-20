@@ -269,6 +269,11 @@ void MainWindow::on_actionTelecommand_Interface_triggered()
 
 }
 
+void MainWindow::on_actionManual_Control_triggered()
+{
+    manualControl = new ManualControl(this, link);
+    manualControl->show();
+}
 
 
 void MainWindow::on_pushButton_clicked()

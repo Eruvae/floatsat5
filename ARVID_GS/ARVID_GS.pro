@@ -8,6 +8,7 @@ QT       += core gui network serialport multimedia
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 QT       += core gui
 QT       += network
+QT       += gamepad
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = ARVID_GS
@@ -35,7 +36,8 @@ SOURCES += \
     tcwindow.cpp \
     powerdata.cpp \
     QMeter/qmeter.cpp \
-    QMeter/qmeterdrawfunctions.cpp
+    QMeter/qmeterdrawfunctions.cpp \
+    manualcontrol.cpp
 
 HEADERS  += \
     WifiWrapper/basics.h \
@@ -45,7 +47,8 @@ HEADERS  += \
     Qcustomplot/qcustomplot.h \
     tcwindow.h \
     powerdata.h \
-    QMeter/qmeter.h
+    QMeter/qmeter.h \
+    manualcontrol.h
 INCLUDEPATH += \
            WifiWrapper \
            Qcustomplot \
@@ -55,7 +58,8 @@ INCLUDEPATH += \
 FORMS    += \
     mainwindow.ui \
     tcwindow.ui \
-    powerdata.ui
+    powerdata.ui \
+    manualcontrol.ui
 
 
 RESOURCES += \
