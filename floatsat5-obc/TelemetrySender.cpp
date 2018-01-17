@@ -53,6 +53,15 @@ void TelemetrySender::run()
 		tmInfraredData.publish(infraredData);
 		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
 		tmActuatorData.publish(actuatorStatus);
+		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
+
+		while(!debugMsgFifo.isEmpty())
+		{
+			DebugMessage msg;
+			debugMsgFifo.get(msg);
+			tmDebugMsg.publish(msg);
+			suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
+		}
 
 		//counter++;
 		suspendUntilNextBeat();

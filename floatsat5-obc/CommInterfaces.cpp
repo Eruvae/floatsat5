@@ -9,7 +9,7 @@
 #include "Topics.h"
 
 //HAL_UART bt_uart(UART_IDX2);
-HAL_UART raspiUART(UART_IDX7);
+HAL_UART raspiUART(UART_IDX6); // tx-PC6    rx-PC7
 
 HAL_SPI spi_bus(SPI_IDX1, GPIO_019, GPIO_020, GPIO_021); // SCK: PB3, MISO: PB4, MOSI: PB5
 HAL_I2C i2c_bus(I2C_IDX1, GPIO_024, GPIO_025); // SCL: PB8, SDA: PB9
@@ -103,6 +103,8 @@ void CommInterfaces::init()
 	gw.addTopicsToForward(&tmReactionWheelSpeed);
 	gw.addTopicsToForward(&tmInfraredData);
 	gw.addTopicsToForward(&tmActuatorData);
+
+	gw.addTopicsToForward(&tmDebugMsg);
 
 	//.... More Topics to come
 }

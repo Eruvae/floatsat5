@@ -9,21 +9,7 @@
 
 #include <cmath>
 
-#ifndef M_PI
-#define M_PI           3.14159265358979323846  /* pi */
-#endif
 
-#define MOD(x, min, max) \
-	do { \
-		while((x) > (max)) x -= ((max) - (min)); \
-		while((x) < (min)) x += ((max) - (min)); \
-	} while(0)
-
-#define MAXDIF_PI(x, y) \
-	do { \
-		if ((x) - (y) > M_PI) (y) += 2*M_PI; \
-		else if ((y) - (x) > M_PI) (x) += 2*M_PI; \
-	} while(0)
 
 PoseFilter poseFilter;
 

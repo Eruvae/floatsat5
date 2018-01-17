@@ -31,8 +31,15 @@ extern Topic<int16_t> tmReactionWheelSpeed;
 extern Topic<IRData> tmInfraredData;
 extern Topic<ActuatorData> tmActuatorData;
 
+extern Fifo<DebugMessage, 50> debugMsgFifo;
+extern Topic<DebugMessage> tmDebugMsg;
+
+int print_debug_msg(const char *format, ...);
+
 // TC CommBuffers
 extern CommBuffer<int16_t> tcReactionWheelTargetSpeed;
 extern Fifo<IMUCommand, 10> tcImuCommand;
+extern CommBuffer<Pose> tcTargetPose;
+extern CommBuffer<bool> tcActivateController;
 
 #endif /* TOPICS_H_ */

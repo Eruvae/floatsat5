@@ -24,7 +24,7 @@ void TCWindow::sendtelecommand()
        {
        case 0: // CALIB_IMU
            sendme.data.imu_com = (IMUCommand)ui->comboIMUcal->currentIndex();
-    break;
+           break;
        case 1: // SEND_POS
            sendme.data.pose.x = ui->posX->value();
            sendme.data.pose.y = ui->posY->value();
@@ -40,13 +40,23 @@ void TCWindow::sendtelecommand()
 
 
        case 3: //THRUSTER_CONTROL
+       {
            uint8_t data = 0;
            if (ui->T1->isChecked()) data |= 0b1;
            if (ui->T2->isChecked()) data |= 0b10;
            if (ui->T3->isChecked()) data |= 0b100;
            sendme.data.valveControl = data;
            break;
-}
+       }
+
+       case 4:
+           sendme.data.boolData = ui->activateControllerBox->isChecked();
+           break;
+
+       /*case 4: //ACTIVATE_CONTROLLER
+           sendme.data.boolData = ui->activateControllerBox->isChecked();
+           break;*/
+       }
 
        int written = TCLink->write<Telecommand>(TelecommandType,sendme);
        qDebug() << "Bytes written: " << written << endl;

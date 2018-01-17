@@ -7,6 +7,8 @@
 
 #include "RaspiComm.h"
 
+RaspiComm raspiComm;
+
 RaspiComm::RaspiComm()
 {
 	// TODO Auto-generated constructor stub
@@ -24,9 +26,15 @@ void RaspiComm::run()
 	while(1)
 	{
 		raspiUART.suspendUntilDataReady();
-		raspiUART.read(buf, 256);
+		int len = raspiUART.read(buf, 256);
+		raspiUART.write(buf, len);
+		//PRINTF("Received from Raspi: %s\n", buf);
 
-		PRINTF("Received from Raspi: %s\n", buf);
+		//const char *toSend = "Test Sending\n";
+
+
+		suspendCallerUntil(NOW() + 500*MILLISECONDS);
+
 	}
 
 }

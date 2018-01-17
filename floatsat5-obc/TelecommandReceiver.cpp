@@ -14,6 +14,7 @@
 #define SEND_POSE 0x01
 #define SEND_RW_SPEED 0x02
 #define THRUSTER_CONTROL 0x03
+#define ACTIVATE_CONTROLLER 0x04
 
 TelecommandReceiver telecommandReceiver;
 
@@ -26,9 +27,11 @@ void TelecommandReceiver::put(Telecommand &data)
 	}
 	else if (data.id == SEND_POSE)
 	{
-		PRINTF("Pose command received: %f, %f, %f, %f, %f, %f\n"
+		/*print_debug_msg("Pose command received: %f, %f, %f, %f, %f, %f\n"
 				, data.data.pose.x, data.data.pose.y, data.data.pose.z
-				, data.data.pose.yaw, data.data.pose.pitch, data.data.pose.roll);
+				, data.data.pose.yaw, data.data.pose.pitch, data.data.pose.roll);*/
+
+		tcTargetPose.put(data.data.pose);
 	}
 	else if (data.id == SEND_RW_SPEED)
 	{
@@ -40,5 +43,9 @@ void TelecommandReceiver::put(Telecommand &data)
 		actuatorInterfaces.setThrusterStatus(1, (data.data.valveControl & 0b1) == 0b1);
 		actuatorInterfaces.setThrusterStatus(2, (data.data.valveControl & 0b10) == 0b10);
 		actuatorInterfaces.setThrusterStatus(3, (data.data.valveControl & 0b100) == 0b100);
+	}
+	else if (data.id == ACTIVATE_CONTROLLER)
+	{
+		tcActivateController.put(data.data.boolData);
 	}
 }

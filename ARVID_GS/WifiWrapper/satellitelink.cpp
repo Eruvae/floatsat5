@@ -38,9 +38,6 @@ Payload SatelliteLink::read(){
         checksum &= 0xFFFF;
     }
 
-    if (payload.topic == IMUDataType)
-        qDebug() << "IMU data received: " << checksum << "; " << payload.checksum << endl;
-
     if((!checkChecksum || checksum == payload.checksum) && topics.contains(payload.topic))
         return payload;
     else

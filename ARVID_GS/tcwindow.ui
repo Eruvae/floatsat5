@@ -29,7 +29,7 @@
    <property name="title">
     <string/>
    </property>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -49,7 +49,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedTCData">
        <property name="currentIndex">
-        <number>3</number>
+        <number>4</number>
        </property>
        <widget class="QWidget" name="pageCalIMU">
         <widget class="QComboBox" name="comboIMUcal">
@@ -253,7 +253,7 @@
         </widget>
        </widget>
        <widget class="QWidget" name="page_2">
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
            <x>40</x>
@@ -287,6 +287,21 @@
          </layout>
         </widget>
        </widget>
+       <widget class="QWidget" name="page_3">
+        <widget class="QCheckBox" name="activateControllerBox">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>50</y>
+           <width>70</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Activate</string>
+         </property>
+        </widget>
+       </widget>
       </widget>
      </item>
     </layout>
@@ -304,7 +319,7 @@
      <string>send Command</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -341,6 +356,11 @@
        <item>
         <property name="text">
          <string>THRUSTER_CONTROL</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ACTIVATE_CONTROLLER</string>
         </property>
        </item>
       </widget>

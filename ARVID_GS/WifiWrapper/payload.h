@@ -17,6 +17,8 @@ enum PayloadType{
     IRSensorDataType=5004,
     ActuatorDataType=5005,
 
+    DebugMsgType = 6000,
+
     //Telecommand Type
     TelecommandType=100
 
@@ -116,6 +118,7 @@ union __attribute__((packed)) TCdata
     Pose pose;
     int16_t wheel_target_speed;
     uint8_t valveControl;
+    bool boolData;
 };
 
 struct __attribute__((packed)) Telecommand
@@ -124,10 +127,10 @@ struct __attribute__((packed)) Telecommand
     TCdata data;
 };
 
-
-
-
-
+struct DebugMessage
+{
+    char str[64];
+};
 
 #endif // PAYLOAD_H
 

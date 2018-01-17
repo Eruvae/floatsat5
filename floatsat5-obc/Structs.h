@@ -23,6 +23,22 @@
 #define MAG_FACTOR_12GA			(12.0/INT16_MAX) //0.00048
 #define TEMP_FACTOR				0.125
 
+#ifndef M_PI
+#define M_PI           3.14159265358979323846  /* pi */
+#endif
+
+#define MOD(x, min, max) \
+	do { \
+		while((x) > (max)) x -= ((max) - (min)); \
+		while((x) < (min)) x += ((max) - (min)); \
+	} while(0)
+
+#define MAXDIF_PI(x, y) \
+	do { \
+		if ((x) - (y) > M_PI) (y) += 2*M_PI; \
+		else if ((y) - (x) > M_PI) (x) += 2*M_PI; \
+	} while(0)
+
 // Put all structs here, especially structs for Topics
 
 struct __attribute__((packed)) IMUData
@@ -83,6 +99,7 @@ union __attribute__((packed)) TCdata
 	Pose pose;
 	int16_t wheel_target_speed;
 	uint8_t valveControl;
+	bool boolData;
 };
 
 struct __attribute__((packed)) Telecommand
@@ -91,6 +108,11 @@ struct __attribute__((packed)) Telecommand
 	TCdata data;
 	//float data;
 	//char id;
+};
+
+struct DebugMessage
+{
+	char str[64];
 };
 
 #endif /* STRUCTS_H_ */

@@ -145,7 +145,7 @@ private:
 	  TIM_TypeDef* TIMER;
 	  ENC_TIMER_SELECT tim;
 
-	  uint16_t ROT_RESOLUTION;
+	  //uint16_t ROT_RESOLUTION;
 
 	  //uint8_t coding_factor;	// a value necessary to compute exact angular position and depends on ENC_COUNTER_MODE selected
 	  //uint32_t counter_max_val;

@@ -19,7 +19,7 @@ HAL_GPIO infrared2_enable(GPIO_003);
 
 SenseInfrared senseInfrared;
 
-SenseInfrared::SenseInfrared()
+SenseInfrared::SenseInfrared() : infrared1_status(-1), infrared2_status(-1)
 {
 	// TODO Auto-generated constructor stub
 
@@ -67,26 +67,55 @@ uint8_t SenseInfrared::readRange(uint8_t id)
 	return ret;
 }
 
+uint8_t SenseInfrared::readRangeStatus(uint8_t id)
+{
+	uint8_t read_reg[] = {0x00, 0x4D};
+	uint8_t ret;
+	int readRes = i2c2_bus.writeRead(id, read_reg, 2, &ret, 1);
+	/*if (readRes < 0)
+	{
+		PRINTF_CONDITIONAL(INFRARED_PRINT_VERBOSITY, "I2C Sensor %d read status failed!\n", readRes);
+		comm.reset_i2c(i2c2_bus);
+		initializeSensors();
+	}*/
+	return ret;
+}
+
+void SenseInfrared::recalibrate(uint8_t id)
+{
+	uint8_t write_reg[] = {0x00, 0x2E, 0x01};
+	i2c2_bus.write(id, write_reg, 3);
+}
+
 void SenseInfrared::initializeSensors()
 {
 	infrared_enable.setPins(0);
 	infrared2_enable.setPins(0);
+	infrared1_status = -1;
+	infrared2_status = -1;
 
-	suspendCallerUntil(NOW() + 1*MILLISECONDS);
+	suspendCallerUntil(NOW() + 10*MILLISECONDS);
 
 	infrared2_enable.setPins(1);
-	suspendCallerUntil(NOW() + 1*MILLISECONDS);
+	suspendCallerUntil(NOW() + 10*MILLISECONDS);
 	int res = -1;
-	for(int i = 0; res < 0 && i < 10; i++)
-	{
+	//for(int i = 0; res < 0 && i < 10; i++)
+	//{
 		res = assignI2Caddress(INFRARED1_I2C_ADDR, INFRARED2_I2C_ADDR);
 		suspendCallerUntil(NOW() + 10*MILLISECONDS);
-	}
+	//}
 
 	if (res < 0)
-		PRINTF_CONDITIONAL(INFRARED_PRINT_VERBOSITY, "Changing Infrared I2C address failed: %d\n", res);
+	{
+		//PRINTF_CONDITIONAL(INFRARED_PRINT_VERBOSITY, "Changing Infrared I2C address failed: %d\n", res);
+		print_debug_msg("Changing Infrared I2C address failed: %d\n", res);
+	}
 	else
-		PRINTF_CONDITIONAL(INFRARED_PRINT_VERBOSITY, "Changing Infrared I2C address successful\n", res);
+	{
+		//PRINTF_CONDITIONAL(INFRARED_PRINT_VERBOSITY, "Changing Infrared I2C address successful\n", res);
+		print_debug_msg("Changing Infrared I2C address successful\n", res);
+
+	}
 
 	res = -1;
 	for(int i = 0; res < 0 && i < 10; i++)
@@ -96,12 +125,20 @@ void SenseInfrared::initializeSensors()
 	}
 
 	if (res < 0)
-		PRINTF_CONDITIONAL(INFRARED_PRINT_VERBOSITY, "Initializing Infrared 2 failed: %d\n", res);
+	{
+		//PRINTF_CONDITIONAL(INFRARED_PRINT_VERBOSITY, "Initializing Infrared 2 failed: %d\n", res);
+		print_debug_msg("Initializing Infrared 2 failed: %d\n", res);
+		return;
+	}
 	else
-		PRINTF_CONDITIONAL(INFRARED_PRINT_VERBOSITY, "Initializing Infrared 2 successful\n", res);
+	{
+		//PRINTF_CONDITIONAL(INFRARED_PRINT_VERBOSITY, "Initializing Infrared 2 successful\n", res);
+		print_debug_msg("Initializing Infrared 2 successful\n", res);
+		infrared2_status = 0;
+	}
 
 	infrared_enable.setPins(1);
-	suspendCallerUntil(NOW() + 1*MILLISECONDS);
+	suspendCallerUntil(NOW() + 10*MILLISECONDS);
 	res = -1;
 	for(int i = 0; res < 0 && i < 10; i++)
 	{
@@ -110,9 +147,17 @@ void SenseInfrared::initializeSensors()
 	}
 
 	if (res < 0)
-		PRINTF_CONDITIONAL(INFRARED_PRINT_VERBOSITY, "Initializing Infrared 1 failed: %d\n", res);
+	{
+		//PRINTF_CONDITIONAL(INFRARED_PRINT_VERBOSITY, "Initializing Infrared 1 failed: %d\n", res);
+		print_debug_msg("Initializing Infrared 1 failed: %d\n", res);
+		return;
+	}
 	else
-		PRINTF_CONDITIONAL(INFRARED_PRINT_VERBOSITY, "Initializing Infrared 1 successful\n", res);
+	{
+		//PRINTF_CONDITIONAL(INFRARED_PRINT_VERBOSITY, "Initializing Infrared 1 successful\n", res);
+		print_debug_msg("Initializing Infrared 1 successful\n", res);
+		infrared1_status = 0;
+	}
 
 }
 
@@ -131,6 +176,14 @@ void SenseInfrared::run()
 		//int suc = i2c_bus.writeRead(INFRARED_I2C_ADDR, test_regw, 2, &data, 1);
 
 		IRData data;
+
+		/*uint8_t rangeStatus;
+		rangeStatus = readRangeStatus(INFRARED1_I2C_ADDR);
+		print_debug_msg("Range 1 Status %x\n", rangeStatus);
+		rangeStatus = readRangeStatus(INFRARED2_I2C_ADDR);
+		if (rangeStatus != 0) print_debug_msg("Range 2 Status %x\n", rangeStatus);*/
+
+		print_debug_msg("IR Status: %d, %d\n", infrared1_status, infrared2_status);
 
 		data.range1 = readRange(INFRARED1_I2C_ADDR);
 		data.range2 = readRange(INFRARED2_I2C_ADDR);

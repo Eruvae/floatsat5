@@ -48,6 +48,8 @@ MainWindow::MainWindow(QWidget *parent) :
     link->addTopic(ReactionWheelSpeedType);
     link->addTopic(ActuatorDataType);
     link->addTopic(IRSensorDataType);
+
+    link->addTopic(DebugMsgType);
     //gsLink=new SatelliteLink(this, QHostAddress ("192.168.0.109"), QHostAddress("192.168.0.120"), 5000); //GSLink Connection
 
     //SetupRWRWSpeed();
@@ -198,7 +200,13 @@ void MainWindow::readFromLink(){
         ui->lcdrange2->display(data.range2);
         ui->lcddistance->display(data.distance);
         ui->lcdangle->display(data.angle*180/M_PI);
+        break;
 
+    }
+    case DebugMsgType:
+    {
+        qDebug("%s", payload.userData8);
+        break;
     }
 
     default:
