@@ -173,4 +173,5 @@
 			<resource resourceType="PROJECT" workspacePath="/STM32F4_RODOS_Template"/>
 		</configuration>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>

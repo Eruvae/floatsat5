@@ -23,6 +23,10 @@ extern Topic<int16_t> itReactionWheelSpeed;
 extern Topic<IRData> itInfraredData;
 extern Topic<ActuatorData> itActuatorData;
 
+extern Topic<Pose2D> itStarTrackerPose;
+extern Topic<Pose25D> itObjectTrackingPose;
+extern Topic<Position2D> itRadioPosition;
+
 // TM topics, should only be published in TM Sender thread
 extern Topic<PowerData> tmPowerData;
 extern Topic<Pose> tmFilteredPose;

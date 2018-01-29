@@ -86,6 +86,26 @@ enum IMUCommand
 	CALIB_GYRO = 0, CALIB_ACC, CALIB_MAG
 };
 
+enum RaspiCommand
+{
+	ST, OT, RD
+};
+
+struct __attribute__((packed)) Position2D
+{
+	float x, y;
+};
+
+struct __attribute__((packed)) Pose2D
+{
+	float x, y, yaw;
+};
+
+struct __attribute__((packed)) Pose25D
+{
+	float x, y, yaw, pitch;
+};
+
 struct __attribute__((packed)) Pose
 {
 	float x, y, z;

@@ -17,7 +17,7 @@ PoseController::PoseController() : filterePoseSub(itFilteredPose, filteredPoseBu
 
 void PoseController::run()
 {
-	setPeriodicBeat(20*MILLISECONDS, 50*MILLISECONDS);
+	setPeriodicBeat(20*MILLISECONDS, 100*MILLISECONDS);
 	Pose filteredPose;
 	Pose targetPose = {0};
 	tcTargetPose.put(targetPose); // Start with 0

@@ -77,7 +77,7 @@ void CommInterfaces::reset_i2c(HAL_I2C &bus)
 {
 	bus.reset();
 	AT(NOW() + 0.5*MILLISECONDS);
-	bus.init();
+	bus.init(400000);
 }
 
 void CommInterfaces::init()
