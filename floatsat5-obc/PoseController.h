@@ -18,6 +18,9 @@ class PoseController : public Thread
 
 	CommBuffer<int16_t> reactionWheelSpeedBuffer;
 	Subscriber reactionWheelSpeedSub;
+
+	CommBuffer<Pose2D> starTrackerPoseBuffer;
+	Subscriber starTrackerPoseSub;
 public:
 	PoseController();
 

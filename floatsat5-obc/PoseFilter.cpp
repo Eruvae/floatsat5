@@ -13,7 +13,9 @@
 
 PoseFilter poseFilter;
 
-PoseFilter::PoseFilter() : imuDataSub(itImuData, imuDataBuffer)
+PoseFilter::PoseFilter() : imuDataSub(itImuData, imuDataBuffer),
+		starTrackerPoseSub(itStarTrackerPose, starTrackerPoseBuffer),
+		radioPositionSub(itRadioPosition, radioPositionBuffer)
 {
 }
 

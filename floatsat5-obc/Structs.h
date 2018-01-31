@@ -91,6 +91,11 @@ enum RaspiCommand
 	ST, OT, RD
 };
 
+enum Mode
+{
+	STANDBY, HOLD_POSE, TRACK_OBJECT, GOTO_POSE, DOCKING
+};
+
 struct __attribute__((packed)) Position2D
 {
 	float x, y;

@@ -10,9 +10,9 @@
 PoseController poseController;
 
 PoseController::PoseController() : filterePoseSub(itFilteredPose, filteredPoseBuffer),
-								reactionWheelSpeedSub(itReactionWheelSpeed, reactionWheelSpeedBuffer)
-{
-}
+								reactionWheelSpeedSub(itReactionWheelSpeed, reactionWheelSpeedBuffer),
+								starTrackerPoseSub(itStarTrackerPose, starTrackerPoseBuffer)
+{}
 
 
 void PoseController::run()
