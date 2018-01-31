@@ -54,12 +54,26 @@ int RaspiComm::decodeRTM(const char *buf, int len, RTM &receivedData/*, char **t
 			if (readStatus > MAX_DATA_NUM)
 				return -1;
 
-			char *tailP;
-			receivedData.data[readStatus - 1] = strtod(readP, &tailP);
-			if (tailP == readP)
-				return -1;
+			if (strcmp(receivedData.id, "OT") == 0 && readStatus == 4)
+			{
+				if (*readP == 1)
+					receivedData.otData.found = true;
+				else if (*readP == 0)
+					receivedData.otData.found = false;
+				else // error
+					return -1;
 
-			readP = tailP;
+				readP++;
+			}
+			else
+			{
+				char *tailP;
+				receivedData.data[readStatus - 1] = strtod(readP, &tailP);
+				if (tailP == readP)
+					return -1;
+
+				readP = tailP;
+			}
 			if (*readP == ':') // next command
 				readStatus++;
 			else if (*readP == '\n') // end command
@@ -83,7 +97,7 @@ void RaspiComm::publishData(RTM &receivedData)
 	}
 	else if (strcmp(receivedData.id, "OT") == 0) // Object Tracking
 	{
-		itObjectTrackingPose.publish(receivedData.objectPose);
+		itObjectTrackingPose.publish(receivedData.otData);
 	}
 	else if (strcmp(receivedData.id, "RD") == 0) // Radio
 	{

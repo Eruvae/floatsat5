@@ -15,6 +15,7 @@
 #define SEND_RW_SPEED 0x02
 #define THRUSTER_CONTROL 0x03
 #define ACTIVATE_CONTROLLER 0x04
+#define CHANGE_PC_MODE	0x05
 
 TelecommandReceiver telecommandReceiver;
 
@@ -32,6 +33,7 @@ void TelecommandReceiver::put(Telecommand &data)
 				, data.data.pose.yaw, data.data.pose.pitch, data.data.pose.roll);*/
 
 		tcTargetPose.put(data.data.pose);
+		itPoseControllerMode.publishConst(PoseControllerMode::FOLLOW_TRAJECTORY);
 	}
 	else if (data.id == SEND_RW_SPEED)
 	{
@@ -47,5 +49,10 @@ void TelecommandReceiver::put(Telecommand &data)
 	else if (data.id == ACTIVATE_CONTROLLER)
 	{
 		tcActivateController.put(data.data.boolData);
+	}
+	else if (data.id == CHANGE_PC_MODE)
+	{
+		PoseControllerMode mode = data.data.pcMode;
+		itPoseControllerMode.publish(mode);
 	}
 }

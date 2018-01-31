@@ -21,8 +21,11 @@ Topic<IRData> itInfraredData(3004, "Infrared Data IT");
 Topic<ActuatorData> itActuatorData(3005, "Valve Status IT");
 
 Topic<Pose2D> itStarTrackerPose(3006, "Star Tracker Pose IT");
-Topic<Pose25D> itObjectTrackingPose(3007, "Object Tracking Pose IT");
+Topic<OTData> itObjectTrackingPose(3007, "Object Tracking Pose IT");
 Topic<Position2D> itRadioPosition(3008, "Radio Position IT");
+
+Topic<ThrusterControls> itThrusterControls(3009, "Thruster Controls IT");
+Topic<PoseControllerMode> itPoseControllerMode(3010, "Pose Controller Mode IT");
 
 // TM topics, should only be published in TM Sender thread
 Topic<PowerData> tmPowerData(5000, "Power Data TM");

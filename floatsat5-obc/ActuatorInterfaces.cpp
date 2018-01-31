@@ -20,10 +20,6 @@ HAL_GPIO hbridge_valve3(GPIO_016); // hbridge_b_ina
 
 ActuatorInterfaces actuatorInterfaces;
 
-#define LIMIT(x, min, max)	((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
-#define ABS(x)	((x) < 0 ? -(x) : (x))
-#define SIGN(x)	((x) < 0 ? -1 : (x) > 0 ? 1 : 0)
-
 ActuatorInterfaces::ActuatorInterfaces() : reactionWheelSpeedBuffer(), reactionWheelSpeedSub(itReactionWheelSpeed, reactionWheelSpeedBuffer)
 {
 }
@@ -69,7 +65,7 @@ void ActuatorInterfaces::setThrusterStatus(int number, bool status)
 void ActuatorInterfaces::run()
 {
 	float period = 0.1;
-	setPeriodicBeat(0, period * SECONDS);
+	setPeriodicBeat(25*MILLISECONDS, period * SECONDS);
 	int i = 0;
 	float err_int = 0;
 	int16_t targetSpeed = 0, wheelSpeed = 0;

@@ -15,7 +15,7 @@
 #define RASPI_UART_BUF_SIZE	64
 #define MAX_RTM_SIZE 32
 #define ID_MAX_SIZE 2
-#define MAX_DATA_NUM 3
+#define MAX_DATA_NUM 4
 
 class RaspiComm : public Thread
 {
@@ -27,7 +27,7 @@ class RaspiComm : public Thread
 			float data[MAX_DATA_NUM];
 			Pose2D starTrackerPose;
 			Position2D radioPose;
-			Pose25D objectPose;
+			OTData otData;
 		};
 	};
 

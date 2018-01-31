@@ -8,6 +8,8 @@
 #ifndef STRUCTS_H_
 #define STRUCTS_H_
 
+#include<cmath>
+
 // IMU Sensitivities
 #define GYRO_FACTOR_245DPS		(245.0/INT16_MAX) //0.00875		// dps/digit
 #define GYRO_FACTOR_500DPS		(500.0/INT16_MAX) //0.0175
@@ -27,6 +29,10 @@
 #define M_PI           3.14159265358979323846  /* pi */
 #endif
 
+#define LIMIT(x, min, max)	((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
+#define ABS(x)	((x) < 0 ? -(x) : (x))
+#define SIGN(x)	((x) < 0 ? -1 : (x) > 0 ? 1 : 0)
+
 #define MOD(x, min, max) \
 	do { \
 		while((x) > (max)) x -= ((max) - (min)); \
@@ -38,6 +44,16 @@
 		if ((x) - (y) > M_PI) (y) += 2*M_PI; \
 		else if ((y) - (x) > M_PI) (x) += 2*M_PI; \
 	} while(0)
+
+#define MIN(a,b) (((a)<(b))?(a):(b))
+#define MAX(a,b) (((a)>(b))?(a):(b))
+
+inline void rotateCoord(float x, float y, float theta, float &newX, float &newY)
+{
+	newX = x*cos(theta) + y*sin(theta);
+	newY = -x*sin(theta) + y*cos(theta);
+}
+
 
 // Put all structs here, especially structs for Topics
 
@@ -91,9 +107,14 @@ enum RaspiCommand
 	ST, OT, RD
 };
 
-enum Mode
+enum class Mode
 {
 	STANDBY, HOLD_POSE, TRACK_OBJECT, GOTO_POSE, DOCKING
+};
+
+enum class PoseControllerMode
+{
+	STANDBY, HOLD_POSE, FOLLOW_TRAJECTORY, CHANGE_ATTITUDE, ROTATE
 };
 
 struct __attribute__((packed)) Position2D
@@ -106,9 +127,15 @@ struct __attribute__((packed)) Pose2D
 	float x, y, yaw;
 };
 
-struct __attribute__((packed)) Pose25D
+/*struct __attribute__((packed)) Pose25D
 {
 	float x, y, yaw, pitch;
+};*/
+
+struct __attribute__((packed)) OTData
+{
+	float alpha, r, theta;
+	bool found;
 };
 
 struct __attribute__((packed)) Pose
@@ -118,6 +145,11 @@ struct __attribute__((packed)) Pose
 	float dyaw, dpitch, droll;
 };
 
+struct ThrusterControls
+{
+	float f1, f2, f3;
+};
+
 union __attribute__((packed)) TCdata
 {
 	IMUCommand imu_com;
@@ -125,6 +157,7 @@ union __attribute__((packed)) TCdata
 	int16_t wheel_target_speed;
 	uint8_t valveControl;
 	bool boolData;
+	PoseControllerMode pcMode;
 };
 
 struct __attribute__((packed)) Telecommand

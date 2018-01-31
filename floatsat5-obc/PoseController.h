@@ -21,6 +21,9 @@ class PoseController : public Thread
 
 	CommBuffer<Pose2D> starTrackerPoseBuffer;
 	Subscriber starTrackerPoseSub;
+
+	CommBuffer<PoseControllerMode> poseControllerModeBuffer;
+	Subscriber poseControllerModeSub;
 public:
 	PoseController();
 
