@@ -110,8 +110,10 @@ void PoseFilter::run()
 			otYaw = M_PI + otData.alpha + atan2(otData.G0, r);
 			MOD(otYaw, -M_PI, M_PI);
 
-			print_debug_msg("OT: %.2f, %.2f, %.2f, %.2f", r, otX, otY, otYaw);
+			//print_debug_msg("OT: %.2f, %.2f, %.2f, %.2f", r, otX, otY, otYaw);
 		}
+
+		print_debug_msg("YawMag: %f; ObjMag: %f", otYaw*180.0/M_PI, filteredHeading*180.0/M_PI);
 
 		Pose pose;
 		pose.x = otX;

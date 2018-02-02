@@ -54,11 +54,12 @@ void TCWindow::sendtelecommand()
            break;
 
        case 5: //CHANGE_PC_MODE
-           sendme.data.pcMode = static_cast<PoseControllerMode>(ui->comboPCmode->currentIndex());
+           sendme.data.pcMode = ui->comboPCmode->currentIndex();
            break;
        case 6: //RPI_COMMAND
-           sendme.data.rpiComData.command = static_cast<RaspiCommand>(ui->comboRPIcom->currentIndex());
+           sendme.data.rpiComData.command = ui->comboRPIcom->currentIndex();
            sendme.data.rpiComData.enable = ui->rpiEnableBox->isChecked();
+           qDebug() << "Bool: " << sendme.data.rpiComData.enable << endl;
            break;
        }
 

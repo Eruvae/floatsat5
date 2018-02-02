@@ -13,13 +13,14 @@ PoseController poseController;
 PoseController::PoseController() : filterePoseSub(itFilteredPose, filteredPoseBuffer),
 								reactionWheelSpeedSub(itReactionWheelSpeed, reactionWheelSpeedBuffer),
 								starTrackerPoseSub(itStarTrackerPose, starTrackerPoseBuffer),
-								poseControllerModeSub(itPoseControllerMode, poseControllerModeBuffer)
+								poseControllerModeSub(itPoseControllerMode, poseControllerModeBuffer),
+								otDataSub(itObjectTrackingPose, otDataBuffer)
 {}
 
 
 void PoseController::run()
 {
-	const float period = 0.1;
+	const float period = 0.2;
 	setPeriodicBeat(20*MILLISECONDS, period*SECONDS);
 	Pose filteredPose;
 	Pose targetPose = {0};
@@ -30,7 +31,8 @@ void PoseController::run()
 	tcActivateController.put(activated);
 	itPoseControllerMode.publish(mode);
 	float oldeX = 0, oldeY = 0;
-	const float k = 100.f, td = 0.f, gamma = sqrt(3)/2;
+	float oldYawErr = 0;
+	const float k = 2.f, td = 5.f, gamma = sqrt(3)/2;
 	while(1)
 	{
 		tcActivateController.get(activated);
@@ -65,14 +67,47 @@ void PoseController::run()
 		}
 		else if (mode == PoseControllerMode::FOLLOW_TRAJECTORY)
 		{
+			// yaw control
+			float yaw = filteredPose.yaw;
+			float goalYaw = targetPose.yaw; // TODO: change via Topic
+
+			const float p = 15.0f;
+			//const float i = 0.1f;
+			const float d = 0.2f;
+
+			float error = goalYaw - yaw;
+		    //MAXDIF_PI(error, oldYawErr);
+			//float errorDif = (error - oldYawErr) / period;
+
+			MOD(error, -180, 180);
+
+			//oldYawErr = error;
+
+			float rwSpeedDifDps = p * error;// + d * filteredPose.dyaw;
+
+			int16_t rwSpeedDifRpm = (int16_t)(rwSpeedDifDps / 6);
+			int16_t newRwSpeed = currentRwSpeed + rwSpeedDifRpm;
+
+			tcReactionWheelTargetSpeed.put(newRwSpeed);
+
+			// position control
 			float x = filteredPose.x;
 			float y = filteredPose.y;
 			float goalX = targetPose.x;
 			float goalY = targetPose.y;
 
+			// USE OT YAW
+
+			OTData otData;
+			otDataBuffer.get(otData);
+			float r = otData.g0 + 0.2;
+			float otYaw = M_PI + otData.alpha + atan2(otData.G0, r);
+
+			// END
+
 			float eX = goalX - x;
 			float eY = goalY - y;
-			rotateCoord(eX, eY, filteredPose.yaw*M_PI/180.f, eX, eY);
+			rotateCoord(eX, eY, otYaw/*filteredPose.yaw*M_PI/180.f*/ , eX, eY);
 
 			float eX_dif = (eX - oldeX) / period;
 			float eY_dif = (eY - oldeY) / period;
@@ -89,7 +124,7 @@ void PoseController::run()
 			float alpha = atan2(gY, gX) * 180.f/M_PI;
 			MOD(alpha, 0.f, 360.f);
 
-			print_debug_msg("Gx: %.2f, Gy: %.2f, Yaw: %.2f, a: %.2f", gX, gY, filteredPose.yaw, alpha);
+			//print_debug_msg("Gx: %.2f, Gy: %.2f, Yaw: %.2f, a: %.2f", gX, gY, filteredPose.yaw, alpha);
 
 			ThrusterControls controls;
 			if (alpha > 300 || alpha < 60)
@@ -115,7 +150,7 @@ void PoseController::run()
 			//rotateCoord(dummyX, dummyY, M_PI/2.f, dummyX, dummyY);
 			//print_debug_msg("Dx: %.2f, Dy: %.2f\n", dummyX, dummyY);
 
-			//print_debug_msg("a: %.2f, f1: %.2f, f2: %.2f, f3: %.2f\n", alpha, controls.f1, controls.f2, controls.f3);
+			print_debug_msg("a: %.2f, f1: %.2f, f2: %.2f, f3: %.2f\n", alpha, controls.f1, controls.f2, controls.f3);
 			itThrusterControls.publish(controls);
 		}
 		else

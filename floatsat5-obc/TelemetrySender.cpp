@@ -63,9 +63,6 @@ void TelemetrySender::run()
 			tmDebugMsg.publish(msg);
 			suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
 		}
-
-		raspiComm.sendCommand(ST, true);
-
 		//counter++;
 		suspendUntilNextBeat();
 	}

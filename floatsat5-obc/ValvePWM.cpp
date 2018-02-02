@@ -10,7 +10,7 @@
 
 ValvePWM valvePWM;
 
-ValvePWM::ValvePWM() : thrusterControlsSubscriber(itThrusterControls, thrusterControlsBuffer), period(100*MILLISECONDS)
+ValvePWM::ValvePWM() : thrusterControlsSubscriber(itThrusterControls, thrusterControlsBuffer), period(200*MILLISECONDS)
 {}
 
 void ValvePWM::sendThrusters(int n1, int n2, float f1, float f2)

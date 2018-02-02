@@ -35,7 +35,7 @@ void TelecommandReceiver::put(Telecommand &data)
 				, data.data.pose.yaw, data.data.pose.pitch, data.data.pose.roll);*/
 
 		tcTargetPose.put(data.data.pose);
-		itPoseControllerMode.publishConst(PoseControllerMode::FOLLOW_TRAJECTORY);
+		itPoseControllerMode.publishConst(PoseControllerMode::CHANGE_ATTITUDE);
 	}
 	else if (data.id == SEND_RW_SPEED)
 	{
@@ -56,11 +56,15 @@ void TelecommandReceiver::put(Telecommand &data)
 	}
 	else if (data.id == CHANGE_PC_MODE)
 	{
-		PoseControllerMode mode = data.data.pcMode;
+		PoseControllerMode mode = static_cast<PoseControllerMode>(data.data.pcMode);
 		itPoseControllerMode.publish(mode);
 	}
 	else if (data.id == RPI_COMMAND)
 	{
-		raspiComm.sendCommand(data.data.rpiComData.command, data.data.rpiComData.enable);
+		uint8_t *tmp = (uint8_t*)(&(data.data.rpiComData.command));
+		//print_debug_msg("Bytes: %x, %x, %x, %x, %x, %x, %x, %x",tmp[0], tmp[1], tmp[2], tmp[3], tmp[4], tmp[5], tmp[6], tmp[7]);
+		print_debug_msg("En: %d", data.data.rpiComData.enable);
+		//print_debug_msg("Sizes: %d, %d", sizeof(RaspiCommand), sizeof(bool));
+		raspiComm.sendCommand(static_cast<RaspiCommand>(data.data.rpiComData.command), data.data.rpiComData.enable);
 	}
 }

@@ -24,6 +24,9 @@ class PoseController : public Thread
 
 	CommBuffer<PoseControllerMode> poseControllerModeBuffer;
 	Subscriber poseControllerModeSub;
+
+	CommBuffer<OTData> otDataBuffer;
+	Subscriber otDataSub;
 public:
 	PoseController();
 

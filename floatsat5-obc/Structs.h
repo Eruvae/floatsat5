@@ -150,9 +150,9 @@ struct ThrusterControls
 	float f1, f2, f3;
 };
 
-struct RaspiCommandData
+struct __attribute__((packed)) RaspiCommandData
 {
-	RaspiCommand command;
+	int command;
 	bool enable;
 };
 
@@ -163,7 +163,7 @@ union __attribute__((packed)) TCdata
 	int16_t wheel_target_speed;
 	uint8_t valveControl;
 	bool boolData;
-	PoseControllerMode pcMode;
+	int pcMode;
 	RaspiCommandData rpiComData;
 };
 
