@@ -12,12 +12,21 @@
 
 class ActuatorInterfaces : public Thread
 {
+private:
+	CommBuffer<int16_t> reactionWheelSpeedBuffer;
+	Subscriber reactionWheelSpeedSub;
 public:
 	ActuatorInterfaces();
 
 	void init();
 
+	void setWheelDirection(bool forward);
+
+	void setThrusterStatus(int number, bool status);
+
 	void run();
 };
+
+extern ActuatorInterfaces actuatorInterfaces;
 
 #endif /* ACTUATORINTERFACES_H_ */

@@ -23,34 +23,79 @@ Payload::Payload(const QByteArray &buffer) : checksum(0), senderNode(0), timesta
     userData8[userDataLen] = 0x00;
 }
 
-Telemetry1::Telemetry1(const Payload payload){
+//Telemetry1::Telemetry1(const Payload payload){
 
-    if(payload.userDataLen != sizeof(Telemetry1) || payload.topic != Telemetry1Type){
-        return;
-    }
+//    if(payload.userDataLen != sizeof(Telemetry1) || payload.topic != Telemetry1Type){
+//        return;
+//    }
 
-    ch[0] = payload.userData8[0];
-    ch[1] = payload.userData8[1];
-}
+//    ch[0] = payload.userData8[0];
+//    ch[1] = payload.userData8[1];
+//}
 
-Telemetry2::Telemetry2(const Payload payload){
+//Telemetry2::Telemetry2(const Payload payload){
 
-    if(payload.userDataLen != sizeof(Telemetry2) || payload.topic != Telemetry2Type){
-        return;
-    }
+//    if(payload.userDataLen != sizeof(Telemetry2) || payload.topic != Telemetry2Type){
+//        return;
+//    }
 
-    a=payload.userData32[0];
-    b=payload.userData32[1];
-    data[0]=payload.userDataFloat[2];
-    data[1]=payload.userDataFloat[3];
+//    a=payload.userData32[0];
+//    b=payload.userData32[1];
+//    data[0]=payload.userDataFloat[2];
+//    data[1]=payload.userDataFloat[3];
 
+//}
+ActuatorData::ActuatorData(const Payload payload)
+{
+    valveStatus=payload.userData8[0];
+    rwDirection=payload.userData8[1];
+    dutyCycle=*(float*)(&payload.userData8[2]);
 }
 
 PowerTelemetry::PowerTelemetry(const Payload payload)
 {
     voltage = payload.userData16[0];
     current = payload.userData16[1];
+    mota_voltage=payload.userData16[2];
+    mota_current=payload.userData16[3];
+    motb_voltage=payload.userData16[4];
+    motb_current=payload.userData16[5];
+    motc_voltage=payload.userData16[6];
+    motc_current=payload.userData16[7];
+    motd_voltage=payload.userData16[8];
+    motd_current=payload.userData16[9];
 }
+
+IRSensorData::IRSensorData(const Payload payload)
+{
+    range1=payload.userData8[0];
+    range2=payload.userData8[1];
+    distance=*(float*)(&payload.userData8[2]);
+    angle=*(float*)(&payload.userData8[6]);
+}
+
+FilteredPose::FilteredPose(const Payload payload)
+{
+    x=payload.userDataFloat[0];
+    y=payload.userDataFloat[1];
+    z=payload.userDataFloat[2];
+    yaw=payload.userDataFloat[3];
+    pitch=payload.userDataFloat[4];
+    roll=payload.userDataFloat[5];
+    dyaw=payload.userDataFloat[6];
+    dpitch=payload.userDataFloat[7];
+    droll=payload.userDataFloat[8];
+}
+
+//IMUData::IMUData(const Payload payload)
+//{
+//    memcpy(this->gyro, payload.imuData.gyro, 3*sizeof(int16_t));
+//    memcpy(this->acc, payload.imuData.acc, 3*sizeof(int16_t));
+//    memcpy(this->acc, payload.imuData., 3*sizeof(int16_t));
+
+
+//}
+
 
 
 

@@ -3,11 +3,12 @@
 # Project created by QtCreator 2016-11-21T22:27:02
 #
 #-------------------------------------------------
-QT       += core gui network serialport
+QT       += core gui network serialport multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 QT       += core gui
 QT       += network
+QT       += gamepad
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = ARVID_GS
@@ -31,21 +32,34 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     Qcustomplot/qcustomplot.cpp \
-    Graphsource/graphsource.cpp
+    Graphsource/graphsource.cpp \
+    tcwindow.cpp \
+    powerdata.cpp \
+    QMeter/qmeter.cpp \
+    QMeter/qmeterdrawfunctions.cpp \
+    manualcontrol.cpp
 
 HEADERS  += \
     WifiWrapper/basics.h \
     WifiWrapper/payload.h \
     WifiWrapper/satellitelink.h \
     mainwindow.h \
-    Qcustomplot/qcustomplot.h
+    Qcustomplot/qcustomplot.h \
+    tcwindow.h \
+    powerdata.h \
+    QMeter/qmeter.h \
+    manualcontrol.h
 INCLUDEPATH += \
            WifiWrapper \
            Qcustomplot \
-           Graphsource
+           Graphsource\
+           QMeter
 
 FORMS    += \
-    mainwindow.ui
+    mainwindow.ui \
+    tcwindow.ui \
+    powerdata.ui \
+    manualcontrol.ui
 
 
 RESOURCES += \

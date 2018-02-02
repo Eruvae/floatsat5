@@ -28,6 +28,12 @@ SenseIMU senseIMU;
 
 SenseIMU::SenseIMU()
 {
+	mag_min[0] = -7102;
+	mag_min[1] = -2373;
+	mag_min[2] = -3729;
+	mag_max[0] = 3155;
+	mag_max[1] = 7807;
+	mag_max[2] = 7059;
 }
 
 int SenseIMU::initGyro()
@@ -259,7 +265,7 @@ void SenseIMU::calibrateMag()
 		mag_min[i] = INT16_MAX;
 		mag_max[i] = INT16_MIN;
 	}
-	const int CALIB_COUNT = 1000;
+	const int CALIB_COUNT = 10000;
 	int16_t tmp[3];
 	for (int i = 0; i < CALIB_COUNT; i++)
 	{
@@ -269,13 +275,13 @@ void SenseIMU::calibrateMag()
 			if (tmp[j] < mag_min[j]) mag_min[j] = tmp[j];
 			if (tmp[j] > mag_max[j]) mag_max[j] = tmp[j];
 		}
-		suspendCallerUntil(NOW() + 100 * NANOSECONDS);
+		suspendUntilNextBeat();
 	}
 }
 
 void SenseIMU::run()
 {
-	uint8_t read_waig = WHO_AM_I_G | READ_FLAG;
+	/*uint8_t read_waig = WHO_AM_I_G | READ_FLAG;
 	comm.selectSPISlave(GYRO);
 	uint8_t waig;
 	spi_bus.write(&read_waig, 1);
@@ -287,29 +293,54 @@ void SenseIMU::run()
 	uint8_t waix;
 	spi_bus.write(&read_waix, 1);
 	spi_bus.read(&waix, 1);
-	comm.disableSPISlaves();
+	comm.disableSPISlaves();*/
 
 	initGyro();
 	initXM();
-	//calibrateGyro();
-	//calibrateAcc();
-	setPeriodicBeat(0, 100*MILLISECONDS);
+	calibrateGyro();
+	calibrateAcc();
+	setPeriodicBeat(0, 10*MILLISECONDS);
 	while(1)
 	{
 		//PRINTF("Gyro WHO_AM_I: %d\n", waig);
 
 		//PRINTF("XM WHO_AM_I: %d\n", waix);
 
+		IMUCommand command;
+		while (!tcImuCommand.isEmpty())
+		{
+			tcImuCommand.get(command);
+			if (command == CALIB_GYRO)
+			{
+				calibrateGyro();
+				setPeriodicBeat(0, 10*MILLISECONDS);
+				PRINTF("Gyro calibrated -  off_x: %d, off_y: %d, off_z: %d\n", gyro_offset[0], gyro_offset[1], gyro_offset[2]);
+			}
+			else if (command == CALIB_ACC)
+			{
+				calibrateAcc();
+				setPeriodicBeat(0, 10*MILLISECONDS);
+				PRINTF("Acc calibrated - off_x: %d, off_y: %d, off_z\n", acc_offset[0], acc_offset[1], acc_offset[2]);
+			}
+			else if (command == CALIB_MAG)
+			{
+				calibrateMag();
+				setPeriodicBeat(0, 10*MILLISECONDS);
+				PRINTF("Mag calibrated - min_x: %d, max_x: %d, min_y: %d, max_y: %d, min_z: %d, max_z: %d\n", mag_min[0], mag_max[0], mag_min[1], mag_max[1], mag_min[2], mag_max[2]);
+			}
+		}
+
 		IMUData data;
-		readGyro(data.gyro);
-		readAcc(data.acc);
-		readMag(data.mag, false);
+		readGyro(&data.gyro_x);
+		readAcc(&data.acc_x);
+		readMag(&data.mag_x);
 		readTemp(&data.temp);
-		//PRINTF("Gyro Raw: %f, %f, %f\n", data.gyroData[0]*GYRO_FACTOR_2000DPS, data.gyroData[1]*GYRO_FACTOR_2000DPS, data.gyroData[2]*GYRO_FACTOR_2000DPS);
-		//PRINTF("Acc Raw: %f, %f, %f\n", data.accData[0]*ACC_FACTOR_2G, data.accData[1]*ACC_FACTOR_2G, data.accData[2]*ACC_FACTOR_2G);
-		//PRINTF("Mag Raw: %d, %d, %d\n\n", data.magData[0]/**MAG_FACTOR_2GA*/, data.magData[1]/**MAG_FACTOR_2GA*/, data.magData[2]/**MAG_FACTOR_2GA*/);
-		//PRINTF("Temperature: %f\n", data.tempData*TEMP_FACTOR);
-		imuTopic.publish(data);
+		//PRINTF("Size: %d\n", sizeof(IMUData));
+		//PRINTF("Gyro Raw: %f, %f, %f\n", data.gyro_x*GYRO_FACTOR_2000DPS, data.gyro_y*GYRO_FACTOR_2000DPS, data.gyro_z*GYRO_FACTOR_2000DPS);
+		//PRINTF("Acc Raw: %f, %f, %f\n", data.acc_x*ACC_FACTOR_2G, data.acc_y*ACC_FACTOR_2G, data.acc_z*ACC_FACTOR_2G);
+		//PRINTF("Mag Raw: %f, %f, %f\n\n", data.mag_x*MAG_FACTOR_2GA, data.mag_y*MAG_FACTOR_2GA, data.mag_z*MAG_FACTOR_2GA);
+		//PRINTF("Temperature: %f\n", data.temp*TEMP_FACTOR);
+		itImuData.publish(data);
 
 		suspendUntilNextBeat();
 	}

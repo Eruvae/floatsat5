@@ -9,16 +9,14 @@
 #define SENSEINFRARED_H_
 
 #include "rodos.h"
-#include "CommInterfaces.h"
+#include "hwlib/IRSensorArray.h"
 
 class SenseInfrared : public Thread
 {
-	void initializeSensors();
-	int initInfrared(uint8_t id);
-	int assignI2Caddress(uint8_t old_id, uint8_t new_id);
-	uint8_t readRange(uint8_t id);
+	IRSensorArray sensors;
+
 public:
-	SenseInfrared();
+	SenseInfrared(HAL_I2C &i2c, GPIO_PIN enable_pin1 = GPIO_005, GPIO_PIN enable_pin2 = GPIO_003, float sensorDistance = 100.0f);
 
 	void init();
 	void run();

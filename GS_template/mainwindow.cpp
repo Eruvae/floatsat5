@@ -8,20 +8,21 @@ int MissedPackets=0;
 int recievedPackets=0;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    mcWindow(0)
 {
     ui->setupUi(this);
 
 
-    //link = new SatelliteLink(this);
+    link = new SatelliteLink(this);
     //link->addTopic(Telemetry1Type);
     //link->addTopic(Telemetry2Type);
     //link->addTopic(PowerTelemetryType);
 
-    link2 = new SatelliteLink(this, QHostAddress("192.168.0.120"), QHostAddress("192.168.0.109"), 5000);
-    link2->addTopic(Telemetry1Type);
-    link2->addTopic(Telemetry2Type);
-    link2->addTopic(PowerTelemetryType);
+    //link2 = new SatelliteLink(this, QHostAddress("192.168.0.120"), QHostAddress("192.168.0.109"), 5000);
+    //link2->addTopic(Telemetry1Type);
+    //link2->addTopic(Telemetry2Type);
+    //link2->addTopic(PowerTelemetryType);
 
     setupGraph();
     QTimer *timer = new QTimer(this);
@@ -32,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->saveGraph,SIGNAL(clicked()),this,SLOT(on_pushButton_clicked()));
     connect(ui->comboTC, SIGNAL(currentIndexChanged(int)), ui->stackedTCData, SLOT(setCurrentIndex(int)));
 
-    connect(link2, SIGNAL(readReady()), this, SLOT(readFromGSLink()));
+    //connect(link2, SIGNAL(readReady()), this, SLOT(readFromGSLink()));
 }
 
 void MainWindow::readFromGSLink()
@@ -189,4 +190,13 @@ void MainWindow::setSignal(QColor color)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::on_pbManualControl_clicked()
+{
+    if (mcWindow == 0)
+    {
+        mcWindow = new ManualControl(this, link);
+    }
+    mcWindow->exec();
 }

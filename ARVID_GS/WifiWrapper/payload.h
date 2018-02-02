@@ -8,14 +8,33 @@
 
 
 enum PayloadType{
-    Telemetry1Type=5661,
-    Telemetry2Type=5771,
-    PowerTelemetryType=6000,
-    TelecommandType=300
+
+    //Telemetry Type
+    PowerTelemetryType=5000,
+    FilteredPoseType=5001,
+    IMUDataType=5002,
+    ReactionWheelSpeedType=5003,
+    IRSensorDataType=5004,
+    ActuatorDataType=5005,
+
+    DebugMsgType = 6000,
+
+    //Telecommand Type
+    TelecommandType=100
 
 };
 
-struct Payload{
+struct __attribute__((packed)) IMUData
+{
+    int16_t gyro_x, gyro_y, gyro_z;
+    int16_t acc_x, acc_y, acc_z;
+    int16_t mag_x, mag_y, mag_z;
+    int16_t temp;
+
+};
+
+struct __attribute__((packed)) Payload
+{
     quint16 checksum;
     quint32 senderNode;
     quint64 timestamp;
@@ -30,31 +49,55 @@ struct Payload{
         quint64 userData64[USER_DATA_MAX_LEN / sizeof(quint64)];
         float userDataFloat[USER_DATA_MAX_LEN / sizeof(float)];
         double userDataDouble[USER_DATA_MAX_LEN / sizeof(double)];
+        IMUData imuData;
+        int16_t reactionWheelSpeed;
+
     };
     Payload();
     Payload(const QByteArray &buffer);
 };
 
-#pragma pack(push,1)
-
-struct Telemetry1
+struct __attribute__((packed))ActuatorData
 {
-    char ch[2];
-    Telemetry1(const Payload payload);
+    uint8_t valveStatus;
+    uint8_t rwDirection;
+    float dutyCycle;
+
+    ActuatorData(Payload payload);
 };
 
-struct Telemetry2
-{
-    quint32 a,b;
-    float data[2];
-    Telemetry2(const Payload payload);
-};
-
-struct PowerTelemetry
+struct __attribute__((packed))PowerTelemetry
 {
     int16_t voltage;
     int16_t current;
+    int16_t mota_voltage;
+    int16_t mota_current;
+    int16_t motb_voltage;
+    int16_t motb_current;
+    int16_t motc_voltage;
+    int16_t motc_current;
+    int16_t motd_voltage;
+    int16_t motd_current;
+
     PowerTelemetry(const Payload payload);
+};
+
+struct __attribute__((packed))FilteredPose
+{
+    float x, y, z;
+    float yaw, pitch, roll;
+    float dyaw, dpitch, droll;
+    FilteredPose(const Payload payload);
+
+};
+
+struct __attribute__((packed)) IRSensorData
+{
+    uint8_t range1;
+    uint8_t range2;
+    float distance;
+    float angle;
+    IRSensorData(const Payload Payload);
 };
 
 
@@ -63,36 +106,54 @@ enum IMUCommand
     CALIB_GYRO = 0, CALIB_ACC, CALIB_MAG
 };
 
-struct Pose
+enum RaspiCommand
+{
+    ST, OT, RD
+};
+
+enum class Mode
+{
+    STANDBY, HOLD_POSE, TRACK_OBJECT, GOTO_POSE, DOCKING
+};
+
+enum class PoseControllerMode
+{
+    STANDBY, HOLD_POSE, FOLLOW_TRAJECTORY, CHANGE_ATTITUDE, ROTATE
+};
+
+struct __attribute__((packed)) Pose
 {
     float x, y, z;
     float yaw, pitch, roll;
 };
 
-union TCdata
+struct RaspiCommandData
+{
+    RaspiCommand command;
+    bool enable;
+};
+
+union __attribute__((packed)) TCdata
 {
     IMUCommand imu_com;
     Pose pose;
+    int16_t wheel_target_speed;
+    uint8_t valveControl;
+    bool boolData;
+    PoseControllerMode pcMode;
+    RaspiCommandData rpiComData;
 };
 
-struct Telecommand
+struct __attribute__((packed)) Telecommand
 {
     uint8_t id;
     TCdata data;
 };
 
-/*
-struct Telecommand
+struct DebugMessage
 {
-       float data;
-       char id;
-        //Telecommand(const Payload payload);
-        //Telecommand() {}
-
+    char str[64];
 };
-*/
-
-#pragma pack(pop)
 
 #endif // PAYLOAD_H
 

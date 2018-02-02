@@ -9,6 +9,8 @@
 #include "Topics.h"
 
 //HAL_UART bt_uart(UART_IDX2);
+HAL_UART raspiUART(UART_IDX6); // tx-PC6    rx-PC7
+
 HAL_SPI spi_bus(SPI_IDX1, GPIO_019, GPIO_020, GPIO_021); // SCK: PB3, MISO: PB4, MOSI: PB5
 HAL_I2C i2c_bus(I2C_IDX1, GPIO_024, GPIO_025); // SCL: PB8, SDA: PB9
 HAL_I2C i2c2_bus(I2C_IDX2);
@@ -31,7 +33,7 @@ ESP8266 wf(&gatewayWifi,&enable,&gpio0);
 #endif
 
 LinkinterfaceWifi linkifwf(&wf);
-Gateway gw(&linkifwf,true);
+Gateway gw(&linkifwf);
 
 CommInterfaces comm;
 
@@ -75,11 +77,14 @@ void CommInterfaces::reset_i2c(HAL_I2C &bus)
 {
 	bus.reset();
 	AT(NOW() + 0.5*MILLISECONDS);
-	bus.init();
+	bus.init(400000);
 }
 
 void CommInterfaces::init()
 {
+	printfVerbosity = 50;
+
+	raspiUART.init(115200);
 	gyro_cs.init(true, 1, 1);
 	xm_cs.init(true, 1, 1);
 	imu_enable.init(true, 1, 1);
@@ -89,12 +94,18 @@ void CommInterfaces::init()
 	i2c2_bus.init(400000);
 	//bt_uart.init(921600);
 
-	gw.resetTopicsToForward();
-	gw.addTopicsToForward(&telemetry1);
-	gw.addTopicsToForward(&telemetry2);
+	//gw.resetTopicsToForward();
 	gw.addTopicsToForward(&telecommand);
-	gw.addTopicsToForward(&powerTelemetry);
-	gw.addTopicsToForward(&filteredPose);
+
+	gw.addTopicsToForward(&tmPowerData);
+	gw.addTopicsToForward(&tmFilteredPose);
+	gw.addTopicsToForward(&tmImuData);
+	gw.addTopicsToForward(&tmReactionWheelSpeed);
+	gw.addTopicsToForward(&tmInfraredData);
+	gw.addTopicsToForward(&tmActuatorData);
+
+	gw.addTopicsToForward(&tmDebugMsg);
+
 	//.... More Topics to come
 }
 
@@ -105,7 +116,8 @@ void CommInterfaces::run()
 	//int i = wf.init("EruvaeFS","194a69^V");
 
 	PRINTF("Init finished\n");
-	wf.enableUDPConnection(0x6D00A8C0,5000); // 192.168.0.109, 192.168.
+	wf.enableUDPConnection(0x6D00A8C0,5000); // 192.168.0.109
+	//wf.enableUDPConnection(0x0189A8C0, 5000); // 192.168.137.1; for hotspot wifi
 		// 0x6400A8C0 = 192.168.0.100
 		// 0x6500A8C0 = 192.168.0.101
 
@@ -113,9 +125,9 @@ void CommInterfaces::run()
 	// Target Port: 2000
 	/**************************/
 
-	TIME_LOOP(5*MILLISECONDS, 500*MILLISECONDS)
+	/*TIME_LOOP(5*MILLISECONDS, 500*MILLISECONDS)
 	{
 		PRINTF("Wifi Status: %d\n", i);
-	}
+	}*/
 
 }

@@ -8,6 +8,8 @@
 #ifndef STRUCTS_H_
 #define STRUCTS_H_
 
+#include<cmath>
+
 // IMU Sensitivities
 #define GYRO_FACTOR_245DPS		(245.0/INT16_MAX) //0.00875		// dps/digit
 #define GYRO_FACTOR_500DPS		(500.0/INT16_MAX) //0.0175
@@ -23,77 +25,159 @@
 #define MAG_FACTOR_12GA			(12.0/INT16_MAX) //0.00048
 #define TEMP_FACTOR				0.125
 
+#ifndef M_PI
+#define M_PI           3.14159265358979323846  /* pi */
+#endif
+
+#define LIMIT(x, min, max)	((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
+#define ABS(x)	((x) < 0 ? -(x) : (x))
+#define SIGN(x)	((x) < 0 ? -1 : (x) > 0 ? 1 : 0)
+
+#define MOD(x, min, max) \
+	do { \
+		while((x) > (max)) x -= ((max) - (min)); \
+		while((x) < (min)) x += ((max) - (min)); \
+	} while(0)
+
+#define MAXDIF_PI(x, y) \
+	do { \
+		if ((x) - (y) > M_PI) (y) += 2*M_PI; \
+		else if ((y) - (x) > M_PI) (x) += 2*M_PI; \
+	} while(0)
+
+#define MIN(a,b) (((a)<(b))?(a):(b))
+#define MAX(a,b) (((a)>(b))?(a):(b))
+
+inline void rotateCoord(float x, float y, float theta, float &newX, float &newY)
+{
+	newX = x*cos(theta) + y*sin(theta);
+	newY = -x*sin(theta) + y*cos(theta);
+}
+
+
 // Put all structs here, especially structs for Topics
 
-struct IMUData
+struct __attribute__((packed)) IMUData
 {
-	int16_t gyro[3];
-	int16_t acc[3];
-	int16_t mag[3];
+	int16_t gyro_x, gyro_y, gyro_z;
+	int16_t acc_x, acc_y, acc_z;
+	int16_t mag_x, mag_y, mag_z;
 	int16_t temp;
 };
 
-struct PowerData
+struct __attribute__((packed)) IRData
+{
+	uint8_t range1;
+	uint8_t range2;
+	float distance;
+	float angle;
+};
+
+struct __attribute__((packed)) PowerData
 {
 	int16_t batt_voltage;
 	int16_t batt_current;
+	int16_t mota_voltage;
+	int16_t mota_current;
+	int16_t motb_voltage;
+	int16_t motb_current;
+	int16_t motc_voltage;
+	int16_t motc_current;
+	int16_t motd_voltage;
+	int16_t motd_current;
+
+};
+
+struct __attribute__((packed)) ActuatorData
+{
+	uint8_t valveStatus;
+	uint8_t rwDirection;
+	float dutyCycle;
 };
 
 // Structs for Telecommunication; always use __attribute__((packed))
-
-struct __attribute__((packed)) PoseData
-{
-	uint8_t sync;
-	uint8_t id;
-	uint32_t time;
-
-	int16_t px;
-	int16_t py;
-	int16_t pz;
-	int16_t roll;
-	int16_t pitch;
-	int16_t yaw;
-
-	uint32_t check;
-};
-
-struct /*__attribute__((packed))*/ Telemetry1
-{
-	char ch[2];
-
-
-};
-
-struct /*__attribute__((packed))*/ Telemetry2
-{
-	int a,b;
-	float data[2];
-};
 
 enum IMUCommand
 {
 	CALIB_GYRO = 0, CALIB_ACC, CALIB_MAG
 };
 
-struct Pose
+enum RaspiCommand
+{
+	ST, OT, RD
+};
+
+enum class Mode
+{
+	STANDBY, HOLD_POSE, TRACK_OBJECT, GOTO_POSE, DOCKING
+};
+
+enum class PoseControllerMode
+{
+	STANDBY, HOLD_POSE, FOLLOW_TRAJECTORY, CHANGE_ATTITUDE, ROTATE
+};
+
+struct __attribute__((packed)) Position2D
+{
+	float x, y;
+};
+
+struct __attribute__((packed)) Pose2D
+{
+	float x, y, yaw;
+};
+
+/*struct __attribute__((packed)) Pose25D
+{
+	float x, y, yaw, pitch;
+};*/
+
+struct __attribute__((packed)) OTData
+{
+	float alpha, g0, G0;
+	bool found;
+};
+
+struct __attribute__((packed)) Pose
 {
 	float x, y, z;
 	float yaw, pitch, roll;
+	float dyaw, dpitch, droll;
 };
 
-union TCdata
+struct ThrusterControls
+{
+	float f1, f2, f3;
+};
+
+struct RaspiCommandData
+{
+	RaspiCommand command;
+	bool enable;
+};
+
+union __attribute__((packed)) TCdata
 {
 	IMUCommand imu_com;
 	Pose pose;
+	int16_t wheel_target_speed;
+	uint8_t valveControl;
+	bool boolData;
+	PoseControllerMode pcMode;
+	RaspiCommandData rpiComData;
 };
 
-struct /*__attribute__((packed))*/ Telecommand
+struct __attribute__((packed)) Telecommand
 {
 	uint8_t id;
 	TCdata data;
-	int16_t wheel_target_speed;
 	//float data;
 	//char id;
+};
+
+struct DebugMessage
+{
+	char str[64];
 };
 
 #endif /* STRUCTS_H_ */

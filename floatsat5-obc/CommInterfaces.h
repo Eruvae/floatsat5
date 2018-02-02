@@ -43,6 +43,7 @@ public:
 	void run();
 };
 
+extern HAL_UART raspiUART;
 extern HAL_UART gatewayWifi; // USB-UART
 extern LinkinterfaceWifi linkifwf;
 extern Gateway gw;

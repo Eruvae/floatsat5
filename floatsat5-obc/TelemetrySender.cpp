@@ -6,38 +6,67 @@
  */
 
 #include "TelemetrySender.h"
-#include "Topics.h"
+#include "RaspiComm.h"
 
 TelemetrySender telemetrySender;
 
-TelemetrySender::TelemetrySender()
+TelemetrySender::TelemetrySender() : powerDataSub(itPowerData, powerDataBuffer),
+		filteredPoseSub(itFilteredPose, filteredPoseBuffer),
+		imuDataSub(itImuData, imuDataBuffer),
+		reactionWheelSpeedSub(itReactionWheelSpeed, reactionWheelSpeedBuffer),
+		infraredDataSub(itInfraredData, infraredDataBuffer),
+		actuatorDataSub(itActuatorData, actuatorDataBuffer)
 {
 }
 
 void TelemetrySender::run()
 {
-	int counter = 0;
-	Telemetry1 sensor1;
-	Telemetry2 sensor2;
+	//int counter = 0;
 
-	setPeriodicBeat(0, 10*MILLISECONDS);
+	const uint32_t tm_pause_period = 10;
+	setPeriodicBeat(20*MILLISECONDS, 200*MILLISECONDS);
 	while(1)
 	{
-		sensor2.a=counter; sensor2.b=30;
-		sensor2.data[0]=12.5;sensor2.data[1]=29.3;
-		//telemetry2.publish(sensor2);
+		PowerData powerData;
+		Pose filteredPose;
+		IMUData imuData;
+		int16_t reactionWheelSpeed;
+		IRData infraredData;
+		ActuatorData actuatorStatus;
 
-		if (counter % 100 == 0)
+		powerDataBuffer.get(powerData);
+		filteredPoseBuffer.get(filteredPose);
+		imuDataBuffer.get(imuData);
+		reactionWheelSpeedBuffer.get(reactionWheelSpeed);
+		infraredDataBuffer.get(infraredData);
+		actuatorDataBuffer.get(actuatorStatus);
+
+		//PRINTF("TM rw speed: %d\n", reactionWheelSpeed);
+
+		tmPowerData.publish(powerData);
+		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
+		tmFilteredPose.publish(filteredPose);
+		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
+		tmImuData.publish(imuData);
+		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
+		tmReactionWheelSpeed.publish(reactionWheelSpeed);
+		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
+		tmInfraredData.publish(infraredData);
+		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
+		tmActuatorData.publish(actuatorStatus);
+		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
+
+		while(!debugMsgFifo.isEmpty())
 		{
-			sensor1.ch[0]='K';
-			sensor1.ch[1]='S';
-
-			telemetry1.publish(sensor1);
-
-			PRINTF("Sending telemetry\n");
+			DebugMessage msg;
+			debugMsgFifo.get(msg);
+			tmDebugMsg.publish(msg);
+			suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
 		}
 
-		counter++;
+		raspiComm.sendCommand(ST, true);
+
+		//counter++;
 		suspendUntilNextBeat();
 	}
 }
