@@ -13,7 +13,7 @@
 #include "Topics.h"
 
 #define RASPI_UART_BUF_SIZE	64
-#define MAX_RTM_SIZE 32
+#define MAX_RTM_SIZE 64
 #define ID_MAX_SIZE 2
 #define MAX_DATA_NUM 4
 

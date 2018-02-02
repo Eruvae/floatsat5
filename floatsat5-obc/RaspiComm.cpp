@@ -56,9 +56,9 @@ int RaspiComm::decodeRTM(const char *buf, int len, RTM &receivedData/*, char **t
 
 			if (strcmp(receivedData.id, "OT") == 0 && readStatus == 4)
 			{
-				if (*readP == 1)
+				if (*readP == '1')
 					receivedData.otData.found = true;
-				else if (*readP == 0)
+				else if (*readP == '0')
 					receivedData.otData.found = false;
 				else // error
 					return -1;
@@ -92,11 +92,12 @@ void RaspiComm::publishData(RTM &receivedData)
 {
 	if (strcmp(receivedData.id, "ST") == 0) // Star Tracker
 	{
-		print_debug_msg("ST: %f, %f, %f", receivedData.starTrackerPose.x, receivedData.starTrackerPose.y, receivedData.starTrackerPose.yaw);
+		//print_debug_msg("ST: %f, %f, %f", receivedData.starTrackerPose.x, receivedData.starTrackerPose.y, receivedData.starTrackerPose.yaw);
 		itStarTrackerPose.publish(receivedData.starTrackerPose);
 	}
 	else if (strcmp(receivedData.id, "OT") == 0) // Object Tracking
 	{
+		//print_debug_msg("OTdata: %.2f, %.2f, %.2f, %d", receivedData.otData.alpha, receivedData.otData.g0, receivedData.otData.G0, receivedData.otData.found);
 		itObjectTrackingPose.publish(receivedData.otData);
 	}
 	else if (strcmp(receivedData.id, "RD") == 0) // Radio

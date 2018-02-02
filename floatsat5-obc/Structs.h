@@ -134,7 +134,7 @@ struct __attribute__((packed)) Pose2D
 
 struct __attribute__((packed)) OTData
 {
-	float alpha, r, theta;
+	float alpha, g0, G0;
 	bool found;
 };
 
@@ -150,6 +150,12 @@ struct ThrusterControls
 	float f1, f2, f3;
 };
 
+struct RaspiCommandData
+{
+	RaspiCommand command;
+	bool enable;
+};
+
 union __attribute__((packed)) TCdata
 {
 	IMUCommand imu_com;
@@ -158,6 +164,7 @@ union __attribute__((packed)) TCdata
 	uint8_t valveControl;
 	bool boolData;
 	PoseControllerMode pcMode;
+	RaspiCommandData rpiComData;
 };
 
 struct __attribute__((packed)) Telecommand

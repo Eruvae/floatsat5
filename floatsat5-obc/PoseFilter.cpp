@@ -15,7 +15,8 @@ PoseFilter poseFilter;
 
 PoseFilter::PoseFilter() : imuDataSub(itImuData, imuDataBuffer),
 		starTrackerPoseSub(itStarTrackerPose, starTrackerPoseBuffer),
-		radioPositionSub(itRadioPosition, radioPositionBuffer)
+		radioPositionSub(itRadioPosition, radioPositionBuffer),
+		otDataSub(itObjectTrackingPose, otDataBuffer)
 {
 }
 
@@ -25,6 +26,7 @@ void PoseFilter::run()
 	double alpha = 0.9;
 	double oldFilteredRoll = 0, oldFilteredPitch = 0, oldFilteredHeading = 0;
 	double filteredRoll = 0, filteredPitch = 0, filteredHeading = 0;
+	float otX = 0, otY = 0, otYaw = 0, otOldYaw = 0, dotYaw = 0;
 	setPeriodicBeat(15*MILLISECONDS, delt*SECONDS);
 	while(1)
 	{
@@ -36,6 +38,8 @@ void PoseFilter::run()
 		Vector<3> res = rot * vec;
 
 		PRINTF("Test: %f, %f, %f", res[0][0], res[1][0], res[2][0]);*/
+
+		// ---------------------- Attitude Determination ----------------------------
 
 		IMUData imuData;
 		imuDataBuffer.get(imuData);
@@ -54,7 +58,7 @@ void PoseFilter::run()
 		double mxh = mag[0]*cos(filteredPitch) + mag[2]*sin(filteredPitch);
 		double myh = mag[0]*sin(filteredRoll)*sin(filteredPitch) + mag[1]*cos(filteredRoll) - mag[2]*sin(filteredRoll)*cos(filteredPitch);
 
-		double headingAccMag = atan2(myh, mxh);
+		double headingAccMag = -atan2(myh, mxh);
 
 		double dp = (cos(filteredRoll)*cos(filteredPitch)*gyro[1] - sin(filteredRoll)*cos(filteredPitch)*gyro[2]) / cos(filteredPitch);
 		double dr = (cos(filteredPitch)*gyro[0] + sin(filteredRoll)*sin(filteredPitch)*gyro[1] + cos(filteredRoll)*sin(filteredPitch)*gyro[2]) / cos(filteredPitch);
@@ -93,13 +97,29 @@ void PoseFilter::run()
 		oldFilteredRoll = filteredRoll;
 		oldFilteredHeading = filteredHeading;
 
+		// -------------------- Position Determination -------------------------
+
+		OTData otData;
+		otDataBuffer.get(otData);
+
+		if (otData.found)
+		{
+			float r = otData.g0 + 0.2;
+			otX = r * cos(otData.alpha);
+			otY = r * sin(otData.alpha);
+			otYaw = M_PI + otData.alpha + atan2(otData.G0, r);
+			MOD(otYaw, -M_PI, M_PI);
+
+			print_debug_msg("OT: %.2f, %.2f, %.2f, %.2f", r, otX, otY, otYaw);
+		}
+
 		Pose pose;
-		pose.x = 0;
-		pose.y = 0;
+		pose.x = otX;
+		pose.y = otY;
 		pose.z = 0;
 		pose.pitch = filteredPitch*180.0/M_PI;
 		pose.roll = filteredRoll*180.0/M_PI;
-		pose.yaw = filteredHeading*180.0/M_PI;
+		pose.yaw = /*otYaw*180.0/M_PI;*/filteredHeading*180.0/M_PI;
 		pose.dpitch = dpitch*180/M_PI;
 		pose.droll = droll*180/M_PI;
 		pose.dyaw = dyaw*180/M_PI;

@@ -30,7 +30,7 @@ void PoseController::run()
 	tcActivateController.put(activated);
 	itPoseControllerMode.publish(mode);
 	float oldeX = 0, oldeY = 0;
-	const float k = 100.f, td = 1.5f, gamma = sqrt(3)/2;
+	const float k = 100.f, td = 0.f, gamma = sqrt(3)/2;
 	while(1)
 	{
 		tcActivateController.get(activated);
@@ -51,7 +51,7 @@ void PoseController::run()
 			float error = goalYaw - yaw;
 			MOD(error, -180, 180);
 
-			float rwSpeedDifDps = -p * error;
+			float rwSpeedDifDps = p * error;
 
 			int16_t rwSpeedDifRpm = (int16_t)(rwSpeedDifDps / 6);
 			int16_t newRwSpeed = currentRwSpeed + rwSpeedDifRpm;
@@ -72,7 +72,7 @@ void PoseController::run()
 
 			float eX = goalX - x;
 			float eY = goalY - y;
-			rotateCoord(eX, eY, filteredPose.yaw*M_PI/180.0, eX, eY);
+			rotateCoord(eX, eY, filteredPose.yaw*M_PI/180.f, eX, eY);
 
 			float eX_dif = (eX - oldeX) / period;
 			float eY_dif = (eY - oldeY) / period;
@@ -83,33 +83,47 @@ void PoseController::run()
 			float zX = k * (eX + td * eX_dif);
 			float zY = k * (eY + td * eY_dif);
 
-			float gX = SIGN(zX) * (1 - exp(-ABS(zX))) / sqrt(2);
-			float gY = SIGN(zY) * (1 - exp(-ABS(zY))) / sqrt(2);
+			float gX = SIGN(zX) * (1.f - exp(-ABS(zX))) / sqrt(2);
+			float gY = SIGN(zY) * (1.f - exp(-ABS(zY))) / sqrt(2);
 
 			float alpha = atan2(gY, gX) * 180.f/M_PI;
-			MOD(alpha, 0, 360);
+			MOD(alpha, 0.f, 360.f);
 
-			print_debug_msg("Ex: %.2f, Ey: %.2f, Yaw: %.2f", eX, eY, filteredPose.yaw);
+			print_debug_msg("Gx: %.2f, Gy: %.2f, Yaw: %.2f, a: %.2f", gX, gY, filteredPose.yaw, alpha);
 
 			ThrusterControls controls;
-			if (alpha < 120)
+			if (alpha > 300 || alpha < 60)
 			{
-				controls.f1 = gamma*gX + gamma*gY/sqrt(3);
-				controls.f2 = 2*gamma/sqrt(3)*gY;
-				controls.f3 = 0;
+				controls.f1 = 0; // gamma*gX + gamma*gY/sqrt(3);
+				controls.f2 = gamma*(gX - gY/sqrt(3));//2*gamma/sqrt(3)*gY;
+				controls.f3 = gamma*(gX + gY/sqrt(3));//0;
 			}
-			else if (alpha < 240)
+			else if (alpha < 180)
 			{
-				controls.f1 = 0;
-				controls.f2 = gamma*gY/sqrt(3) - gamma*gX;
-				controls.f3 = -gamma*gX - gamma*gY/sqrt(3);
+				controls.f1 = gamma*(-gX + gY/sqrt(3));//0;
+				controls.f2 = 0; //gamma*gY/sqrt(3) - gamma*gX;
+				controls.f3 = 2.f/sqrt(3)*gamma*gY; //-gamma*gX - gamma*gY/sqrt(3);
 			}
 			else
 			{
-				controls.f1 = gamma*gX - gamma*gY/sqrt(3);
-				controls.f2 = 0;
-				controls.f3 = -2*gamma*gY/sqrt(3);
+				controls.f1 = gamma*(-gX - gY/sqrt(3));//gamma*gX - gamma*gY/sqrt(3);
+				controls.f2 = -2.f/sqrt(3)*gamma*gY;
+				controls.f3 = 0; //-2*gamma*gY/sqrt(3);
 			}
+
+			//float dummyX = 1, dummyY = 0;
+			//rotateCoord(dummyX, dummyY, M_PI/2.f, dummyX, dummyY);
+			//print_debug_msg("Dx: %.2f, Dy: %.2f\n", dummyX, dummyY);
+
+			//print_debug_msg("a: %.2f, f1: %.2f, f2: %.2f, f3: %.2f\n", alpha, controls.f1, controls.f2, controls.f3);
+			itThrusterControls.publish(controls);
+		}
+		else
+		{
+			ThrusterControls controls;
+			controls.f1 = 0;
+			controls.f2 = 0;
+			controls.f3 = 0;
 			itThrusterControls.publish(controls);
 		}
 

@@ -106,10 +106,31 @@ enum IMUCommand
     CALIB_GYRO = 0, CALIB_ACC, CALIB_MAG
 };
 
+enum RaspiCommand
+{
+    ST, OT, RD
+};
+
+enum class Mode
+{
+    STANDBY, HOLD_POSE, TRACK_OBJECT, GOTO_POSE, DOCKING
+};
+
+enum class PoseControllerMode
+{
+    STANDBY, HOLD_POSE, FOLLOW_TRAJECTORY, CHANGE_ATTITUDE, ROTATE
+};
+
 struct __attribute__((packed)) Pose
 {
     float x, y, z;
     float yaw, pitch, roll;
+};
+
+struct RaspiCommandData
+{
+    RaspiCommand command;
+    bool enable;
 };
 
 union __attribute__((packed)) TCdata
@@ -119,6 +140,8 @@ union __attribute__((packed)) TCdata
     int16_t wheel_target_speed;
     uint8_t valveControl;
     bool boolData;
+    PoseControllerMode pcMode;
+    RaspiCommandData rpiComData;
 };
 
 struct __attribute__((packed)) Telecommand

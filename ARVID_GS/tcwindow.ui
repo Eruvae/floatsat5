@@ -49,7 +49,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedTCData">
        <property name="currentIndex">
-        <number>4</number>
+        <number>6</number>
        </property>
        <widget class="QWidget" name="pageCalIMU">
         <widget class="QComboBox" name="comboIMUcal">
@@ -88,6 +88,9 @@
            <height>22</height>
           </rect>
          </property>
+         <property name="minimum">
+          <double>-99.000000000000000</double>
+         </property>
         </widget>
         <widget class="QDoubleSpinBox" name="posY">
          <property name="geometry">
@@ -98,6 +101,12 @@
            <height>22</height>
           </rect>
          </property>
+         <property name="minimum">
+          <double>-99.000000000000000</double>
+         </property>
+         <property name="value">
+          <double>0.000000000000000</double>
+         </property>
         </widget>
         <widget class="QDoubleSpinBox" name="posZ">
          <property name="geometry">
@@ -107,6 +116,9 @@
            <width>62</width>
            <height>22</height>
           </rect>
+         </property>
+         <property name="minimum">
+          <double>-99.000000000000000</double>
          </property>
         </widget>
         <widget class="QLabel" name="label_10">
@@ -157,6 +169,12 @@
            <height>22</height>
           </rect>
          </property>
+         <property name="minimum">
+          <double>-180.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>180.000000000000000</double>
+         </property>
         </widget>
         <widget class="QDoubleSpinBox" name="posRoll">
          <property name="geometry">
@@ -166,6 +184,12 @@
            <width>62</width>
            <height>22</height>
           </rect>
+         </property>
+         <property name="minimum">
+          <double>-180.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>180.000000000000000</double>
          </property>
         </widget>
         <widget class="QLabel" name="label_16">
@@ -215,6 +239,12 @@
            <width>62</width>
            <height>22</height>
           </rect>
+         </property>
+         <property name="minimum">
+          <double>-180.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>180.000000000000000</double>
          </property>
         </widget>
        </widget>
@@ -302,6 +332,83 @@
          </property>
         </widget>
        </widget>
+       <widget class="QWidget" name="page_4">
+        <widget class="QComboBox" name="comboPCmode">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>10</y>
+           <width>141</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <item>
+          <property name="text">
+           <string>STANDBY</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>HOLD_POSE</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>FOLLOW_TRAJECTORY</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>CHANGE_ATTITUDE</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>ROTATE</string>
+          </property>
+         </item>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="page_5">
+        <widget class="QComboBox" name="comboRPIcom">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>141</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <item>
+          <property name="text">
+           <string>ST</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>OT</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>RD</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QCheckBox" name="rpiEnableBox">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>60</y>
+           <width>70</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>enable</string>
+         </property>
+        </widget>
+       </widget>
       </widget>
      </item>
     </layout>
@@ -361,6 +468,16 @@
        <item>
         <property name="text">
          <string>ACTIVATE_CONTROLLER</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>CHANGE_PC_MODE</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>RPI_COMMAND</string>
         </property>
        </item>
       </widget>

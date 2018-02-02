@@ -49,13 +49,17 @@ void TCWindow::sendtelecommand()
            break;
        }
 
-       case 4:
+       case 4: //ACTIVATE_CONTROLLER
            sendme.data.boolData = ui->activateControllerBox->isChecked();
            break;
 
-       /*case 4: //ACTIVATE_CONTROLLER
-           sendme.data.boolData = ui->activateControllerBox->isChecked();
-           break;*/
+       case 5: //CHANGE_PC_MODE
+           sendme.data.pcMode = static_cast<PoseControllerMode>(ui->comboPCmode->currentIndex());
+           break;
+       case 6: //RPI_COMMAND
+           sendme.data.rpiComData.command = static_cast<RaspiCommand>(ui->comboRPIcom->currentIndex());
+           sendme.data.rpiComData.enable = ui->rpiEnableBox->isChecked();
+           break;
        }
 
        int written = TCLink->write<Telecommand>(TelecommandType,sendme);

@@ -8,6 +8,7 @@
 #include "TelecommandReceiver.h"
 #include "Topics.h"
 #include "ActuatorInterfaces.h"
+#include "RaspiComm.h"
 
 // TC IDs
 #define CALIB_IMU 0x00
@@ -16,6 +17,7 @@
 #define THRUSTER_CONTROL 0x03
 #define ACTIVATE_CONTROLLER 0x04
 #define CHANGE_PC_MODE	0x05
+#define RPI_COMMAND	0x06
 
 TelecommandReceiver telecommandReceiver;
 
@@ -48,11 +50,17 @@ void TelecommandReceiver::put(Telecommand &data)
 	}
 	else if (data.id == ACTIVATE_CONTROLLER)
 	{
-		tcActivateController.put(data.data.boolData);
+		itPoseControllerMode.publishConst(PoseControllerMode::STANDBY);
+		tcActivateController.put(data.data.boolData); // legacy
+
 	}
 	else if (data.id == CHANGE_PC_MODE)
 	{
 		PoseControllerMode mode = data.data.pcMode;
 		itPoseControllerMode.publish(mode);
+	}
+	else if (data.id == RPI_COMMAND)
+	{
+		raspiComm.sendCommand(data.data.rpiComData.command, data.data.rpiComData.enable);
 	}
 }

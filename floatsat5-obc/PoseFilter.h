@@ -23,6 +23,9 @@ private:
 
 	CommBuffer<Position2D> radioPositionBuffer;
 	Subscriber radioPositionSub;
+
+	CommBuffer<OTData> otDataBuffer;
+	Subscriber otDataSub;
 public:
 	PoseFilter();
 
