@@ -26,6 +26,8 @@ private:
     TCWindow *tcwindow;
     ManualControl *manualControl;
 
+    QQueue<int> batteryStateQueue;
+
 
 signals:
     void PacketSignal(double newValue);

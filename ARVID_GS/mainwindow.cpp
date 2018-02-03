@@ -63,6 +63,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->speedmeter->setForeground(QColor(255, 255, 255));
     ui->speedmeter->setBackground(QColor(0, 0, 0));
 
+    //Setup Traj plot
+    ui->trackPlot->setBackground(Qt::black);
+    ui->trackPlot->yAxis->setTickLabelColor(Qt::white);
+    ui->trackPlot->xAxis->setTickLabelColor(Qt::white);
 
 
     SetupGraphCurrent();
@@ -127,9 +131,39 @@ void MainWindow::readFromLink(){
         double graphvaluecurrent=(data.current*0.32-165)/1000;
         SetupRealtimeDataSlotCurrent(graphvaluecurrent);
         int scale=LIMIT(((data.voltage*0.004)-12.2)*100,0,100);
+        batteryStateQueue.push_back(scale);
+        if (batteryStateQueue.size() > 1000)
+            batteryStateQueue.pop_front();
 
-        ui->batterybar->setValue(scale);
-        ui->battsoc_txt->setText(QString::number(scale)+"%");
+        int batteryStateMean = 0;
+        for (int sc : batteryStateQueue)
+            batteryStateMean += sc;
+
+        batteryStateMean /= batteryStateQueue.size();
+
+        ui->batterybar->setValue(batteryStateMean);
+        ui->battsoc_txt->setText(QString::number(batteryStateMean)+"%");
+
+        //Experiment_
+        QString myStyleSheet = " QProgressBar::chunk {"
+        " background-color: ";
+
+        if(30 >= batteryStateMean)
+        {
+            myStyleSheet.append("red;");
+        }
+        else if(80 >= batteryStateMean)
+        {
+            myStyleSheet.append("yellow;");
+        }
+        else
+        {
+            myStyleSheet.append("green;");
+        }
+        myStyleSheet.append("     width: 10px;"\
+                            "     margin: 0.5px;"\
+                            " }");
+        ui->batterybar->setStyleSheet(myStyleSheet);
 
         voltagema=data.mota_voltage*0.004;
         currentma=data.mota_current*0.2;

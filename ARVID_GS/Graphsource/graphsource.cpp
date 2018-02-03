@@ -15,19 +15,23 @@ void MainWindow::SetupGraphCurrent()
 {
 
     ui->graph_temp->addGraph(); // blue line
-    ui->graph_temp->graph(0)->setPen(QPen(QColor(40, 110, 255)));
-    ui->graph_temp->setBackground(Qt::lightGray);
-    ui->graph_temp->axisRect()->setBackground(Qt::white);
+    ui->graph_temp->graph(0)->setPen(QPen(QColor(255, 255, 255)));
+    ui->graph_temp->setBackground(Qt::black);
+    ui->graph_temp->axisRect()->setBackground(Qt::black);
 
     ui->graph_temp->xAxis->setLabel("Time Elapsed");
+    ui->graph_temp->xAxis->setLabelColor(QColor(255, 255, 255));
     ui->graph_temp->yAxis->setLabel("Current (A)");
+    ui->graph_temp->yAxis->setLabelColor(QColor(255, 255, 255));
+    ui->graph_temp->yAxis->setTickLabelColor(Qt::white);
+    ui->graph_temp->xAxis->setTickLabelColor(Qt::white);
 
     ui->graph_temp->xAxis->setTickLabelType(QCPAxis::ltDateTime);
     ui->graph_temp->xAxis->setDateTimeFormat("hh:mm:ss");
     ui->graph_temp->xAxis->setAutoTickStep(false);
     ui->graph_temp->xAxis->setTickStep(2);
     ui->graph_temp->axisRect()->setupFullAxesBox();
-    //ui->graph_temp->yAxis->setRange(0, 1.5);
+    ui->graph_temp->yAxis->setRange(0, 1.5);
 
     // make left and bottom axes transfer their ranges to right and top axes:
     connect(ui->graph_temp->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->graph_temp->xAxis2, SLOT(setRange(QCPRange)));
@@ -59,7 +63,7 @@ if (key-lastPointKey > 0.01) // at most add point every 10 ms
 }
 // make key axis range scroll with the data (at a constant range size of 8):
 ui->graph_temp->xAxis->setRange(key, 8, Qt::AlignRight);
-ui->graph_temp->yAxis->setRange(newValue, Qt::AlignTop);
+//ui->graph_temp->yAxis->setRange(newValue, Qt::AlignTop);
 ui->graph_temp->replot();
 
 // calculate frames per second:

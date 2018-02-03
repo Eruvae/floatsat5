@@ -9,13 +9,12 @@
 void MainWindow::SetupPlotTracking(float valuex, float valuey)
 {
     QCPScatterStyle shape;
-    shape .setShape(QCPScatterStyle::ssTriangle);
-    shape .setPen(QPen(Qt::red));
-    shape .setSize(8);
+    shape.setShape(QCPScatterStyle::ssTriangle);
+    shape.setPen(QPen(Qt::white));
+    shape.setSize(8);
 
     ui->trackPlot->addGraph();
     ui->trackPlot->graph(0)->setScatterStyle(shape);
-    ui->trackPlot->setBackground(Qt::white);
     ui->trackPlot->axisRect()->setupFullAxesBox();
     ui->trackPlot->xAxis->setAutoTickStep(false);
     ui->trackPlot->xAxis->setTickStep(0.01);
@@ -25,5 +24,6 @@ void MainWindow::SetupPlotTracking(float valuex, float valuey)
     ui->trackPlot->yAxis->setRange(0, 2);
     ui->trackPlot->xAxis->setRangeReversed(true);
     ui->trackPlot->graph(0)->addData(valuex,valuey);
+
 
 }

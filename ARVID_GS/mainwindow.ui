@@ -21,7 +21,8 @@
    <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(0, 0, 0);</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="styleSheet">
@@ -35,6 +36,9 @@
       <width>311</width>
       <height>141</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="title">
      <string>IMU Data</string>
@@ -231,9 +235,12 @@
      <rect>
       <x>340</x>
       <y>20</y>
-      <width>311</width>
+      <width>331</width>
       <height>141</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="title">
      <string>Pose</string>
@@ -442,7 +449,7 @@
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>401</width>
+       <width>371</width>
        <height>161</height>
       </rect>
      </property>
@@ -466,11 +473,14 @@
     <widget class="QProgressBar" name="batterybar">
      <property name="geometry">
       <rect>
-       <x>440</x>
+       <x>420</x>
        <y>30</y>
        <width>30</width>
-       <height>71</height>
+       <height>151</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
      </property>
      <property name="value">
       <number>24</number>
@@ -488,8 +498,14 @@
        <height>16</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);</string>
+     </property>
      <property name="text">
       <string>Battery SOC</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="label_27">
@@ -500,6 +516,9 @@
        <width>55</width>
        <height>16</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
       <string>Main Bus</string>
@@ -582,10 +601,10 @@
     <widget class="QLabel" name="battsoc_txt">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>290</y>
-       <width>47</width>
-       <height>13</height>
+       <x>420</x>
+       <y>178</y>
+       <width>31</width>
+       <height>20</height>
       </rect>
      </property>
      <property name="text">
@@ -604,6 +623,9 @@
       <width>281</width>
       <height>271</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="title">
      <string>Reaction Wheel</string>
@@ -819,15 +841,28 @@
      </layout>
     </widget>
    </widget>
-   <widget class="QCustomPlot" name="trackPlot" native="true">
+   <widget class="QGroupBox" name="groupBox_7">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>10</x>
       <y>380</y>
-      <width>421</width>
-      <height>191</height>
+      <width>641</width>
+      <height>261</height>
      </rect>
     </property>
+    <property name="title">
+     <string>Trajectory Plot</string>
+    </property>
+    <widget class="QCustomPlot" name="trackPlot" native="true">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>30</y>
+       <width>581</width>
+       <height>211</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -836,7 +871,7 @@
      <x>0</x>
      <y>0</y>
      <width>983</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMenu">
