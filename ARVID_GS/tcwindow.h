@@ -27,6 +27,7 @@ public slots:
 
 private slots:
     void on_pb_clicked();
+    void on_pushButton_clicked();
 };
 
 

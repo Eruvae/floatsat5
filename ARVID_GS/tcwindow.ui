@@ -49,7 +49,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedTCData">
        <property name="currentIndex">
-        <number>7</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="pageCalIMU">
         <widget class="QComboBox" name="comboIMUcal">
@@ -286,7 +286,7 @@
         <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
-           <x>40</x>
+           <x>10</x>
            <y>30</y>
            <width>89</width>
            <height>76</height>
@@ -315,6 +315,19 @@
            </widget>
           </item>
          </layout>
+        </widget>
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="geometry">
+          <rect>
+           <x>110</x>
+           <y>50</y>
+           <width>94</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Stop Thrusters</string>
+         </property>
         </widget>
        </widget>
        <widget class="QWidget" name="page_3">
@@ -674,6 +687,19 @@
      </item>
     </layout>
    </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>270</y>
+     <width>91</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Stop RW</string>
+   </property>
   </widget>
  </widget>
  <resources>
