@@ -46,6 +46,7 @@ struct __attribute__((packed)) Payload
     quint16 ttl;
     quint16 userDataLen;
     union{
+        bool userDataBool[USER_DATA_MAX_LEN/sizeof(bool)];
         quint8 userData8[USER_DATA_MAX_LEN / sizeof(quint8)];
         quint16 userData16[USER_DATA_MAX_LEN / sizeof(quint16)];
         quint32 userData32[USER_DATA_MAX_LEN / sizeof(quint32)];
