@@ -69,7 +69,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QTimer *timer = new QTimer(this);
     timer->start(100);
 
-    SetupPlotTracking();
+
 
 
 
