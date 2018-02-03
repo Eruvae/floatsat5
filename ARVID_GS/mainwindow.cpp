@@ -127,6 +127,7 @@ void MainWindow::readFromLink(){
         int scale=LIMIT(((data.voltage*0.004)-12.2)*100,0,100);
 
         ui->batterybar->setValue(scale);
+        ui->battsoc_txt->setText(QString::number(scale)+"%");
 
         voltagema=data.mota_voltage*0.004;
         currentma=data.mota_current*0.2;

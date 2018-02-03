@@ -243,7 +243,7 @@
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>291</width>
+       <width>294</width>
        <height>93</height>
       </rect>
      </property>
@@ -431,7 +431,7 @@
       <x>10</x>
       <y>160</y>
       <width>641</width>
-      <height>241</height>
+      <height>321</height>
      </rect>
     </property>
     <property name="title">
@@ -466,14 +466,17 @@
     <widget class="QProgressBar" name="batterybar">
      <property name="geometry">
       <rect>
-       <x>90</x>
-       <y>200</y>
-       <width>371</width>
-       <height>23</height>
+       <x>20</x>
+       <y>220</y>
+       <width>30</width>
+       <height>70</height>
       </rect>
      </property>
      <property name="value">
       <number>24</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
     </widget>
     <widget class="QLabel" name="label_26">
@@ -576,6 +579,22 @@
       </item>
      </layout>
     </widget>
+    <widget class="QLabel" name="battsoc_txt">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>290</y>
+       <width>47</width>
+       <height>13</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox_4">
     <property name="geometry">
@@ -630,7 +649,7 @@
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>330</y>
+      <y>300</y>
       <width>281</width>
       <height>25</height>
      </rect>
@@ -651,8 +670,8 @@
    <widget class="QGroupBox" name="groupBox_5">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>410</y>
+      <x>670</x>
+      <y>340</y>
       <width>191</width>
       <height>151</height>
      </rect>
@@ -740,8 +759,8 @@
    <widget class="QGroupBox" name="groupBox_6">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>410</y>
+      <x>670</x>
+      <y>510</y>
       <width>161</width>
       <height>131</height>
      </rect>
@@ -749,7 +768,7 @@
     <property name="title">
      <string>Star Tracker Position</string>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -807,7 +826,7 @@
      <x>0</x>
      <y>0</y>
      <width>983</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMenu">
