@@ -5,6 +5,7 @@
         <file>Img/Telecommang.png</file>
         <file>Img/imageedit_3_2917060051.png</file>
         <file>Img/electric.png</file>
+        <file>Img/mctrl.png</file>
     </qresource>
     <qresource prefix="/Project Sounds">
         <file>Sounds/ltbb_001.mp3</file>

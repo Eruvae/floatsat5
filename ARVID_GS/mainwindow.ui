@@ -857,6 +857,11 @@
    </property>
   </action>
   <action name="actionManual_Control">
+   <property name="icon">
+    <iconset>
+     <normalon>:/Project Images/Img/mctrl.png</normalon>
+    </iconset>
+   </property>
    <property name="text">
     <string>Manual Control</string>
    </property>
