@@ -87,6 +87,26 @@ FilteredPose::FilteredPose(const Payload payload)
     droll=payload.userDataFloat[8];
 }
 
+StarTrackerData::StarTrackerData(const Payload Payload)
+{
+    x=Payload.userDataFloat[0];
+    y=Payload.userDataFloat[1];
+    yaw=Payload.userDataFloat[2];
+}
+
+OTData::OTData(const Payload Payload)
+{
+    alpha=Payload.userDataFloat[0];
+    g0=Payload.userDataFloat[1];
+    G0=Payload.userDataFloat[2];
+}
+
+RadioPoseData::RadioPoseData(const Payload Payload)
+{
+    x=Payload.userDataFloat[0];
+    y=Payload.userDataFloat[1];
+}
+
 //IMUData::IMUData(const Payload payload)
 //{
 //    memcpy(this->gyro, payload.imuData.gyro, 3*sizeof(int16_t));

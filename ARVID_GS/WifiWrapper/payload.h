@@ -16,6 +16,9 @@ enum PayloadType{
     ReactionWheelSpeedType=5003,
     IRSensorDataType=5004,
     ActuatorDataType=5005,
+    StarTrackerDataType=5006,
+    OTDataType=5007,
+    RadioPoseDataType=5008,
 
     DebugMsgType = 6000,
 
@@ -100,6 +103,24 @@ struct __attribute__((packed)) IRSensorData
     IRSensorData(const Payload Payload);
 };
 
+struct __attribute__((packed)) StarTrackerData
+{
+    float x,y,yaw;
+    StarTrackerData (const Payload Payload);
+};
+
+struct __attribute__((packed)) OTData
+{
+    float alpha, g0, G0;
+    bool found;
+    OTData (const Payload Payload);
+};
+
+struct __attribute__((packed)) RadioPoseData
+{
+    float x,y;
+    RadioPoseData(const Payload Payload);
+};
 
 enum IMUCommand
 {

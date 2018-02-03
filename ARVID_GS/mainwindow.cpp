@@ -48,6 +48,9 @@ MainWindow::MainWindow(QWidget *parent) :
     link->addTopic(ReactionWheelSpeedType);
     link->addTopic(ActuatorDataType);
     link->addTopic(IRSensorDataType);
+    link->addTopic(StarTrackerDataType);
+    link->addTopic(OTDataType);
+    link->addTopic(RadioPoseDataType);
 
     link->addTopic(DebugMsgType);
     //gsLink=new SatelliteLink(this, QHostAddress ("192.168.0.109"), QHostAddress("192.168.0.120"), 5000); //GSLink Connection
@@ -203,6 +206,30 @@ void MainWindow::readFromLink(){
         break;
 
     }
+
+    case StarTrackerDataType:
+    {
+        StarTrackerData data(payload);
+        ui->starLcdx->display(data.x);
+        ui->starLcdy->display(data.y);
+        ui->starLcdAngle->display(data.yaw);
+        break;
+    }
+
+    case OTDataType:
+    {
+        OTData data(payload);
+
+        break;
+    }
+
+    case RadioPoseDataType:
+    {
+        RadioPoseData data(payload);
+
+        break;
+    }
+
     case DebugMsgType:
     {
         qDebug("%s", payload.userData8);
