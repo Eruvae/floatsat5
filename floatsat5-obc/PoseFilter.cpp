@@ -27,6 +27,8 @@ void PoseFilter::run()
 	double oldFilteredRoll = 0, oldFilteredPitch = 0, oldFilteredHeading = 0;
 	double filteredRoll = 0, filteredPitch = 0, filteredHeading = 0;
 	float otX = 0, otY = 0, otYaw = 0, otOldYaw = 0, dotYaw = 0;
+	float stX = 0, stY = 0, stYaw = 0;
+	float oldstYaw = 0;
 	setPeriodicBeat(15*MILLISECONDS, delt*SECONDS);
 	while(1)
 	{
@@ -113,18 +115,26 @@ void PoseFilter::run()
 			//print_debug_msg("OT: %.2f, %.2f, %.2f, %.2f", r, otX, otY, otYaw);
 		}
 
+		Pose2D stPose;
+		starTrackerPoseBuffer.get(stPose);
+
+		float stdYaw = (stPose.yaw - oldstYaw) / delt;
+		MOD(stdYaw, -180, 180);
+		oldstYaw = stPose.yaw;
+
 		//print_debug_msg("ObjYaw: %f; MagYaw: %f", otYaw*180.0/M_PI, filteredHeading*180.0/M_PI);
 
 		Pose pose;
-		pose.x = otX;
-		pose.y = otY;
+		pose.x = stPose.x; //otX;
+		pose.y = -stPose.y; //otY;
 		pose.z = 0;
 		pose.pitch = filteredPitch*180.0/M_PI;
 		pose.roll = filteredRoll*180.0/M_PI;
-		pose.yaw = /*otYaw*180.0/M_PI;*/filteredHeading*180.0/M_PI;
+		pose.yaw = stPose.yaw - 90.f;/*otYaw*180.0/M_PI;*//*filteredHeading*180.0/M_PI;*/
+		MOD(pose.yaw, -180, 180);
 		pose.dpitch = dpitch*180/M_PI;
 		pose.droll = droll*180/M_PI;
-		pose.dyaw = dyaw*180/M_PI;
+		pose.dyaw = /*stdYaw;*/dyaw*180/M_PI;
 
 		itFilteredPose.publish(pose);
 

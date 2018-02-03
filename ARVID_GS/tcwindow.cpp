@@ -64,8 +64,10 @@ void TCWindow::sendtelecommand()
        case 7: //SEND_CONTROL_DATA
            sendme.data.controlParams.attP = ui->attP->value();
            sendme.data.controlParams.attD = ui->attD->value();
+           sendme.data.controlParams.attI = ui->attI->value();
            sendme.data.controlParams.traP = ui->trajP->value();
            sendme.data.controlParams.traD = ui->trajD->value();
+           sendme.data.controlParams.traI = ui->traI->value();
            break;
        }
 

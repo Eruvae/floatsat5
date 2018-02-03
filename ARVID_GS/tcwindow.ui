@@ -413,10 +413,10 @@
         <widget class="QWidget" name="">
          <property name="geometry">
           <rect>
-           <x>10</x>
-           <y>10</y>
-           <width>171</width>
-           <height>101</height>
+           <x>30</x>
+           <y>20</y>
+           <width>147</width>
+           <height>93</height>
           </rect>
          </property>
          <layout class="QGridLayout" name="gridLayout">
@@ -480,6 +480,33 @@
           </item>
           <item row="2" column="2">
            <widget class="QDoubleSpinBox" name="trajD">
+            <property name="minimum">
+             <double>-100.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>100.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>I</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QDoubleSpinBox" name="attI">
+            <property name="minimum">
+             <double>-100.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>100.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="QDoubleSpinBox" name="traI">
             <property name="minimum">
              <double>-100.000000000000000</double>
             </property>

@@ -36,7 +36,7 @@ void TelecommandReceiver::put(Telecommand &data)
 				, data.data.pose.yaw, data.data.pose.pitch, data.data.pose.roll);*/
 
 		tcTargetPose.put(data.data.pose);
-		itPoseControllerMode.publishConst(PoseControllerMode::CHANGE_ATTITUDE);
+		itPoseControllerMode.publishConst(PoseControllerMode::FOLLOW_TRAJECTORY);
 	}
 	else if (data.id == SEND_RW_SPEED)
 	{

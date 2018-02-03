@@ -135,8 +135,8 @@ struct __attribute__((packed)) RaspiCommandData
 
 struct __attribute__((packed)) ControlParameters
 {
-    float attP, attD;
-    float traP, traD;
+    float attP, attD, attI;
+    float traP, traD, traI;
 };
 
 union __attribute__((packed)) TCdata
