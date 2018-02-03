@@ -99,6 +99,7 @@ OTData::OTData(const Payload Payload)
     alpha=Payload.userDataFloat[0];
     g0=Payload.userDataFloat[1];
     G0=Payload.userDataFloat[2];
+    found=Payload.userDataBool[12];
 }
 
 RadioPoseData::RadioPoseData(const Payload Payload)
