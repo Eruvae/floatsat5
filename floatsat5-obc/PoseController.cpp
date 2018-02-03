@@ -33,7 +33,8 @@ void PoseController::run()
 	float oldeX = 0, oldeY = 0;
 	float eX_int = 0, eY_int = 0;
 	float oldYawErr = 0;
-	float attP = 10.f, attD = 0.f, attI = 0.f;
+	float errYaw_int = 0;
+	float attP = 10.f, attD = 4.f, attI = 0.f;
 	float k = 1.5f, td = 5.f, ti = 0.05f, gamma = sqrt(3)/2; // trajectory control params
 	ControlParameters params = {attP, attD, attI, k, td, ti};
 	tcControlParams.put(params);
@@ -55,7 +56,7 @@ void PoseController::run()
 			targetPose.yaw != oldTargetPose.yaw ||
 			mode != oldMode) // reset int
 		{
-			eX_int = 0; eY_int = 0;
+			eX_int = 0; eY_int = 0; errYaw_int = 0;
 		}
 
 		if (mode == PoseControllerMode::CHANGE_ATTITUDE)
@@ -71,7 +72,9 @@ void PoseController::run()
 			float error = goalYaw - yaw;
 			MOD(error, -180, 180);
 
-			float rwSpeedDifDps = attP * error + attD * filteredPose.dyaw;
+			errYaw_int += error * period;
+
+			float rwSpeedDifDps = attP * error + attD * filteredPose.dyaw + attI * errYaw_int;
 
 			int16_t rwSpeedDifRpm = (int16_t)(rwSpeedDifDps / 6);
 			int16_t newRwSpeed = currentRwSpeed + rwSpeedDifRpm;
@@ -96,7 +99,9 @@ void PoseController::run()
 			float error = goalYaw - yaw;
 			MOD(error, -180, 180);
 
-			float rwSpeedDifDps = attP * error + attD * filteredPose.dyaw;
+			errYaw_int += error * period;
+
+			float rwSpeedDifDps = attP * error + attD * filteredPose.dyaw + attI * errYaw_int;
 
 			int16_t rwSpeedDifRpm = (int16_t)(rwSpeedDifDps / 6);
 			int16_t newRwSpeed = currentRwSpeed + rwSpeedDifRpm;
