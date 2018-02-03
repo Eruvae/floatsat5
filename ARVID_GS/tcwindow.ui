@@ -49,7 +49,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedTCData">
        <property name="currentIndex">
-        <number>8</number>
+        <number>7</number>
        </property>
        <widget class="QWidget" name="pageCalIMU">
         <widget class="QComboBox" name="comboIMUcal">
@@ -410,13 +410,13 @@
         </widget>
        </widget>
        <widget class="QWidget" name="page_6">
-        <widget class="QWidget" name="layoutWidget">
+        <widget class="QWidget" name="">
          <property name="geometry">
           <rect>
-           <x>30</x>
-           <y>20</y>
-           <width>164</width>
-           <height>105</height>
+           <x>5</x>
+           <y>22</y>
+           <width>201</width>
+           <height>91</height>
           </rect>
          </property>
          <layout class="QGridLayout" name="gridLayout">
@@ -431,6 +431,13 @@
            <widget class="QLabel" name="label_3">
             <property name="text">
              <string>Trajectory</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QLabel" name="label_8">
+            <property name="text">
+             <string>Rotation</string>
             </property>
            </widget>
           </item>
@@ -453,6 +460,16 @@
           </item>
           <item row="1" column="2">
            <widget class="QDoubleSpinBox" name="trajP">
+            <property name="minimum">
+             <double>-100.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>100.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QDoubleSpinBox" name="rotP">
             <property name="minimum">
              <double>-100.000000000000000</double>
             </property>
@@ -488,6 +505,16 @@
             </property>
            </widget>
           </item>
+          <item row="2" column="3">
+           <widget class="QDoubleSpinBox" name="rotD">
+            <property name="minimum">
+             <double>-100.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>100.000000000000000</double>
+            </property>
+           </widget>
+          </item>
           <item row="3" column="0">
            <widget class="QLabel" name="label_6">
             <property name="text">
@@ -506,7 +533,17 @@
            </widget>
           </item>
           <item row="3" column="2">
-           <widget class="QDoubleSpinBox" name="traI">
+           <widget class="QDoubleSpinBox" name="trajI">
+            <property name="minimum">
+             <double>-100.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>100.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="3">
+           <widget class="QDoubleSpinBox" name="rotI">
             <property name="minimum">
              <double>-100.000000000000000</double>
             </property>

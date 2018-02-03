@@ -159,6 +159,7 @@ struct __attribute__((packed)) ControlParameters
 {
     float attP, attD, attI;
     float traP, traD, traI;
+    float rotP, rotD, rotI;
 };
 
 union __attribute__((packed)) TCdata

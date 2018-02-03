@@ -67,7 +67,10 @@ void TCWindow::sendtelecommand()
            sendme.data.controlParams.attI = ui->attI->value();
            sendme.data.controlParams.traP = ui->trajP->value();
            sendme.data.controlParams.traD = ui->trajD->value();
-           sendme.data.controlParams.traI = ui->traI->value();
+           sendme.data.controlParams.traI = ui->trajI->value();
+           sendme.data.controlParams.rotP = ui->rotP->value();
+           sendme.data.controlParams.rotD = ui->rotD->value();
+           sendme.data.controlParams.rotI = ui->rotI->value();
            break;
 
        case 8: //ROTATION_SPEED

@@ -49,5 +49,6 @@ extern Fifo<IMUCommand, 10> tcImuCommand;
 extern CommBuffer<Pose> tcTargetPose;
 extern CommBuffer<bool> tcActivateController;
 extern CommBuffer<ControlParameters> tcControlParams;
+extern CommBuffer<float> desiredRotationSpeed;
 
 #endif /* TOPICS_H_ */
