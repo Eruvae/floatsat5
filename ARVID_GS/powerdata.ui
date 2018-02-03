@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Power Diagnostics</string>
+   <string>Power Telemetry</string>
   </property>
   <property name="windowIcon">
    <iconset resource="arvid_res.qrc">
@@ -43,12 +43,12 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">background: rgb(240, 240, 240)</string>
+    <string notr="true">background: rgb(0, 0, 0)</string>
    </property>
    <property name="title">
     <string/>
    </property>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -97,7 +97,7 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -137,7 +137,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>510</x>
@@ -177,7 +177,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -217,19 +217,10 @@
     </item>
    </layout>
   </widget>
+  <zorder>layoutWidget</zorder>
+  <zorder>layoutWidget</zorder>
+  <zorder>layoutWidget</zorder>
   <zorder>label_9</zorder>
-  <zorder>CurrentT1</zorder>
-  <zorder>PowerT1</zorder>
-  <zorder>CurrentT2</zorder>
-  <zorder>PowerT2</zorder>
-  <zorder>CurrentT3</zorder>
-  <zorder>PowerT3</zorder>
-  <zorder>label_3</zorder>
-  <zorder>label_4</zorder>
-  <zorder>label_5</zorder>
-  <zorder>label_6</zorder>
-  <zorder>label_7</zorder>
-  <zorder>label_8</zorder>
   <zorder>groupBox</zorder>
  </widget>
  <resources>

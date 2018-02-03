@@ -15,7 +15,7 @@ void MainWindow::SetupGraphCurrent()
 {
 
     ui->graph_temp->addGraph(); // blue line
-    ui->graph_temp->graph(0)->setPen(QPen(QColor(255, 255, 255)));
+    ui->graph_temp->graph(0)->setPen(QPen(QColor(255, 0, 0)));
     ui->graph_temp->setBackground(Qt::black);
     ui->graph_temp->axisRect()->setBackground(Qt::black);
 

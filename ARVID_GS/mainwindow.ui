@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>ARVID</string>
+   <string>ARVID Ground Station Interface</string>
   </property>
   <property name="windowIcon">
    <iconset resource="arvid_res.qrc">

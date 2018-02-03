@@ -10,7 +10,7 @@ void MainWindow::SetupPlotTracking(float valuex, float valuey)
 {
     QCPScatterStyle shape;
     shape.setShape(QCPScatterStyle::ssTriangle);
-    shape.setPen(QPen(Qt::white));
+    shape.setPen(QPen(Qt::red));
     shape.setSize(8);
 
     ui->trackPlot->addGraph();

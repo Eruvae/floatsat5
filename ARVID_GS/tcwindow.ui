@@ -49,7 +49,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedTCData">
        <property name="currentIndex">
-        <number>2</number>
+        <number>5</number>
        </property>
        <widget class="QWidget" name="pageCalIMU">
         <widget class="QComboBox" name="comboIMUcal">
@@ -616,7 +616,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>send Command</string>
+     <string>Send Telecommand</string>
     </property>
    </widget>
    <widget class="QWidget" name="layoutWidget">
