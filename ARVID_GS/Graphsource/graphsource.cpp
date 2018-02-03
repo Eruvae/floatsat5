@@ -27,7 +27,7 @@ void MainWindow::SetupGraphCurrent()
     ui->graph_temp->xAxis->setAutoTickStep(false);
     ui->graph_temp->xAxis->setTickStep(2);
     ui->graph_temp->axisRect()->setupFullAxesBox();
-    ui->graph_temp->yAxis->setRange(0, 0.4);
+    //ui->graph_temp->yAxis->setRange(0, 1.5);
 
     // make left and bottom axes transfer their ranges to right and top axes:
     connect(ui->graph_temp->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->graph_temp->xAxis2, SLOT(setRange(QCPRange)));
@@ -53,11 +53,13 @@ if (key-lastPointKey > 0.01) // at most add point every 10 ms
   //ui->graph_temp->graph(1)->addData(key, qCos(key)+qrand()/(double)RAND_MAX*0.5*qSin(key/0.4364));
   // rescale value (vertical) axis to fit the current data:
   //ui->graph_temp->graph(0)->rescaleValueAxis();
-  ui->graph_temp->graph(0)->rescaleValueAxis(true);
+  //ui->graph_temp->graph(0)->rescaleValueAxis(true);
+  ui->graph_temp->graph(0)->rescaleAxes(true);
   lastPointKey = key;
 }
 // make key axis range scroll with the data (at a constant range size of 8):
 ui->graph_temp->xAxis->setRange(key, 8, Qt::AlignRight);
+ui->graph_temp->yAxis->setRange(newValue, Qt::AlignTop);
 ui->graph_temp->replot();
 
 // calculate frames per second:

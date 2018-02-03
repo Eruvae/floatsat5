@@ -37,7 +37,8 @@ SOURCES += \
     powerdata.cpp \
     QMeter/qmeter.cpp \
     QMeter/qmeterdrawfunctions.cpp \
-    manualcontrol.cpp
+    manualcontrol.cpp \
+    Graphsource/tracking_plot.cpp
 
 HEADERS  += \
     WifiWrapper/basics.h \

@@ -30,25 +30,25 @@ void PowerData::updatePowerData()
     ui->PowerT1->display((currentmc*voltagemc)/1000);
     if((valve2&&valve3) || (!valve2 && !valve3))
     {
-     ui->CurrentT2->display(currentmb/2);
      ui->CurrentT3->display(currentmb/2);
-     ui->PowerT2->display(((currentmb*voltagemb)/2)/1000);
+     ui->CurrentT2->display(currentmb/2);
      ui->PowerT3->display(((currentmb*voltagemb)/2)/1000);
+     ui->PowerT2->display(((currentmb*voltagemb)/2)/1000);
     }
     else if (valve2)
-    {
-        ui->CurrentT2->display(currentmb);
-        ui->CurrentT3->display(0);
-        ui->PowerT2->display((currentmb*voltagemb)/1000);
-        ui->PowerT3->display(0);
-    }
-
-    else if (valve3)
     {
         ui->CurrentT3->display(currentmb);
         ui->CurrentT2->display(0);
         ui->PowerT3->display((currentmb*voltagemb)/1000);
         ui->PowerT2->display(0);
+    }
+
+    else if (valve3)
+    {
+        ui->CurrentT2->display(currentmb);
+        ui->CurrentT3->display(0);
+        ui->PowerT2->display((currentmb*voltagemb)/1000);
+        ui->PowerT3->display(0);
     }
 
 }

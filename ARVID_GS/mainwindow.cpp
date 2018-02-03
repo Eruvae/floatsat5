@@ -69,6 +69,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QTimer *timer = new QTimer(this);
     timer->start(100);
 
+    SetupPlotTracking();
+
 
 
 
@@ -214,6 +216,8 @@ void MainWindow::readFromLink(){
         ui->starLcdx->display(data.x);
         ui->starLcdy->display(data.y);
         ui->starLcdAngle->display(data.yaw);
+        float valuey=data.x, valuex=data.y;
+        SetupPlotTracking(valuey, valuex);
         break;
     }
 
