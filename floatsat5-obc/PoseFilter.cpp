@@ -113,7 +113,7 @@ void PoseFilter::run()
 			//print_debug_msg("OT: %.2f, %.2f, %.2f, %.2f", r, otX, otY, otYaw);
 		}
 
-		print_debug_msg("YawMag: %f; ObjMag: %f", otYaw*180.0/M_PI, filteredHeading*180.0/M_PI);
+		//print_debug_msg("ObjYaw: %f; MagYaw: %f", otYaw*180.0/M_PI, filteredHeading*180.0/M_PI);
 
 		Pose pose;
 		pose.x = otX;

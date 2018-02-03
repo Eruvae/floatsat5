@@ -32,7 +32,10 @@ void PoseController::run()
 	itPoseControllerMode.publish(mode);
 	float oldeX = 0, oldeY = 0;
 	float oldYawErr = 0;
-	const float k = 2.f, td = 5.f, gamma = sqrt(3)/2;
+	float attP = 10.f, attD = 0.f;
+	float k = 2.f, td = 5.f, gamma = sqrt(3)/2; // trajectory control params
+	ControlParameters params = {attP, attD, k, td};
+	tcControlParams.put(params);
 	while(1)
 	{
 		tcActivateController.get(activated);
@@ -40,20 +43,22 @@ void PoseController::run()
 		filteredPoseBuffer.get(filteredPose);
 		reactionWheelSpeedBuffer.get(currentRwSpeed);
 		tcTargetPose.get(targetPose);
+		tcControlParams.get(params);
+		attP = params.attP; attD = params.attD; k = params.traP; td = params.traD;
 		if (mode == PoseControllerMode::CHANGE_ATTITUDE)
 		{
 			// yaw control
 			float yaw = filteredPose.yaw;
 			float goalYaw = targetPose.yaw; // TODO: change via Topic
 
-			const float p = 10.0f;
+			//const float p = 10.0f;
 			//const float i = 0.1f;
 			//const float d = 0.5f;
 
 			float error = goalYaw - yaw;
 			MOD(error, -180, 180);
 
-			float rwSpeedDifDps = p * error;
+			float rwSpeedDifDps = attP * error;
 
 			int16_t rwSpeedDifRpm = (int16_t)(rwSpeedDifDps / 6);
 			int16_t newRwSpeed = currentRwSpeed + rwSpeedDifRpm;
@@ -71,9 +76,9 @@ void PoseController::run()
 			float yaw = filteredPose.yaw;
 			float goalYaw = targetPose.yaw; // TODO: change via Topic
 
-			const float p = 15.0f;
+			//const float p = 15.0f;
 			//const float i = 0.1f;
-			const float d = 0.2f;
+			//const float d = 0.2f;
 
 			float error = goalYaw - yaw;
 		    //MAXDIF_PI(error, oldYawErr);
@@ -83,7 +88,7 @@ void PoseController::run()
 
 			//oldYawErr = error;
 
-			float rwSpeedDifDps = p * error;// + d * filteredPose.dyaw;
+			float rwSpeedDifDps = attP * error;// + attD * filteredPose.dyaw;
 
 			int16_t rwSpeedDifRpm = (int16_t)(rwSpeedDifDps / 6);
 			int16_t newRwSpeed = currentRwSpeed + rwSpeedDifRpm;

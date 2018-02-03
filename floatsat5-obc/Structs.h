@@ -156,6 +156,12 @@ struct __attribute__((packed)) RaspiCommandData
 	bool enable;
 };
 
+struct __attribute__((packed)) ControlParameters
+{
+	float attP, attD;
+	float traP, traD;
+};
+
 union __attribute__((packed)) TCdata
 {
 	IMUCommand imu_com;
@@ -165,6 +171,7 @@ union __attribute__((packed)) TCdata
 	bool boolData;
 	int pcMode;
 	RaspiCommandData rpiComData;
+	ControlParameters controlParams;
 };
 
 struct __attribute__((packed)) Telecommand

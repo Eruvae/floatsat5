@@ -55,3 +55,4 @@ CommBuffer<int16_t> tcReactionWheelTargetSpeed;
 Fifo<IMUCommand, 10> tcImuCommand;
 CommBuffer<Pose> tcTargetPose;
 CommBuffer<bool> tcActivateController;
+CommBuffer<ControlParameters> tcControlParams;

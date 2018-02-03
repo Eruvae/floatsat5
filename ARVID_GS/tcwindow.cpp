@@ -61,6 +61,12 @@ void TCWindow::sendtelecommand()
            sendme.data.rpiComData.enable = ui->rpiEnableBox->isChecked();
            qDebug() << "Bool: " << sendme.data.rpiComData.enable << endl;
            break;
+       case 7: //SEND_CONTROL_DATA
+           sendme.data.controlParams.attP = ui->attP->value();
+           sendme.data.controlParams.attD = ui->attD->value();
+           sendme.data.controlParams.traP = ui->trajP->value();
+           sendme.data.controlParams.traD = ui->trajD->value();
+           break;
        }
 
        int written = TCLink->write<Telecommand>(TelecommandType,sendme);

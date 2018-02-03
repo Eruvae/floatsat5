@@ -92,7 +92,7 @@ void RaspiComm::publishData(RTM &receivedData)
 {
 	if (strcmp(receivedData.id, "ST") == 0) // Star Tracker
 	{
-		//print_debug_msg("ST: %f, %f, %f", receivedData.starTrackerPose.x, receivedData.starTrackerPose.y, receivedData.starTrackerPose.yaw);
+		print_debug_msg("ST: %f, %f, %f", receivedData.starTrackerPose.x, receivedData.starTrackerPose.y, receivedData.starTrackerPose.yaw);
 		itStarTrackerPose.publish(receivedData.starTrackerPose);
 	}
 	else if (strcmp(receivedData.id, "OT") == 0) // Object Tracking

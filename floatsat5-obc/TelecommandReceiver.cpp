@@ -18,6 +18,7 @@
 #define ACTIVATE_CONTROLLER 0x04
 #define CHANGE_PC_MODE	0x05
 #define RPI_COMMAND	0x06
+#define SEND_CONTROL_PARAMS 0x07
 
 TelecommandReceiver telecommandReceiver;
 
@@ -66,5 +67,9 @@ void TelecommandReceiver::put(Telecommand &data)
 		print_debug_msg("En: %d", data.data.rpiComData.enable);
 		//print_debug_msg("Sizes: %d, %d", sizeof(RaspiCommand), sizeof(bool));
 		raspiComm.sendCommand(static_cast<RaspiCommand>(data.data.rpiComData.command), data.data.rpiComData.enable);
+	}
+	else if (data.id == SEND_CONTROL_PARAMS)
+	{
+		tcControlParams.put(data.data.controlParams);
 	}
 }
