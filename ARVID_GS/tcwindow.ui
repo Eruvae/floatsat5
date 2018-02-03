@@ -49,7 +49,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedTCData">
        <property name="currentIndex">
-        <number>7</number>
+        <number>8</number>
        </property>
        <widget class="QWidget" name="pageCalIMU">
         <widget class="QComboBox" name="comboIMUcal">
@@ -410,13 +410,13 @@
         </widget>
        </widget>
        <widget class="QWidget" name="page_6">
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
            <x>30</x>
            <y>20</y>
-           <width>147</width>
-           <height>93</height>
+           <width>164</width>
+           <height>105</height>
           </rect>
          </property>
          <layout class="QGridLayout" name="gridLayout">
@@ -518,6 +518,40 @@
          </layout>
         </widget>
        </widget>
+       <widget class="QWidget" name="page_7">
+        <widget class="QWidget" name="layoutWidget_2">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>20</y>
+           <width>131</width>
+           <height>61</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>Speed (Rotation)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="rotationSpeed">
+            <property name="decimals">
+             <number>0</number>
+            </property>
+            <property name="minimum">
+             <double>-10000.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>10000.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
       </widget>
      </item>
     </layout>
@@ -592,6 +626,11 @@
        <item>
         <property name="text">
          <string>SEND_CONTROL_PARAMS</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>SEND_ROTATION_SPEED</string>
         </property>
        </item>
       </widget>

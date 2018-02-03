@@ -69,6 +69,9 @@ void TCWindow::sendtelecommand()
            sendme.data.controlParams.traD = ui->trajD->value();
            sendme.data.controlParams.traI = ui->traI->value();
            break;
+
+       case 8: //ROTATION_SPEED
+           sendme.data.rotationSpeed= ui->rotationSpeed->value();
        }
 
        int written = TCLink->write<Telecommand>(TelecommandType,sendme);

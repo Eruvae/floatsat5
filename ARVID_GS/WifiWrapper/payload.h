@@ -171,6 +171,7 @@ union __attribute__((packed)) TCdata
     int pcMode;
     RaspiCommandData rpiComData;
     ControlParameters controlParams;
+    float rotationSpeed;
 };
 
 struct __attribute__((packed)) Telecommand
