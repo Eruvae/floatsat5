@@ -16,6 +16,7 @@ void TCWindow::sendtelecommand()
     Telecommand sendme;
        qDebug()<<"we are in sendTelecommand";
 
+
        sendme.id = ui->comboTC->currentIndex();
 
        qDebug() << "Current index: " << ui->comboTC->currentIndex() << endl;
@@ -67,8 +68,15 @@ void TCWindow::sendtelecommand()
            sendme.data.controlParams.attI = ui->attI->value();
            sendme.data.controlParams.traP = ui->trajP->value();
            sendme.data.controlParams.traD = ui->trajD->value();
-           sendme.data.controlParams.traI = ui->traI->value();
+           sendme.data.controlParams.traI = ui->trajI->value();
+           sendme.data.controlParams.rotP = ui->rotP->value();
+           sendme.data.controlParams.rotD = ui->rotD->value();
+           sendme.data.controlParams.rotI = ui->rotI->value();
            break;
+
+       case 8: //ROTATION_SPEED
+           sendme.data.rotationSpeed= ui->rotationSpeed->value();
+
        }
 
        int written = TCLink->write<Telecommand>(TelecommandType,sendme);
@@ -84,5 +92,13 @@ TCWindow::~TCWindow()
 
 void TCWindow::on_pb_clicked()
 {
+    sendtelecommand();
+}
+
+
+void TCWindow::on_pushButton_clicked()
+{
+    Telecommand sendme;
+    sendme.data.rotationSpeed=0;
     sendtelecommand();
 }

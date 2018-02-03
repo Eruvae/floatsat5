@@ -19,6 +19,7 @@
 #define CHANGE_PC_MODE	0x05
 #define RPI_COMMAND	0x06
 #define SEND_CONTROL_PARAMS 0x07
+#define SEND_ROTATION_SPEED 0x08
 
 TelecommandReceiver telecommandReceiver;
 
@@ -71,5 +72,10 @@ void TelecommandReceiver::put(Telecommand &data)
 	else if (data.id == SEND_CONTROL_PARAMS)
 	{
 		tcControlParams.put(data.data.controlParams);
+	}
+	else if (data.id == SEND_ROTATION_SPEED)
+	{
+		desiredRotationSpeed.put(data.data.rotationSpeed);
+		itPoseControllerMode.publishConst(PoseControllerMode::ROTATE);
 	}
 }

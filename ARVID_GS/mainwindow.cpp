@@ -72,6 +72,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
+
+
     //connect(this, SIGNAL(PacketSignal(double)), this, SLOT(SetupRealtimeDataSlotCurrent(double)));
     connect(link, SIGNAL(readReady()), this, SLOT(readFromLink()));
     //connect(ui->pb,SIGNAL(clicked()),this,SLOT(sendtelecommand()));
@@ -214,6 +216,8 @@ void MainWindow::readFromLink(){
         ui->starLcdx->display(data.x);
         ui->starLcdy->display(data.y);
         ui->starLcdAngle->display(data.yaw);
+        float valuey=data.x, valuex=data.y;
+        SetupPlotTracking(valuey, valuex);
         break;
     }
 

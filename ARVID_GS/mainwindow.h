@@ -35,6 +35,7 @@ public slots:
 void readFromLink();
 void sendtelecommand();
 void SetupGraphCurrent();
+void SetupPlotTracking(float valuex, float valuey);
 //void SetupRWSpeedMeter();
 void SetupRealtimeDataSlotCurrent(double newValue);
 //void setSignal(QColor color);

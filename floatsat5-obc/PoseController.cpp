@@ -34,9 +34,11 @@ void PoseController::run()
 	float eX_int = 0, eY_int = 0;
 	float oldYawErr = 0;
 	float errYaw_int = 0;
+	float errRot_int = 0, old_dYaw = 0;
 	float attP = 10.f, attD = 4.f, attI = 0.f;
+	float rotP = 10.f, rotD = 0.f, rotI = 0.f;
 	float k = 1.5f, td = 5.f, ti = 0.05f, gamma = sqrt(3)/2; // trajectory control params
-	ControlParameters params = {attP, attD, attI, k, td, ti};
+	ControlParameters params = {attP, attD, attI, k, td, ti, rotP, rotD, rotI};
 	tcControlParams.put(params);
 	while(1)
 	{
@@ -50,6 +52,7 @@ void PoseController::run()
 		tcControlParams.get(params);
 		attP = params.attP; attD = params.attD; attI = params.attI;
 		k = params.traP; td = params.traD; ti = params.traI;
+		rotP = params.rotP; rotD = params.rotD; rotI = params.rotI;
 
 		if (targetPose.x != oldTargetPose.x ||
 			targetPose.y != oldTargetPose.y ||
@@ -83,8 +86,22 @@ void PoseController::run()
 		}
 		else if (mode == PoseControllerMode::ROTATE)
 		{
-			float targetRotationSpeed = 20; // DPS, change to tc later
+			float targetRotationSpeed; // DPS, change to tc later
+			desiredRotationSpeed.get(targetRotationSpeed);
 			float dyaw = filteredPose.dyaw;
+
+			float error = targetRotationSpeed - dyaw;
+
+			float errRot_dif = (dyaw - old_dYaw) / period;
+
+			errRot_int += error * period;
+
+			float rwSpeedDifDps = rotP * error + rotD * errRot_dif + rotI * errRot_int;
+
+			int16_t rwSpeedDifRpm = (int16_t)(rwSpeedDifDps / 6);
+			int16_t newRwSpeed = currentRwSpeed + rwSpeedDifRpm;
+
+			tcReactionWheelTargetSpeed.put(newRwSpeed);
 		}
 		else if (mode == PoseControllerMode::FOLLOW_TRAJECTORY)
 		{

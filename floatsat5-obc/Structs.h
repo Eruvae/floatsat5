@@ -160,6 +160,7 @@ struct __attribute__((packed)) ControlParameters
 {
 	float attP, attD, attI;
 	float traP, traD, traI;
+	float rotP, rotD, rotI;
 };
 
 union __attribute__((packed)) TCdata
@@ -172,6 +173,7 @@ union __attribute__((packed)) TCdata
 	int pcMode;
 	RaspiCommandData rpiComData;
 	ControlParameters controlParams;
+	float rotationSpeed;
 };
 
 struct __attribute__((packed)) Telecommand

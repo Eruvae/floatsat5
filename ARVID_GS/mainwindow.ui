@@ -243,7 +243,7 @@
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>294</width>
+       <width>310</width>
        <height>93</height>
       </rect>
      </property>
@@ -431,7 +431,7 @@
       <x>10</x>
       <y>160</y>
       <width>641</width>
-      <height>321</height>
+      <height>211</height>
      </rect>
     </property>
     <property name="title">
@@ -442,7 +442,7 @@
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>451</width>
+       <width>401</width>
        <height>161</height>
       </rect>
      </property>
@@ -466,10 +466,10 @@
     <widget class="QProgressBar" name="batterybar">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>220</y>
+       <x>440</x>
+       <y>30</y>
        <width>30</width>
-       <height>70</height>
+       <height>71</height>
       </rect>
      </property>
      <property name="value">
@@ -482,9 +482,9 @@
     <widget class="QLabel" name="label_26">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>200</y>
-       <width>81</width>
+       <x>400</x>
+       <y>10</y>
+       <width>71</width>
        <height>16</height>
       </rect>
      </property>
@@ -819,6 +819,16 @@
      </layout>
     </widget>
    </widget>
+   <widget class="QCustomPlot" name="trackPlot" native="true">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>380</y>
+      <width>421</width>
+      <height>191</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -826,7 +836,7 @@
      <x>0</x>
      <y>0</y>
      <width>983</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMenu">
