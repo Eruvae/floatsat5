@@ -244,7 +244,9 @@ void MainWindow::readFromLink(){
         qDebug() << data.x << "," << data.y << endl;
         float valuex=data.x, valuey=data.y;
 
-        ui->trackPlot->graph(0)->addData(valuey,valuex);
+        ui->trackPlot->graph(0)->addData(-valuey,valuex);
+        ui->trackPlot->graph(0)->data()->clear();
+        ui->trackPlot->replot();
 
         break;
     }

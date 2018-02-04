@@ -35,8 +35,8 @@ void PoseController::run()
 	float oldYawErr = 0;
 	float errYaw_int = 0;
 	float errRot_int = 0, old_dYaw = 0;
-	float attP = 10.f, attD = 4.f, attI = 0.f;
-	float rotP = 10.f, rotD = 0.f, rotI = 0.f;
+	float attP = 10.f, attD = -4.f, attI = 0.f;
+	float rotP = 100.f, rotD = 0.f, rotI = 10.f;
 	float k = 1.5f, td = 5.f, ti = 0.05f, gamma = sqrt(3)/2; // trajectory control params
 	ControlParameters params = {attP, attD, attI, k, td, ti, rotP, rotD, rotI};
 	tcControlParams.put(params);

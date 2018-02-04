@@ -18,11 +18,12 @@ void MainWindow::SetupPlotTracking()
     ui->trackPlot->axisRect()->setupFullAxesBox();
     ui->trackPlot->xAxis->setAutoTickStep(false);
     ui->trackPlot->xAxis->setTickStep(0.5);
-    ui->trackPlot->xAxis->setRange(0,-2.2);
-    ui->trackPlot->xAxis->setRangeReversed(true);
+    ui->trackPlot->xAxis->setRange(-2.2,0);
+    //ui->trackPlot->xAxis->setRangeReversed(true);
     ui->trackPlot->yAxis->setAutoTickStep(false);
     ui->trackPlot->yAxis->setTickStep(0.5);
     ui->trackPlot->yAxis->setRange(0, 2.2);
+    ui->trackPlot->set
 
     QTimer dataTimer;
 
