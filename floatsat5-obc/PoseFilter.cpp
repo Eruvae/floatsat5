@@ -134,7 +134,7 @@ void PoseFilter::run()
 		MOD(pose.yaw, -180, 180);
 		pose.dpitch = dpitch*180/M_PI;
 		pose.droll = droll*180/M_PI;
-		pose.dyaw = /*stdYaw;*/dyaw*180/M_PI;
+		pose.dyaw = gyro[2]*180/M_PI;/*stdYaw;*///dyaw*180/M_PI;
 
 		itFilteredPose.publish(pose);
 

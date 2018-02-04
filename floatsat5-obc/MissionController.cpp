@@ -22,7 +22,7 @@ MissionController::~MissionController()
 
 void MissionController::run()
 {
-	setPeriodicBeat(30*MILLISECONDS, 100*MILLISECONDS);
+	setPeriodicBeat(30*MILLISECONDS, 200*MILLISECONDS);
 	while(1)
 	{
 

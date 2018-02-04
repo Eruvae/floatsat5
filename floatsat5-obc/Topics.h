@@ -22,11 +22,9 @@ extern Topic<IMUData> itImuData;
 extern Topic<int16_t> itReactionWheelSpeed;
 extern Topic<IRData> itInfraredData;
 extern Topic<ActuatorData> itActuatorData;
-
 extern Topic<Pose2D> itStarTrackerPose;
 extern Topic<OTData> itObjectTrackingPose;
 extern Topic<Position2D> itRadioPosition;
-
 extern Topic<ThrusterControls> itThrusterControls;
 extern Topic<PoseControllerMode> itPoseControllerMode;
 
@@ -37,6 +35,11 @@ extern Topic<IMUData> tmImuData;
 extern Topic<int16_t> tmReactionWheelSpeed;
 extern Topic<IRData> tmInfraredData;
 extern Topic<ActuatorData> tmActuatorData;
+extern Topic<Pose2D> tmStarTrackerPose;
+extern Topic<OTData> tmObjectTrackingPose;
+extern Topic<Position2D> tmRadioPosition;
+extern Topic<ThrusterControls> tmThrusterControls;
+extern Topic<PoseControllerMode> tmPoseControllerMode;
 
 extern Fifo<DebugMessage, 50> debugMsgFifo;
 extern Topic<DebugMessage> tmDebugMsg;
@@ -47,8 +50,9 @@ int print_debug_msg(const char *format, ...);
 extern CommBuffer<int16_t> tcReactionWheelTargetSpeed;
 extern Fifo<IMUCommand, 10> tcImuCommand;
 extern CommBuffer<Pose> tcTargetPose;
-extern CommBuffer<bool> tcActivateController;
+//extern CommBuffer<bool> tcActivateController;
 extern CommBuffer<ControlParameters> tcControlParams;
 extern CommBuffer<float> desiredRotationSpeed;
+extern CommBuffer<bool> activateValvePWM;
 
 #endif /* TOPICS_H_ */

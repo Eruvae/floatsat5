@@ -20,6 +20,11 @@ private:
 	CommBuffer<int16_t> reactionWheelSpeedBuffer;
 	CommBuffer<IRData> infraredDataBuffer;
 	CommBuffer<ActuatorData> actuatorDataBuffer;
+	CommBuffer<Pose2D> starTrackerPoseBuffer;
+	CommBuffer<OTData> objectTrackingPoseBuffer;
+	CommBuffer<Position2D> radioPositionBuffer;
+	CommBuffer<ThrusterControls> thrusterControlsBuffer;
+	CommBuffer<PoseControllerMode> poseControllerModeBuffer;
 
 	Subscriber powerDataSub;
 	Subscriber filteredPoseSub;
@@ -27,6 +32,11 @@ private:
 	Subscriber reactionWheelSpeedSub;
 	Subscriber infraredDataSub;
 	Subscriber actuatorDataSub;
+	Subscriber starTrackerPoseSub;
+	Subscriber objectTrackingPoseSub;
+	Subscriber radioPositionSub;
+	Subscriber thrusterControlsSub;
+	Subscriber poseControllerModeSub;
 public:
 	TelemetrySender();
 	void run();

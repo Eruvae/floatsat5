@@ -103,6 +103,11 @@ void CommInterfaces::init()
 	gw.addTopicsToForward(&tmReactionWheelSpeed);
 	gw.addTopicsToForward(&tmInfraredData);
 	gw.addTopicsToForward(&tmActuatorData);
+	gw.addTopicsToForward(&tmStarTrackerPose);
+	gw.addTopicsToForward(&tmObjectTrackingPose);
+	gw.addTopicsToForward(&tmRadioPosition);
+	gw.addTopicsToForward(&tmThrusterControls);
+	gw.addTopicsToForward(&tmPoseControllerMode);
 
 	gw.addTopicsToForward(&tmDebugMsg);
 

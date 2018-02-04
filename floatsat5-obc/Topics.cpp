@@ -35,6 +35,13 @@ Topic<int16_t> tmReactionWheelSpeed(5003, "Reaction Wheel Speed TM");
 Topic<IRData> tmInfraredData(5004, "Infrared Data TM");
 Topic<ActuatorData> tmActuatorData(5005, "Valve Status TM");
 
+Topic<Pose2D> tmStarTrackerPose(5006, "Star Tracker Pose TM");
+Topic<OTData> tmObjectTrackingPose(5007, "Object Tracking Pose TM");
+Topic<Position2D> tmRadioPosition(5008, "Radio Position TM");
+
+Topic<ThrusterControls> tmThrusterControls(5009, "Thruster Controls TM");
+Topic<PoseControllerMode> tmPoseControllerMode(5010, "Pose Controller Mode TM");
+
 Fifo<DebugMessage, 50> debugMsgFifo;
 Topic<DebugMessage> tmDebugMsg(6000, "Debug Message TM");
 
@@ -54,6 +61,7 @@ int print_debug_msg(const char *format, ...)
 CommBuffer<int16_t> tcReactionWheelTargetSpeed;
 Fifo<IMUCommand, 10> tcImuCommand;
 CommBuffer<Pose> tcTargetPose;
-CommBuffer<bool> tcActivateController;
+//CommBuffer<bool> tcActivateController;
 CommBuffer<ControlParameters> tcControlParams;
 CommBuffer<float> desiredRotationSpeed;
+CommBuffer<bool> activateValvePWM;

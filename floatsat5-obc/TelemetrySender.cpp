@@ -15,7 +15,12 @@ TelemetrySender::TelemetrySender() : powerDataSub(itPowerData, powerDataBuffer),
 		imuDataSub(itImuData, imuDataBuffer),
 		reactionWheelSpeedSub(itReactionWheelSpeed, reactionWheelSpeedBuffer),
 		infraredDataSub(itInfraredData, infraredDataBuffer),
-		actuatorDataSub(itActuatorData, actuatorDataBuffer)
+		actuatorDataSub(itActuatorData, actuatorDataBuffer),
+		starTrackerPoseSub(itStarTrackerPose, starTrackerPoseBuffer),
+		objectTrackingPoseSub(itObjectTrackingPose, objectTrackingPoseBuffer),
+		radioPositionSub(itRadioPosition, radioPositionBuffer),
+		thrusterControlsSub(itThrusterControls, thrusterControlsBuffer),
+		poseControllerModeSub(itPoseControllerMode, poseControllerModeBuffer)
 {
 }
 
@@ -33,6 +38,11 @@ void TelemetrySender::run()
 		int16_t reactionWheelSpeed;
 		IRData infraredData;
 		ActuatorData actuatorStatus;
+		Pose2D starTrackerPose;
+		OTData objectTrackingPose;
+		Position2D radioPosition;
+		ThrusterControls thrusterControls;
+		PoseControllerMode poseControllerMode;
 
 		powerDataBuffer.get(powerData);
 		filteredPoseBuffer.get(filteredPose);
@@ -40,6 +50,12 @@ void TelemetrySender::run()
 		reactionWheelSpeedBuffer.get(reactionWheelSpeed);
 		infraredDataBuffer.get(infraredData);
 		actuatorDataBuffer.get(actuatorStatus);
+		starTrackerPoseBuffer.get(starTrackerPose);
+		objectTrackingPoseBuffer.get(objectTrackingPose);
+		radioPositionBuffer.get(radioPosition);
+		thrusterControlsBuffer.get(thrusterControls);
+		poseControllerModeBuffer.get(poseControllerMode);
+
 
 		//PRINTF("TM rw speed: %d\n", reactionWheelSpeed);
 
@@ -54,6 +70,16 @@ void TelemetrySender::run()
 		tmInfraredData.publish(infraredData);
 		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
 		tmActuatorData.publish(actuatorStatus);
+		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
+		tmStarTrackerPose.publish(starTrackerPose);
+		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
+		tmObjectTrackingPose.publish(objectTrackingPose);
+		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
+		tmRadioPosition.publish(radioPosition);
+		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
+		tmThrusterControls.publish(thrusterControls);
+		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
+		tmPoseControllerMode.publish(poseControllerMode);
 		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
 
 		while(!debugMsgFifo.isEmpty())

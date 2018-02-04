@@ -26,9 +26,9 @@ void PoseController::run()
 	Pose targetPose = {0};
 	tcTargetPose.put(targetPose); // Start with 0
 	int16_t currentRwSpeed;
-	bool activated = false;
+	//bool activated = false;
 	PoseControllerMode mode = PoseControllerMode::STANDBY;
-	tcActivateController.put(activated);
+	//tcActivateController.put(activated);
 	itPoseControllerMode.publish(mode);
 	float oldeX = 0, oldeY = 0;
 	float eX_int = 0, eY_int = 0;
@@ -40,9 +40,11 @@ void PoseController::run()
 	float k = 1.5f, td = 5.f, ti = 0.05f, gamma = sqrt(3)/2; // trajectory control params
 	ControlParameters params = {attP, attD, attI, k, td, ti, rotP, rotD, rotI};
 	tcControlParams.put(params);
+	bool valvePWMEnabled = false;
+	activateValvePWM.put(valvePWMEnabled);
 	while(1)
 	{
-		tcActivateController.get(activated);
+		//tcActivateController.get(activated);
 		PoseControllerMode oldMode = mode;
 		poseControllerModeBuffer.get(mode);
 		filteredPoseBuffer.get(filteredPose);
@@ -59,11 +61,14 @@ void PoseController::run()
 			targetPose.yaw != oldTargetPose.yaw ||
 			mode != oldMode) // reset int
 		{
-			eX_int = 0; eY_int = 0; errYaw_int = 0;
+			eX_int = 0; eY_int = 0; errYaw_int = 0; errRot_int = 0;
 		}
 
 		if (mode == PoseControllerMode::CHANGE_ATTITUDE)
 		{
+			valvePWMEnabled = false;
+			activateValvePWM.put(valvePWMEnabled);
+
 			// yaw control
 			float yaw = filteredPose.yaw;
 			float goalYaw = targetPose.yaw; // TODO: change via Topic
@@ -86,6 +91,9 @@ void PoseController::run()
 		}
 		else if (mode == PoseControllerMode::ROTATE)
 		{
+			valvePWMEnabled = false;
+			activateValvePWM.put(valvePWMEnabled);
+
 			float targetRotationSpeed; // DPS, change to tc later
 			desiredRotationSpeed.get(targetRotationSpeed);
 			float dyaw = filteredPose.dyaw;
@@ -105,6 +113,10 @@ void PoseController::run()
 		}
 		else if (mode == PoseControllerMode::FOLLOW_TRAJECTORY)
 		{
+			// activate valve PWM
+			valvePWMEnabled = true;
+			activateValvePWM.put(valvePWMEnabled);
+
 			// yaw control
 			float yaw = filteredPose.yaw;
 			float goalYaw = targetPose.yaw; // TODO: change via Topic
@@ -193,11 +205,14 @@ void PoseController::run()
 		}
 		else
 		{
-			ThrusterControls controls;
+			valvePWMEnabled = false;
+			activateValvePWM.put(valvePWMEnabled);
+
+			/*ThrusterControls controls;
 			controls.f1 = 0;
 			controls.f2 = 0;
 			controls.f3 = 0;
-			itThrusterControls.publish(controls);
+			itThrusterControls.publish(controls);*/
 		}
 
 		suspendUntilNextBeat();
