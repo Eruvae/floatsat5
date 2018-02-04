@@ -6,7 +6,7 @@
 #include <QMessageBox>
 #include <QMetaEnum>
 
-void MainWindow::SetupPlotTracking(float valuex, float valuey)
+void MainWindow::SetupPlotTracking()
 {
     QCPScatterStyle shape;
     shape.setShape(QCPScatterStyle::ssTriangle);
@@ -17,13 +17,17 @@ void MainWindow::SetupPlotTracking(float valuex, float valuey)
     ui->trackPlot->graph(0)->setScatterStyle(shape);
     ui->trackPlot->axisRect()->setupFullAxesBox();
     ui->trackPlot->xAxis->setAutoTickStep(false);
-    ui->trackPlot->xAxis->setTickStep(0.01);
-    ui->trackPlot->xAxis->setRange(0, 2);
-    ui->trackPlot->yAxis->setAutoTickStep(false);
-    ui->trackPlot->yAxis->setTickStep(0.01);
-    ui->trackPlot->yAxis->setRange(0, 2);
+    ui->trackPlot->xAxis->setTickStep(0.5);
+    ui->trackPlot->xAxis->setRange(0,-2.2);
     ui->trackPlot->xAxis->setRangeReversed(true);
-    ui->trackPlot->graph(0)->addData(valuex,valuey);
+    ui->trackPlot->yAxis->setAutoTickStep(false);
+    ui->trackPlot->yAxis->setTickStep(0.5);
+    ui->trackPlot->yAxis->setRange(0, 2.2);
 
+    QTimer dataTimer;
+
+    // setup a timer that repeatedly calls MainWindow::realtimeDataSlot:
+
+    dataTimer.start(0);
 
 }

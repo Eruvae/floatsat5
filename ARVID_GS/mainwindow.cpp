@@ -70,6 +70,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     SetupGraphCurrent();
+    SetupPlotTracking();
     QTimer *timer = new QTimer(this);
     timer->start(100);
 
@@ -240,8 +241,11 @@ void MainWindow::readFromLink(){
         ui->starLcdx->display(data.x);
         ui->starLcdy->display(data.y);
         ui->starLcdAngle->display(data.yaw);
-        float valuey=data.x, valuex=data.y;
-        SetupPlotTracking(valuey, valuex);
+        qDebug() << data.x << "," << data.y << endl;
+        float valuex=data.x, valuey=data.y;
+
+        ui->trackPlot->graph(0)->addData(valuey,valuex);
+
         break;
     }
 
