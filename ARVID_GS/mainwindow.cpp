@@ -144,26 +144,16 @@ void MainWindow::readFromLink(){
         ui->batterybar->setValue(batteryStateMean);
         ui->battsoc_txt->setText(QString::number(batteryStateMean)+"%");
 
-        //Experiment_
-        QString myStyleSheet = " QProgressBar::chunk {"
-        " background-color: ";
-
-        if(30 >= batteryStateMean)
-        {
-            myStyleSheet.append("red;");
-        }
-        else if(80 >= batteryStateMean)
-        {
-            myStyleSheet.append("yellow;");
-        }
-        else
-        {
-            myStyleSheet.append("green;");
-        }
-        myStyleSheet.append("     width: 10px;"\
-                            "     margin: 0.5px;"\
-                            " }");
-        ui->batterybar->setStyleSheet(myStyleSheet);
+        //Battery bar colors
+          QString value1 = "QProgressBar::chunk {background: rgb(221, 47, 4)};";
+          QString value2 = "QProgressBar::chunk {background: rgb(226, 131, 29)};";
+          QString value3 = "QProgressBar::chunk {background: rgb(118, 255, 0)};";
+          if(ui->batterybar->value()<30)
+              ui->batterybar->setStyleSheet(value1);
+          if(ui->batterybar->value()>30 && ui->batterybar->value()<70)
+              ui->batterybar->setStyleSheet(value2);
+          if(ui->batterybar->value()>=70)
+              ui->batterybar->setStyleSheet(value3);
 
         voltagema=data.mota_voltage*0.004;
         currentma=data.mota_current*0.2;

@@ -50,7 +50,7 @@ void TCWindow::sendtelecommand()
            break;
        }
 
-       case 4: //ACTIVATE_CONTROLLER
+       case 4: //DEACTIVATE_CONTROLLER
            sendme.data.boolData = ui->activateControllerBox->isChecked();
            break;
 
@@ -99,6 +99,6 @@ void TCWindow::on_pb_clicked()
 void TCWindow::on_pushButton_clicked()
 {
     Telecommand sendme;
-    sendme.data.rotationSpeed=0;
-    sendtelecommand();
+    sendme.id = 4;
+    TCLink->write<Telecommand>(TelecommandType,sendme);
 }

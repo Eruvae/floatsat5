@@ -73,15 +73,15 @@ void ManualControl::sendThrustersAdvanced()
         if (angle < 120 && angle >= 60)
             data = 0b110;
         else if (angle < 60 && angle >= 0)
-            data = 0b100;
+            data = 0b010;
         else if (angle < 0 && angle >= -60)
-            data = 0b101;
+            data = 0b011;
         else if (angle < -60 && angle >= -120)
             data = 0b001;
         else if (angle < -120)
-            data = 0b011;
+            data = 0b101;
         else // angle > 120
-            data = 0b010;
+            data = 0b100;
     }
 
     send.data.valveControl = data;

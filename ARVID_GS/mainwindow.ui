@@ -483,7 +483,10 @@ background-color: rgb(0, 0, 0);</string>
       <string notr="true"/>
      </property>
      <property name="value">
-      <number>24</number>
+      <number>50</number>
+     </property>
+     <property name="textVisible">
+      <bool>false</bool>
      </property>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
