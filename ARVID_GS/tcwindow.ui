@@ -711,12 +711,45 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>6</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
      <string>Calibration</string>
     </attribute>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>110</y>
+       <width>130</width>
+       <height>101</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <widget class="QRadioButton" name="gyrobutton">
+        <property name="text">
+         <string>GYROSCOPE</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="accbutton">
+        <property name="text">
+         <string>ACCELEROMETER</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="magbutton">
+        <property name="text">
+         <string>MAGNETOMETER</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </widget>
    <widget class="QWidget" name="tab_2">
     <attribute name="title">
@@ -885,35 +918,35 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_11">
       <item>
-       <widget class="QRadioButton" name="radioButton_4">
+       <widget class="QRadioButton" name="standbybutton">
         <property name="text">
          <string>STANDBY</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="radioButton_5">
+       <widget class="QRadioButton" name="holdposebutton">
         <property name="text">
          <string>HOLD POSE</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="radioButton_6">
+       <widget class="QRadioButton" name="trajectorybutton">
         <property name="text">
          <string>FOLLOW TRAJECTORY</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="radioButton_7">
+       <widget class="QRadioButton" name="attitudebutton">
         <property name="text">
          <string>CHANGE ATTITUDE</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="radioButton_8">
+       <widget class="QRadioButton" name="rotatebutton">
         <property name="text">
          <string>ROTATE</string>
         </property>
@@ -939,21 +972,21 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_12">
         <item>
-         <widget class="QRadioButton" name="radioButton_9">
+         <widget class="QRadioButton" name="stbutton">
           <property name="text">
            <string>STAR TRACKING</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="radioButton_10">
+         <widget class="QRadioButton" name="otbutton">
           <property name="text">
            <string>OBJECT TRACKING</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="radioButton_11">
+         <widget class="QRadioButton" name="rpbutton">
           <property name="text">
            <string>RADIO POSITIONING</string>
           </property>
@@ -962,7 +995,7 @@
        </layout>
       </item>
       <item>
-       <widget class="QCheckBox" name="rpiEnableBox_3">
+       <widget class="QCheckBox" name="rpicheck">
         <property name="text">
          <string>Enable</string>
         </property>

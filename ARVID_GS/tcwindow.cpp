@@ -94,8 +94,16 @@ void TCWindow::telecommandsend()
     switch(ui->tabWidget->currentIndex())
     {
     case 0: // CALIB_IMU
+        if (ui->gyrobutton->isChecked())
+                send.data.imu_com=(IMUCommand)0;
+        else if (ui->accbutton->isChecked())
+                send.data.imu_com=(IMUCommand)1;
+        else if (ui->magbutton->isChecked())
+                send.data.imu_com=(IMUCommand)2;
+
         //send.data.imu_com = (IMUCommand)ui->comboIMUcal->currentIndex();
         break;
+
     case 1: // SEND_POS
         send.data.pose.x = ui->PoseX->value();
         send.data.pose.y = ui->PoseY->value();
@@ -108,7 +116,6 @@ void TCWindow::telecommandsend()
     case 2: // SEND_RW_SPEED
         send.data.wheel_target_speed=ui->RWSpeed_3->value();
         break;
-
 
     case 3: //THRUSTER_CONTROL
     {
@@ -125,13 +132,33 @@ void TCWindow::telecommandsend()
         break;
 
     case 5: //CHANGE_PC_MODE
+        if (ui->standbybutton->isChecked())
+            send.data.pcMode = 0;
+        else if (ui->holdposebutton->isChecked())
+            send.data.pcMode = 1;
+        else if (ui->trajectorybutton->isChecked())
+            send.data.pcMode = 2;
+        else if (ui->attitudebutton->isChecked())
+            send.data.pcMode = 3;
+        else if (ui->rotatebutton->isChecked())
+            send.data.pcMode = 4;
+
         //send.data.pcMode = ui->comboPCmode->currentIndex();
         break;
+
     case 6: //RPI_COMMAND
+        if (ui->stbutton->isChecked())
+            send.data.rpiComData.command = 0;
+        else if (ui->otbutton->isChecked())
+            send.data.rpiComData.command = 1;
+        else if (ui->rpbutton->isChecked())
+            send.data.rpiComData.command = 2;
+
         //send.data.rpiComData.command = ui->comboRPIcom->currentIndex();
-        //send.data.rpiComData.enable = ui->rpiEnableBox->isChecked();
+        send.data.rpiComData.enable = ui->rpicheck->isChecked();
         //qDebug() << "Bool: " << send.data.rpiComData.enable << endl;
         break;
+
     case 7: //SEND_CONTROL_DATA
         send.data.controlParams.attP = ui->attP_3->value();
         send.data.controlParams.attD = ui->attD_3->value();
