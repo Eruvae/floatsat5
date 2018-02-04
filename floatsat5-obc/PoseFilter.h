@@ -21,11 +21,14 @@ private:
 	CommBuffer<Pose2D> starTrackerPoseBuffer;
 	Subscriber starTrackerPoseSub;
 
-	CommBuffer<Position2D> radioPositionBuffer;
+	CommBuffer<RadioPosition> radioPositionBuffer;
 	Subscriber radioPositionSub;
 
 	CommBuffer<OTData> otDataBuffer;
 	Subscriber otDataSub;
+
+	CommBuffer<RaspiStatus> raspiStatusBuffer;
+	Subscriber raspiStatusSub;
 public:
 	PoseFilter();
 

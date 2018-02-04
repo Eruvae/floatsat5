@@ -24,9 +24,10 @@ extern Topic<IRData> itInfraredData;
 extern Topic<ActuatorData> itActuatorData;
 extern Topic<Pose2D> itStarTrackerPose;
 extern Topic<OTData> itObjectTrackingPose;
-extern Topic<Position2D> itRadioPosition;
+extern Topic<RadioPosition> itRadioPosition;
 extern Topic<ThrusterControls> itThrusterControls;
 extern Topic<PoseControllerMode> itPoseControllerMode;
+extern Topic<RaspiStatus> itRaspiStatus;
 
 // TM topics, should only be published in TM Sender thread
 extern Topic<PowerData> tmPowerData;
@@ -37,7 +38,7 @@ extern Topic<IRData> tmInfraredData;
 extern Topic<ActuatorData> tmActuatorData;
 extern Topic<Pose2D> tmStarTrackerPose;
 extern Topic<OTData> tmObjectTrackingPose;
-extern Topic<Position2D> tmRadioPosition;
+extern Topic<RadioPosition> tmRadioPosition;
 extern Topic<ThrusterControls> tmThrusterControls;
 extern Topic<PoseControllerMode> tmPoseControllerMode;
 

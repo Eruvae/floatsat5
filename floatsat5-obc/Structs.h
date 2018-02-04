@@ -117,9 +117,9 @@ enum class PoseControllerMode
 	STANDBY, HOLD_POSE, FOLLOW_TRAJECTORY, CHANGE_ATTITUDE, ROTATE
 };
 
-struct __attribute__((packed)) Position2D
+struct __attribute__((packed)) RadioPosition
 {
-	float x, y;
+	float x1, y1, x2, y2;
 };
 
 struct __attribute__((packed)) Pose2D
@@ -154,6 +154,13 @@ struct __attribute__((packed)) RaspiCommandData
 {
 	int command;
 	bool enable;
+};
+
+struct __attribute__((packed)) RaspiStatus
+{
+	bool stEnabled;
+	bool otEnabled;
+	bool rdEnabled;
 };
 
 struct __attribute__((packed)) ControlParameters

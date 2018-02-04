@@ -241,7 +241,7 @@ void MainWindow::readFromLink(){
         ui->starLcdx->display(data.x);
         ui->starLcdy->display(data.y);
         ui->starLcdAngle->display(data.yaw);
-        qDebug() << data.x << "," << data.y << endl;
+        //qDebug() << data.x << "," << data.y << endl;
         float valuex=data.x, valuey=data.y;
 
         ui->trackPlot->graph(0)->addData(-valuey,valuex);
