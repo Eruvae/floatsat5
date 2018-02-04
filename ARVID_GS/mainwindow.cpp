@@ -244,7 +244,17 @@ void MainWindow::readFromLink(){
         //qDebug() << data.x << "," << data.y << endl;
         float valuex=data.x, valuey=data.y;
 
-        ui->trackPlot->graph(0)->addData(-valuey,valuex);
+
+        double key = QTime::currentTime().msecsSinceStartOfDay()/1000.0; // time elapsed since start of demo, in seconds
+        static double lastPointKey = 0;
+        if (key-lastPointKey > 0.5)
+        {
+            ui->trackPlot->graph(0)->addData(-valuey,valuex);
+        }
+
+        lastPointKey = key;
+
+        ui->trackPlot->graph(0)->removeDataBefore(lastPointKey);
 //      ui->trackPlot->graph(0)->data()->clear();
 //      ui->trackPlot->replot();
 
