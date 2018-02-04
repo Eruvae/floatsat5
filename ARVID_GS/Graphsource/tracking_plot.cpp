@@ -23,7 +23,6 @@ void MainWindow::SetupPlotTracking()
     ui->trackPlot->yAxis->setAutoTickStep(false);
     ui->trackPlot->yAxis->setTickStep(0.5);
     ui->trackPlot->yAxis->setRange(0, 2.2);
-    ui->trackPlot->set
 
     QTimer dataTimer;
 
