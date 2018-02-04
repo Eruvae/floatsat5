@@ -5,7 +5,16 @@
 #include "tcwindow.h"
 #include "powerdata.h"
 #include "qmeter.h"
-
+#include "chartview.h"
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QMainWindow>
+#include <QtCharts/QScatterSeries>
+#include <QtCharts/QLineSeries>
+#include <QtCharts/QSplineSeries>
+#include <QtCharts/QAreaSeries>
+#include <QtCharts/QValueAxis>
+#include <QtCharts/QPolarChart>
+#include <QtCore/QDebug>
 
 #define LIMIT(x,min,max)   ((x)<(min)?(min):(x)>(max)?(max):(x))
 
@@ -68,16 +77,59 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->trackPlot->yAxis->setTickLabelColor(Qt::white);
     ui->trackPlot->xAxis->setTickLabelColor(Qt::white);
 
+    //Setup Polar chart
+       const qreal angularMin = 0;
+       const qreal angularMax = 360;
+
+       const qreal radialMin = 0;
+       const qreal radialMax = 255;
+
+//       QScatterSeries *series1 = new QScatterSeries();
+//          series1->setName("scatter");
+//          for (int i = angularMin; i <= angularMax; i += 10)
+//              series1->append(i, (i / radialMax) * radialMax + 8.0);
+//          qDebug() << series1;
+
+       QScatterSeries *series1 = new QScatterSeries();
+        series1->append(125, 0);
+        series1->setColor(Qt::white);
+
+
+
+       QPolarChart *chart = new QPolarChart();
+       chart->addSeries(series1);
+       //chart->setTheme(QChart::ChartThemeDark);
+       chart->setBackgroundVisible(false);
+
+
+       QValueAxis *angularAxis = new QValueAxis();
+       angularAxis->setTickCount(5); // First and last ticks are co-located on 0/360 angle.
+       angularAxis->setLabelsColor(Qt::white);
+       angularAxis->setLabelFormat("%.1f");
+       angularAxis->setShadesVisible(false);
+       angularAxis->setShadesBrush(QBrush(QColor(0, 0, 0)));
+       chart->addAxis(angularAxis, QPolarChart::PolarOrientationAngular);
+
+       QValueAxis *radialAxis = new QValueAxis();
+       radialAxis->setTickCount(9);
+       radialAxis->setLabelFormat("%d");
+       radialAxis->setLabelsColor(Qt::white);
+       chart->addAxis(radialAxis, QPolarChart::PolarOrientationRadial);
+
+          series1->attachAxis(radialAxis);
+          series1->attachAxis(angularAxis);
+
+       radialAxis->setRange(radialMin, radialMax);
+       angularAxis->setRange(angularMin, angularMax);
+
+       ui->pchart->setChart(chart);
+       ui->pchart->setRenderHint(QPainter::Antialiasing);
+       ui->pchart->setWindowTitle("Title");
 
     SetupGraphCurrent();
     SetupPlotTracking();
     QTimer *timer = new QTimer(this);
     timer->start(100);
-
-
-
-
-
 
     //connect(this, SIGNAL(PacketSignal(double)), this, SLOT(SetupRealtimeDataSlotCurrent(double)));
     connect(link, SIGNAL(readReady()), this, SLOT(readFromLink()));
