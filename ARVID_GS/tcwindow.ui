@@ -61,7 +61,7 @@ QTableWidget QTableCornerButton::section {
 	height: 20px;
 	width:95px;
 }
-
+QTabWidget::pane { border: 0; }
 QTabBar::tab:selected, 
 QTabBar::tab:hover 
 {
@@ -72,7 +72,7 @@ QTabBar::tab:hover
 }</string>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="tab_5">
     <attribute name="title">
@@ -248,6 +248,12 @@ QTabBar::tab:hover
      <width>121</width>
      <height>28</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{ background-color: rgb(60, 59, 63) }
+QPushButton:focus{ background-color: grey; }
+QPushButton:hover{ background-color: grey; }
+</string>
    </property>
    <property name="text">
     <string>Send Command</string>

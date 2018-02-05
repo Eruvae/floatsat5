@@ -466,6 +466,12 @@ background-color: rgb(0, 0, 0);</string>
        <height>28</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{ background-color: rgb(60, 59, 63) }
+QPushButton:focus{ background-color: grey; }
+QPushButton:hover{ background-color: grey; }
+</string>
+     </property>
      <property name="text">
       <string>More Details &gt;&gt;</string>
      </property>
@@ -669,28 +675,6 @@ background-color: rgb(0, 0, 0);</string>
       </rect>
      </property>
     </widget>
-   </widget>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>690</x>
-      <y>300</y>
-      <width>281</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_20">
-     <item>
-      <widget class="QLabel" name="label_19">
-       <property name="text">
-        <string>Temperature</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLCDNumber" name="lcdTemp"/>
-     </item>
-    </layout>
    </widget>
    <widget class="QGroupBox" name="groupBox_5">
     <property name="geometry">
@@ -953,6 +937,70 @@ color: rgb(0, 0, 0);</string>
      </property>
     </widget>
    </widget>
+   <widget class="QGroupBox" name="groupBox_10">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>340</y>
+      <width>81</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Temperature</string>
+    </property>
+    <widget class="QLCDNumber" name="lcdTemp">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>61</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="label_19">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>300</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Mode:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="cmode">
+    <property name="geometry">
+     <rect>
+      <x>780</x>
+      <y>300</y>
+      <width>191</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Stand By</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -960,8 +1008,24 @@ color: rgb(0, 0, 0);</string>
      <x>0</x>
      <y>0</y>
      <width>983</width>
-     <height>26</height>
+     <height>18</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QMenuBar::item {
+    spacing: 3px; /* spacing between menu bar items */
+    padding: 1px 4px;
+    background: transparent;
+    border-radius: 1px;
+}
+
+QMenuBar::item:selected { /* when selected using mouse or keyboard */
+    background: grey;
+}
+
+QMenuBar::item:pressed {
+    background: grey;
+}</string>
    </property>
    <widget class="QMenu" name="menuMenu">
     <property name="title">
@@ -1002,6 +1066,11 @@ color: rgb(0, 0, 0);</string>
    </property>
   </action>
   <action name="actionSupport_and_Maintainance">
+   <property name="icon">
+    <iconset>
+     <normalon>:/Project Images/Img/wrench.png</normalon>
+    </iconset>
+   </property>
    <property name="text">
     <string>Support and Maintainance</string>
    </property>

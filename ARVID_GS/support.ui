@@ -6,21 +6,65 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>572</width>
+    <width>564</width>
     <height>279</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {
+    background-color: #000000;
+    color: #fffff8;
+}
+
+QHeaderView::section {
+    background-color: #646464;
+    padding: 4px;
+    border: 1px solid #fffff8;
+    font-size: 14pt;
+}
+
+QTableWidget {
+    gridline-color: #fffff8;
+    font-size: 12pt;
+}
+
+QTableWidget QTableCornerButton::section {
+    background-color: #646464;
+    border: 1px solid #fffff8;
+}</string>
+  </property>
   <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
      <y>20</y>
-     <width>531</width>
+     <width>511</width>
      <height>211</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QTabWidget::pane { border: 0; }
+
+QTabBar::tab 
+{
+    background: #000000;
+    color: white;   
+    border-color: #000000;
+	height: 20px;
+	width:85px;
+}
+
+QTabBar::tab:selected, 
+QTabBar::tab:hover 
+{
+    border-top-color: #1D2A32;
+    border-color: #40494E;
+    color: black;
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #C1D8E8, stop: 1 #F0F5F8); 
+}</string>
    </property>
    <property name="currentIndex">
     <number>5</number>
@@ -414,8 +458,20 @@
      <height>28</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{ background-color: rgb(60, 59, 63) }
+QPushButton:focus{ background-color: grey; }
+QPushButton:hover{ background-color: grey; }
+</string>
+   </property>
    <property name="text">
     <string>Send Command</string>
+   </property>
+   <property name="default">
+    <bool>false</bool>
+   </property>
+   <property name="flat">
+    <bool>false</bool>
    </property>
   </widget>
  </widget>
