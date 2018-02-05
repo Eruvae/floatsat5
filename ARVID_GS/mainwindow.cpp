@@ -82,23 +82,18 @@ MainWindow::MainWindow(QWidget *parent) :
        const qreal angularMax = 360;
 
        const qreal radialMin = 0;
-       const qreal radialMax = 255;
-
-//       QScatterSeries *series1 = new QScatterSeries();
-//          series1->setName("scatter");
-//          for (int i = angularMin; i <= angularMax; i += 10)
-//              series1->append(i, (i / radialMax) * radialMax + 8.0);
-//          qDebug() << series1;
+       const qreal radialMax = 140;
 
        QScatterSeries *series1 = new QScatterSeries();
-        series1->append(125, 0);
-        series1->setColor(Qt::white);
-
+        series1->setColor(QColor(0, 153, 51));
+        series1->setBorderColor(QColor(0, 153, 51));
+        series1->setMarkerSize(11);
+        series1->append(80, 90);
+        series1->clear();
 
 
        QPolarChart *chart = new QPolarChart();
        chart->addSeries(series1);
-       //chart->setTheme(QChart::ChartThemeDark);
        chart->setBackgroundVisible(false);
 
 
@@ -111,7 +106,7 @@ MainWindow::MainWindow(QWidget *parent) :
        chart->addAxis(angularAxis, QPolarChart::PolarOrientationAngular);
 
        QValueAxis *radialAxis = new QValueAxis();
-       radialAxis->setTickCount(9);
+       radialAxis->setTickCount(8);
        radialAxis->setLabelFormat("%d");
        radialAxis->setLabelsColor(Qt::white);
        chart->addAxis(radialAxis, QPolarChart::PolarOrientationRadial);
@@ -124,7 +119,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
        ui->pchart->setChart(chart);
        ui->pchart->setRenderHint(QPainter::Antialiasing);
-       ui->pchart->setWindowTitle("Title");
+
+       //End setup polar chart
 
     SetupGraphCurrent();
     SetupPlotTracking();
@@ -244,7 +240,7 @@ void MainWindow::readFromLink(){
         static double lastPointKey = 0;
         if (key-lastPointKey > 0.5)
         {
-            ui->trackPlot->graph(0)->addData(valuey,valuex);
+            ui->trackPlot->graph(0)->addData(-valuey,valuex);
         }
 
         lastPointKey = key;
@@ -420,4 +416,10 @@ void MainWindow::on_pushButton_clicked()
     powerdata.setModal(true);
     powerdata.exec();
 
+}
+
+void MainWindow::on_actionSupport_and_Maintainance_triggered()
+{
+    support = new Support(this, link);
+    support->show();
 }
