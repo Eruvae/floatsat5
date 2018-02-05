@@ -237,7 +237,7 @@ void MainWindow::readFromLink(){
 
     case StarTrackerDataType:
     {
-        StarTrackerData data(payload);
+        Pose2D data = payload.starTrackerPose;
         ui->starLcdx->display(data.x);
         ui->starLcdy->display(data.y);
         ui->starLcdAngle->display(data.yaw);
@@ -336,6 +336,8 @@ void MainWindow::sendtelecommand()
 //    }
 //    //emit PacketSignal();
 //}
+
+
 
 MainWindow::~MainWindow()
 {

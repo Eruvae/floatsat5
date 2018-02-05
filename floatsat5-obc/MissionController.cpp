@@ -6,6 +6,8 @@
  */
 
 #include "MissionController.h"
+#include "Topics.h"
+#include "RaspiComm.h"
 
 MissionController missionController;
 
@@ -31,9 +33,15 @@ void MissionController::run()
 	while(1)
 	{
 		MissionState state = MissionState::STANDBY;
-		switch(state)
+		if (state == MissionState::START_SEARCHING)
 		{
-		//TODO
+			raspiComm.sendCommand(OT, true);
+
+			itPoseControllerMode.publishConst(PoseControllerMode::CHANGE_ATTITUDE);
+		}
+		else if (state == MissionState::SEARCHING_TARGET)
+		{
+
 		}
 
 		suspendUntilNextBeat();

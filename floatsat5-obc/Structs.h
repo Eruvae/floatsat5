@@ -114,7 +114,7 @@ enum class Mode
 
 enum class PoseControllerMode
 {
-	STANDBY, HOLD_POSE, FOLLOW_TRAJECTORY, CHANGE_ATTITUDE, ROTATE
+	STANDBY, HOLD_POSE, FOLLOW_TRAJECTORY, CHANGE_ATTITUDE, ROTATE, MOMENTUM_DAMPING
 };
 
 struct __attribute__((packed)) RadioPosition
@@ -173,7 +173,7 @@ struct __attribute__((packed)) ControlParameters
 union __attribute__((packed)) TCdata
 {
 	IMUCommand imu_com;
-	Pose pose;
+	Pose2D pose;
 	int16_t wheel_target_speed;
 	uint8_t valveControl;
 	bool boolData;

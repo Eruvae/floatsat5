@@ -17,6 +17,29 @@
    <iconset resource="arvid_res.qrc">
     <normaloff>:/Project Images/Img/Telecommang.png</normaloff>:/Project Images/Img/Telecommang.png</iconset>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {
+    background-color: #333333;
+    color: #fffff8;
+}
+
+QHeaderView::section {
+    background-color: #646464;
+    padding: 4px;
+    border: 1px solid #fffff8;
+    font-size: 14pt;
+}
+
+QTableWidget {
+    gridline-color: #fffff8;
+    font-size: 12pt;
+}
+
+QTableWidget QTableCornerButton::section {
+    background-color: #646464;
+    border: 1px solid #fffff8;
+}</string>
+  </property>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
@@ -711,13 +734,13 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>6</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
      <string>Calibration</string>
     </attribute>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>290</x>
@@ -755,7 +778,7 @@
     <attribute name="title">
      <string>Pose</string>
     </attribute>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>320</x>
@@ -775,7 +798,14 @@
          </widget>
         </item>
         <item>
-         <widget class="QDoubleSpinBox" name="PoseX"/>
+         <widget class="QDoubleSpinBox" name="PoseX">
+          <property name="minimum">
+           <double>-100.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>100.000000000000000</double>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -789,7 +819,14 @@
          </widget>
         </item>
         <item>
-         <widget class="QDoubleSpinBox" name="PoseY"/>
+         <widget class="QDoubleSpinBox" name="PoseY">
+          <property name="minimum">
+           <double>-100.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>100.000000000000000</double>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -803,7 +840,14 @@
          </widget>
         </item>
         <item>
-         <widget class="QDoubleSpinBox" name="PoseYaw"/>
+         <widget class="QDoubleSpinBox" name="PoseYaw">
+          <property name="minimum">
+           <double>-100.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>100.000000000000000</double>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -907,7 +951,7 @@
     <attribute name="title">
      <string>PC Mode</string>
     </attribute>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>330</x>
@@ -959,7 +1003,7 @@
     <attribute name="title">
      <string>RPI</string>
     </attribute>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>330</x>
@@ -1188,6 +1232,52 @@
        </widget>
       </item>
      </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_10">
+    <attribute name="title">
+     <string>Page</string>
+    </attribute>
+    <widget class="QPushButton" name="readPoseFileButton">
+     <property name="geometry">
+      <rect>
+       <x>360</x>
+       <y>50</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Read File</string>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="posesToSendTable">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>110</y>
+       <width>371</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <column>
+      <property name="text">
+       <string>x</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>y</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>yaw</string>
+      </property>
+     </column>
     </widget>
    </widget>
   </widget>

@@ -33,7 +33,12 @@ struct __attribute__((packed)) IMUData
     int16_t acc_x, acc_y, acc_z;
     int16_t mag_x, mag_y, mag_z;
     int16_t temp;
+};
 
+struct __attribute__((packed)) Pose2D
+{
+    float x, y, yaw;
+    //Pose2D (const Payload Payload);
 };
 
 struct __attribute__((packed)) Payload
@@ -55,6 +60,7 @@ struct __attribute__((packed)) Payload
         double userDataDouble[USER_DATA_MAX_LEN / sizeof(double)];
         IMUData imuData;
         int16_t reactionWheelSpeed;
+        Pose2D starTrackerPose;
 
     };
     Payload();
@@ -102,12 +108,6 @@ struct __attribute__((packed)) IRSensorData
     float distance;
     float angle;
     IRSensorData(const Payload Payload);
-};
-
-struct __attribute__((packed)) StarTrackerData
-{
-    float x,y,yaw;
-    StarTrackerData (const Payload Payload);
 };
 
 struct __attribute__((packed)) OTData
@@ -165,7 +165,7 @@ struct __attribute__((packed)) ControlParameters
 union __attribute__((packed)) TCdata
 {
     IMUCommand imu_com;
-    Pose pose;
+    Pose2D pose;
     int16_t wheel_target_speed;
     uint8_t valveControl;
     bool boolData;
