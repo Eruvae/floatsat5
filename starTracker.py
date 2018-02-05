@@ -16,7 +16,7 @@ THRESHOLD = 5.0   # max angular error: lower values cause less matches but highe
 # Star detection tweaking
 # mess with these if video shows stars not being detected,
 # but first try brightness and contrast which are more important
-MIN_BLOB_AREA = 15.0  
+MIN_BLOB_AREA = 5.0  
 MAX_BLOB_AREA = 40.0 
 MIN_DIST_BETWEEN = 2.0
 MIN_CONVEXITY = 0.9 
