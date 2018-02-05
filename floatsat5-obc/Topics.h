@@ -24,10 +24,9 @@ extern Topic<IRData> itInfraredData;
 extern Topic<ActuatorData> itActuatorData;
 extern Topic<Pose2D> itStarTrackerPose;
 extern Topic<OTData> itObjectTrackingPose;
-extern Topic<RadioPosition> itRadioPosition;
+extern Topic<Position2D> itRadioPosition;
 extern Topic<ThrusterControls> itThrusterControls;
 extern Topic<PoseControllerMode> itPoseControllerMode;
-extern Topic<RaspiStatus> itRaspiStatus;
 
 // TM topics, should only be published in TM Sender thread
 extern Topic<PowerData> tmPowerData;
@@ -38,7 +37,7 @@ extern Topic<IRData> tmInfraredData;
 extern Topic<ActuatorData> tmActuatorData;
 extern Topic<Pose2D> tmStarTrackerPose;
 extern Topic<OTData> tmObjectTrackingPose;
-extern Topic<RadioPosition> tmRadioPosition;
+extern Topic<Position2D> tmRadioPosition;
 extern Topic<ThrusterControls> tmThrusterControls;
 extern Topic<PoseControllerMode> tmPoseControllerMode;
 
@@ -50,8 +49,7 @@ int print_debug_msg(const char *format, ...);
 // TC CommBuffers
 extern CommBuffer<int16_t> tcReactionWheelTargetSpeed;
 extern Fifo<IMUCommand, 10> tcImuCommand;
-extern CommBuffer<Pose2D> tcTargetPose;
-extern Fifo<Pose2D, 20> tcNextTargetPoseList;
+extern CommBuffer<Pose> tcTargetPose;
 //extern CommBuffer<bool> tcActivateController;
 extern CommBuffer<ControlParameters> tcControlParams;
 extern CommBuffer<float> desiredRotationSpeed;
