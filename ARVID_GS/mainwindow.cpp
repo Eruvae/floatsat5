@@ -417,3 +417,9 @@ void MainWindow::on_pushButton_clicked()
     powerdata.exec();
 
 }
+
+void MainWindow::on_actionSupport_and_Maintainance_triggered()
+{
+    support = new Support(this, link);
+    support->show();
+}

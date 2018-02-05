@@ -5,6 +5,7 @@
 #include "satellitelink.h"
 #include "tcwindow.h"
 #include "manualcontrol.h"
+#include "support.h"
 
 
 namespace Ui {
@@ -25,6 +26,7 @@ private:
     Ui::MainWindow *ui;
     TCWindow *tcwindow;
     ManualControl *manualControl;
+    Support *support;
 
     QQueue<int> batteryStateQueue;
 
@@ -47,6 +49,7 @@ private slots:
 void on_actionTelecommand_Interface_triggered();
 void on_actionManual_Control_triggered();
 void on_pushButton_clicked();
+void on_actionSupport_and_Maintainance_triggered();
 };
 
 #endif // MAINWINDOW_H
