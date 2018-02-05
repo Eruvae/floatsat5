@@ -5,6 +5,7 @@
 #include "satellitelink.h"
 #include "tcwindow.h"
 #include "manualcontrol.h"
+#include "support.h"
 
 
 namespace Ui {
@@ -19,12 +20,13 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     SatelliteLink *link;
-    //SatelliteLink *gsLink;
+   
 
 private:
     Ui::MainWindow *ui;
     TCWindow *tcwindow;
     ManualControl *manualControl;
+    Support *support;
 
     QQueue<int> batteryStateQueue;
 
@@ -35,18 +37,19 @@ signals:
 
 public slots:
 void readFromLink();
-void sendtelecommand();
 void SetupGraphCurrent();
 void SetupPlotTracking();
-//void SetupRWSpeedMeter();
+void SetupRadar();
 void SetupRealtimeDataSlotCurrent(double newValue);
-//void setSignal(QColor color);
+void SetupSpeedMeter();
+
 
 
 private slots:
 void on_actionTelecommand_Interface_triggered();
 void on_actionManual_Control_triggered();
 void on_pushButton_clicked();
+void on_actionSupport_and_Maintainance_triggered();
 };
 
 #endif // MAINWINDOW_H

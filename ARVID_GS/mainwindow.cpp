@@ -48,9 +48,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     link = new SatelliteLink(this);
-    // link = new SatelliteLink(this, QHostAddress ("192.168.137.1"), QHostAddress("192.168.137.147"), 5000); // for hotspot wifi
-//    link->addTopic(Telemetry1Type);
-//    link->addTopic(Telemetry2Type);
     link->addTopic(PowerTelemetryType);
     link->addTopic(FilteredPoseType);
     link->addTopic(IMUDataType);
@@ -62,120 +59,32 @@ MainWindow::MainWindow(QWidget *parent) :
     link->addTopic(RadioPoseDataType);
 
     link->addTopic(DebugMsgType);
-    //gsLink=new SatelliteLink(this, QHostAddress ("192.168.0.109"), QHostAddress("192.168.0.120"), 5000); //GSLink Connection
-
-    //SetupRWRWSpeed();
-
-    ui->speedmeter->setMaxValue(8000);
-    ui->speedmeter->setMinValue(-8000);
-    ui->speedmeter->setThresholdEnabled(0);
-    ui->speedmeter->setForeground(QColor(255, 255, 255));
-    ui->speedmeter->setBackground(QColor(0, 0, 0));
-
-    //Setup Traj plot
-    ui->trackPlot->setBackground(Qt::black);
-    ui->trackPlot->yAxis->setTickLabelColor(Qt::white);
-    ui->trackPlot->xAxis->setTickLabelColor(Qt::white);
-
-    //Setup Polar chart
-       const qreal angularMin = 0;
-       const qreal angularMax = 360;
-
-       const qreal radialMin = 0;
-       const qreal radialMax = 255;
-
-//       QScatterSeries *series1 = new QScatterSeries();
-//          series1->setName("scatter");
-//          for (int i = angularMin; i <= angularMax; i += 10)
-//              series1->append(i, (i / radialMax) * radialMax + 8.0);
-//          qDebug() << series1;
-
-       QScatterSeries *series1 = new QScatterSeries();
-        series1->append(125, 0);
-        series1->setColor(Qt::white);
 
 
-
-       QPolarChart *chart = new QPolarChart();
-       chart->addSeries(series1);
-       //chart->setTheme(QChart::ChartThemeDark);
-       chart->setBackgroundVisible(false);
-
-
-       QValueAxis *angularAxis = new QValueAxis();
-       angularAxis->setTickCount(5); // First and last ticks are co-located on 0/360 angle.
-       angularAxis->setLabelsColor(Qt::white);
-       angularAxis->setLabelFormat("%.1f");
-       angularAxis->setShadesVisible(false);
-       angularAxis->setShadesBrush(QBrush(QColor(0, 0, 0)));
-       chart->addAxis(angularAxis, QPolarChart::PolarOrientationAngular);
-
-       QValueAxis *radialAxis = new QValueAxis();
-       radialAxis->setTickCount(9);
-       radialAxis->setLabelFormat("%d");
-       radialAxis->setLabelsColor(Qt::white);
-       chart->addAxis(radialAxis, QPolarChart::PolarOrientationRadial);
-
-          series1->attachAxis(radialAxis);
-          series1->attachAxis(angularAxis);
-
-       radialAxis->setRange(radialMin, radialMax);
-       angularAxis->setRange(angularMin, angularMax);
-
-       ui->pchart->setChart(chart);
-       ui->pchart->setRenderHint(QPainter::Antialiasing);
-       ui->pchart->setWindowTitle("Title");
-
+    SetupSpeedMeter();
+    SetupRadar();
     SetupGraphCurrent();
     SetupPlotTracking();
+
+
     QTimer *timer = new QTimer(this);
     timer->start(100);
 
-    //connect(this, SIGNAL(PacketSignal(double)), this, SLOT(SetupRealtimeDataSlotCurrent(double)));
     connect(link, SIGNAL(readReady()), this, SLOT(readFromLink()));
-    //connect(ui->pb,SIGNAL(clicked()),this,SLOT(sendtelecommand()));
-    //connect(ui->saveGraph,SIGNAL(clicked()),this,SLOT(on_pushButton_clicked()));
-    //connect(ui->comboTC, SIGNAL(currentIndexChanged(int)), ui->stackedTCData, SLOT(setCurrentIndex(int)));
+
 }
 
-void MainWindow::readFromLink(){
+void MainWindow::readFromLink()
+{
     Payload payload = link->read();
-    //qDebug() << "Topic ID received: " << payload.topic << endl;
-    //qDebug()<<"msg from link";
-    switch(payload.topic){
-//       case  Telemetry1Type:{
-//             Telemetry1 t1(payload);
-//             //qDebug()<<"I recieved Telemetry 1 "<<t1.ch[0]<<t1.ch[1]<<endl;
-//             //ui->telemetry1->setText(QString::number(t1.ch[0]));
-//             //ui->telemetry1->setText(QString("Telemetry 1 ->, First Character=%1 and Second Character=%2").arg(t1.ch[0]).arg(t1.ch[1])) ;
-//             break;
 
-//        }  //end case Telemetry1Type
+    switch(payload.topic)
 
-
-
-
-//    case  Telemetry2Type:{
-//         Telemetry2 t2(payload);
-//         //qDebug()<<"I recieved Telemetry 2"<<t2.a<<t2.b<< t2.data[0 ]<< t2.data[1]<<endl;
-
-//        //ui->telemetry2->setText(QString("Telemetry 2 -> %1 %2 %3 %4").arg(t2.a).arg(t2.b).arg(t2.data[0 ]).arg(t2.data[1 ])) ;
-//         missedPackets=counter - t2.a;
-
-//         if(missedPackets==0)
-//             setSignal(Qt::green);
-//         else
-//              setSignal(Qt::red);
-//         counter=t2.a+1;
-//        break;
-
-//    }          // Telemetry2Type
+{
 
     case PowerTelemetryType:
     {
         PowerTelemetry data(payload);
-
-        //qDebug() << "Power Telemetry received!" << endl;
 
         ui->lcdVoltage->display(data.voltage*0.004);
         ui->lcdCurrent->display(data.current*0.32 - 165);
@@ -218,11 +127,10 @@ void MainWindow::readFromLink(){
         voltagemd=data.motd_voltage*0.004;
 
         emit powerDataUpdate();
-        //qDebug() << "Graph Value = "<< graphvaluecurrent << endl;
 
-        //gsLink->write<PowerTelemetry>(PowerTelemetryType, data);
         break;
-    } //end case PowerTelemetryType!
+
+    } //end case PowerTelemetryType
 
     case FilteredPoseType:
     {
@@ -244,18 +152,16 @@ void MainWindow::readFromLink(){
         static double lastPointKey = 0;
         if (key-lastPointKey > 0.5)
         {
-            ui->trackPlot->graph(0)->addData(valuey,valuex);
+            ui->trackPlot->graph(0)->addData(-valuey,valuex);
         }
 
         lastPointKey = key;
 
         ui->trackPlot->graph(0)->removeDataBefore(lastPointKey);
-//      ui->trackPlot->graph(0)->data()->clear();
-//      ui->trackPlot->replot();
-
 
         break;
-    }
+
+    } //end case FilteredPoseType
 
     case IMUDataType:
     {
@@ -271,17 +177,17 @@ void MainWindow::readFromLink(){
         ui->lcdTemp->display(payload.imuData.temp*0.125);
 
         break;
-    }
+
+    } //end case IMUDataType
 
     case ReactionWheelSpeedType:
     {
         ui->lcdRWSpeed->display(payload.reactionWheelSpeed);
-
         ui->speedmeter->setValue(payload.reactionWheelSpeed);
 
-
         break;
-    }
+
+    } //end case ReactionWheelSpeedType
 
     case ActuatorDataType:
     {
@@ -290,9 +196,10 @@ void MainWindow::readFromLink(){
         valve2=(data.valveStatus&0b10)==0b10;
         valve3=(data.valveStatus&0b100)==0b100;
 
-        //ui->test->display(data.dutyCycle);
         break;
-    }
+
+    } //end case ActuatorDataType
+
     case IRSensorDataType:
     {
         IRSensorData data(payload);
@@ -300,9 +207,10 @@ void MainWindow::readFromLink(){
         ui->lcdrange2->display(data.range2);
         ui->lcddistance->display(data.distance);
         ui->lcdangle->display(data.angle*180/M_PI);
+
         break;
 
-    }
+    } //end case IRSensorDataType
 
     case StarTrackerDataType:
     {
@@ -311,16 +219,17 @@ void MainWindow::readFromLink(){
         ui->starLcdy->display(data.y);
         ui->starLcdAngle->display(data.yaw);
 
-
         break;
-    }
+
+    } //end case StarTrackerDataType
 
     case OTDataType:
     {
         OTData data(payload);
-
+        
         break;
-    }
+
+    } //end case OTDataType
 
     case RadioPoseDataType:
     {
@@ -329,70 +238,25 @@ void MainWindow::readFromLink(){
         ui->rpLcdy->display(data.y);
 
         break;
-    }
+
+    } //end case RadioPoseDataType
 
     case DebugMsgType:
     {
         qDebug("%s", payload.userData8);
         break;
-    }
+
+    } //end case DebugMsgType
 
     default:
+
         break;
+
     return;
 
 }  // end switch
-}
-
-//lineEdit_P_2->text().toFloat();
-//Telecommand sendme;
-void MainWindow::sendtelecommand()
-{
-   qDebug()<<"we are in sendTelecommand";
-   //float data; char id;
-   //sendme.data=ui->data->text().toFloat();
-   //sendme.id = ui->comboTC->currentIndex();
-
-   //qDebug() << "Current index: " << ui->comboTC->currentIndex() << endl;
-
-   //switch(ui->comboTC->currentIndex())
-   //{
-//   case 0: // CALIB_IMU
-//       sendme.data.imu_com = (IMUCommand)ui->comboIMUcal->currentIndex();
-//break;
-//   case 1: // SEND_POS
-//       sendme.data.pose.x = ui->posX->value();
-//       sendme.data.pose.y = ui->posY->value();
-//       sendme.data.pose.z = ui->posZ->value();
-//       sendme.data.pose.pitch = ui->posPitch->value();
-//       sendme.data.pose.yaw = ui->posYaw->value();
-//       sendme.data.pose.roll = ui->posRoll->value();
-    //   break;
-  //}
-
-   //int written = link->write<Telecommand>(TelecommandType,sendme);
-   //qDebug() << "Bytes written: " << written << endl;
 
 }
-
-
-
-//void MainWindow::setSignal(QColor color)
-//{
-//    if(color==Qt::green){
-//    //ui->graph_temp->graph(1)->setPen(QPen(Qt::green));
-//    recievedPackets++;
-//    //ui->RecievedPackets->setText(QString("%1").arg(recievedPackets));
-//    }
-
-//    else{
-//    //ui->graph_temp->graph(1)->setPen(QPen(Qt::red));
-//    MissedPackets++;
-//    //ui->missedPackets->setText(QString("%1").arg(MissedPackets));
-//    }
-//    //emit PacketSignal();
-//}
-
 
 
 MainWindow::~MainWindow()
@@ -413,6 +277,12 @@ void MainWindow::on_actionManual_Control_triggered()
     manualControl->show();
 }
 
+void MainWindow::on_actionSupport_and_Maintainance_triggered()
+{
+    support = new Support(this, link);
+    support->show();
+}
+
 
 void MainWindow::on_pushButton_clicked()
 {
@@ -421,3 +291,5 @@ void MainWindow::on_pushButton_clicked()
     powerdata.exec();
 
 }
+
+

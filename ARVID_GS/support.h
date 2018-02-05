@@ -25,6 +25,8 @@ public slots:
 
 
 
+private slots:
+    void on_pushButton_clicked();
 };
 
 #endif // SUPPORT_H
