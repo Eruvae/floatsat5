@@ -273,6 +273,8 @@ void MainWindow::readFromLink(){
     case RadioPoseDataType:
     {
         RadioPoseData data(payload);
+        ui->rpLcdx->display(data.x);
+        ui->rpLcdy->display(data.y);
 
         break;
     }
