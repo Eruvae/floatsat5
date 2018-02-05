@@ -32,7 +32,7 @@ void PoseController::controlYaw()
 
 	errYaw_int += error * period;
 
-	float rwSpeedDifDps = attP * error + attD * filteredPose.dyaw + attI * errYaw_int;
+	float rwSpeedDifDps = attP * error - attD * filteredPose.dyaw + attI * errYaw_int;
 
 	int16_t rwSpeedDifRpm = (int16_t)(rwSpeedDifDps / 6);
 	int16_t newRwSpeed = currentRwSpeed + rwSpeedDifRpm;

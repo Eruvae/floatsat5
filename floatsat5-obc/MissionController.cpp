@@ -41,7 +41,22 @@ void MissionController::run()
 		}
 		else if (state == MissionState::SEARCHING_TARGET)
 		{
+			OTData otData;
 
+			//TODO: get OT pose
+
+			if (otData.found)
+			{
+				// SAVE FOUND POSE
+			}
+			else
+			{
+				// CHANGE YAW
+			}
+		}
+		else if (state == MissionState::START_MOVING)
+		{
+			raspiComm.sendCommand(ST, true);
 		}
 
 		suspendUntilNextBeat();
