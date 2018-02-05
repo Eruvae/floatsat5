@@ -56,7 +56,7 @@ def detect_leds(image, x_0):
         if len(contours) == 0:
             return -1
         else:
-        cont = contours[0]
+            cont = contours[0]
 
         for cnt in contours:
             if cv2.contourArea(cnt) > cv2.contourArea(cont):
