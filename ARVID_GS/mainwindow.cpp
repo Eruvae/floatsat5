@@ -240,7 +240,7 @@ void MainWindow::readFromLink(){
         static double lastPointKey = 0;
         if (key-lastPointKey > 0.5)
         {
-            ui->trackPlot->graph(0)->addData(valuey,valuex);
+            ui->trackPlot->graph(0)->addData(-valuey,valuex);
         }
 
         lastPointKey = key;
