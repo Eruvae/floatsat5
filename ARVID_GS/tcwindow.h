@@ -25,12 +25,10 @@ private:
 
 
 public slots:
-    void sendtelecommand();
+
     void telecommandsend();
 
 private slots:
-    void on_pb_clicked();
-    void on_pushButton_clicked();
     void on_pushButton_4_clicked();
     void on_readPoseFileButton_clicked();
 };
