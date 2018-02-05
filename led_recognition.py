@@ -42,7 +42,8 @@ def f(x, *args):
     z_1, z_2, z_3 = args
     return (c*z_1-(G_0+a*np.sin(alpha))/(g_0-a*np.cos(alpha)), c*z_2-(G_0+a*np.sin(alpha+2./3.*np.pi))/(g_0-a*np.cos(alpha+2./3.*np.pi)), c*z_3-(G_0+a*np.sin(alpha+4./3.*np.pi))/(g_0-a*np.cos(alpha+4./3.*np.pi)))
 
-def detect_leds(image, x_0):
+def detect_leds(frame):
+    x_0 = (0.35, 0.05, 0.3)
 
     def reduce_noise(mask):
         mask = cv2.erode(mask, None)
@@ -86,7 +87,7 @@ def detect_leds(image, x_0):
         args_0 = (x_r-320,x_g-320,x_b-320)
         return fsolve(f, x_0, args=args_0), True
 
-    hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    hsv_image = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
     r_mask = cv2.inRange(hsv_image, np.array([170,50,50]), np.array([180,255,255]))
     g_mask = cv2.inRange(hsv_image, np.array([32,50,50]), np.array([52,255,255]))
@@ -126,11 +127,11 @@ while True:
     # and occupied/unoccupied text
     #image = np.copy(frame.array)
     camera.capture(stream, 'bgr', use_video_port=True)
-    image = stream.array
+    frame = stream.array
 
     #print(camera.exposure_speed)
 
-    x = detect_leds(image, x_0)
+    x = detect_leds(frame)
 
     print(x)
     toSend = '$OT:' + str(x[0][0]) + ':' + str(x[0][1]) + ':' + str(x[0][2]) + ':' + str(int(x[1])) + '\n'
@@ -143,23 +144,23 @@ while True:
     key = cv2.waitKey(1) & 0xFF
 
     # clear the stream in preparation for the next frame
-    rawCapture.truncate(0)
+    #rawCapture.truncate(0)
 
     # if the `q` key was pressed, break from the loop
     if key == ord("q"):
         break
 
     if key == ord("e"):
-        cv2.imwrite("test.jpg",image)
+        cv2.imwrite("test.jpg",frame)
 
     if key == ord("g"):
-        hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+        hsv_image = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         np.save("hsv",hsv_image)
 
     if key == ord("p"):
-        print(image[xpos,ypos,:])
+        print(frame[xpos,ypos,:])
         print(hsv_image[xpos,ypos,:])
 
-    cv2.imshow("image", image)
+    cv2.imshow("image", frame)
     stream.seek(0)
     stream.truncate()
