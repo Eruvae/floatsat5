@@ -185,6 +185,23 @@ void MainWindow::readFromLink(){
         ui->lcddyaw->display(data.dyaw);
         ui->lcddpitch->display(data.dpitch);
         ui->lcddroll->display(data.droll);
+
+        float valuex=data.x, valuey=data.y;
+
+        double key = QTime::currentTime().msecsSinceStartOfDay()/1000.0; // time elapsed since start of demo, in seconds
+        static double lastPointKey = 0;
+        if (key-lastPointKey > 0.5)
+        {
+            ui->trackPlot->graph(0)->addData(valuey,valuex);
+        }
+
+        lastPointKey = key;
+
+        ui->trackPlot->graph(0)->removeDataBefore(lastPointKey);
+//      ui->trackPlot->graph(0)->data()->clear();
+//      ui->trackPlot->replot();
+
+
         break;
     }
 
@@ -241,22 +258,7 @@ void MainWindow::readFromLink(){
         ui->starLcdx->display(data.x);
         ui->starLcdy->display(data.y);
         ui->starLcdAngle->display(data.yaw);
-        //qDebug() << data.x << "," << data.y << endl;
-        float valuex=data.x, valuey=data.y;
 
-
-        double key = QTime::currentTime().msecsSinceStartOfDay()/1000.0; // time elapsed since start of demo, in seconds
-        static double lastPointKey = 0;
-        if (key-lastPointKey > 0.5)
-        {
-            ui->trackPlot->graph(0)->addData(-valuey,valuex);
-        }
-
-        lastPointKey = key;
-
-        ui->trackPlot->graph(0)->removeDataBefore(lastPointKey);
-//      ui->trackPlot->graph(0)->data()->clear();
-//      ui->trackPlot->replot();
 
         break;
     }
