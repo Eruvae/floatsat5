@@ -20,7 +20,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     SatelliteLink *link;
-    //SatelliteLink *gsLink;
+   
 
 private:
     Ui::MainWindow *ui;
@@ -37,12 +37,12 @@ signals:
 
 public slots:
 void readFromLink();
-void sendtelecommand();
 void SetupGraphCurrent();
 void SetupPlotTracking();
-//void SetupRWSpeedMeter();
+void SetupRadar();
 void SetupRealtimeDataSlotCurrent(double newValue);
-//void setSignal(QColor color);
+void SetupSpeedMeter();
+
 
 
 private slots:
