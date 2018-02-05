@@ -7,6 +7,7 @@ import picamera.array
 import numpy
 import radioPositioning
 import starTracker
+from led_recognition import detect_leds
 
 def setCamPos(index):
     if (index == 1):
@@ -46,6 +47,26 @@ def setCamPos(index):
         time.sleep(0.1)
         p.ChangeDutyCycle(0)
 
+camera = None
+stream = None
+
+def setup_camera_st():
+    camera = picamera.PiCamera()
+    stream = picamera.array.PiRGBArray(camera)
+    camera.resolution = (320, 240)
+    camera.brightness = 30
+    camera.contrast = 95
+    time.sleep(0.1)
+
+def setup_camera_ot():
+    camera = picamera.PiCamera()
+    stream = picamera.array.PiRGBArray(camera)
+    camera.resolution = (640, 480)
+    camera.framerate = 32
+    camera.exposure_mode = "off"
+    camera.shutter_speed = 10000
+    time.sleep(0.1)
+
 ser = serial.Serial('/dev/ttyAMA0', 115200)  # open serial port
 #print(ser.name)
 servoPIN = 17
@@ -58,97 +79,98 @@ camPosition = 1 # -1 - undefined; 1 - ST; 2 - OT
 state = 0
 received = ''
 
-# Constants
-CAMERA_RESOLUTION = (320, 240)
-CAMERA_BRIGHTNESS = 30
-CAMERA_CONTRAST = 95
 debug = False
 # Read ST catalogs into memory
 star_catalog = starTracker.read_catalog()
 # Open Pi camera stream
 try:
-    with picamera.PiCamera() as camera:
-        with picamera.array.PiRGBArray(camera) as stream:
+    st_enable = False
+    ot_enable = False
+    rd_enable = False
+    while True:
 
-            # Setup camera
-            camera.resolution = CAMERA_RESOLUTION
-            camera.brightness = CAMERA_BRIGHTNESS
-            camera.contrast = CAMERA_CONTRAST
-
-
-            st_enable = False
-            ot_enable = False
-            rd_enable = False
-            while True:
-
-                while(ser.inWaiting()):
-                    c = ser.read()
-                    if (state == 0):
-                        if (c == b'$'):
-                            state = 1
-                    elif (state == 1):
-                        if (c == b'\n'):
-                            print('Received: ' + received)
-                            if (received[0:2] == 'ST'):
-                                if (received[2] == '1'):
-                                    ot_enable = False
-                                    st_enable = True
-                                    if (camPosition != 1):
-                                        setCamPos(1)
-                                        camPosition = 1
-                                elif (received[2] == '0'):
-                                    st_enable = False
-                            elif (received[0:2] == 'OT'):
-                                if (received[2] == '1'):
-                                    st_enable = False
-                                    ot_enable = True
-                                    if (camPosition != 2):
-                                        setCamPos(2)
-                                        camPosition = 2
-                                elif (received[2] == '0'):
-                                    ot_enable = False
-                            elif (received[0:2] == 'RD'):
-                                if (received[2] == '1'):
-                                    rd_enable = True
-                                elif (received[2] == '0'):
-                                    rd_enable = False
-                            state = 0
-                            received = ''
-                        else:
-                            received += c.decode()
-
-                ser.write(("$RS:" + str(int(st_enable)) + ":" + str(int(ot_enable)) + ":" + str(int(rd_enable)) + "\n").encode())
-                # Radio positioning
-                if (rd_enable):
-                    data = radioPositioning.get_position()
-                    if data:
-                        ser.write(("$RD:%4.2f:%4.2f:%4.2f:%4.2f\n" % (data[0].x, data[0].y, data[1].x, data[1].y)).encode())
-                if (st_enable):
-                    # Get camera stream for ST/OT
-                    camera.capture(stream, 'bgr', use_video_port=True)
-
-                    # Convert frame to greyscale
-                    frame = stream.array
-                    image = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                    data = starTracker.track_stars(image, star_catalog, False, debug)
-                    if data:
-                        # convert mm to m
-                        x = numpy.round(data['x'] / 1000.0, 4)
-                        y = numpy.round(data['y'] / 1000.0, 4)
-                        theta = data['theta']
-                        ser.write(("$ST:%4.2f:%4.2f:%4.2f\n" % (x, y, theta)).encode())
-                    
-                    # reset camera stream for next frame
-                    stream.seek(0)
-                    stream.truncate()
+        while(ser.inWaiting()):
+            c = ser.read()
+            if (state == 0):
+                if (c == b'$'):
+                    state = 1
+            elif (state == 1):
+                if (c == b'\n'):
+                    print('Received: ' + received)
+                    if (received[0:2] == 'ST'):
+                        if (received[2] == '1'):
+                            ot_enable = False
+                            st_enable = True
+                            setup_camera_st()
+                            if (camPosition != 1)
+                                setCamPos(1)
+                                camPosition = 1
+                        elif (received[2] == '0'):
+                            st_enable = False
+                    elif (received[0:2] == 'OT'):
+                        if (received[2] == '1'):
+                            st_enable = False
+                            ot_enable = True
+                            setup_camera_ot()
+                            if (camPosition != 2):
+                                setCamPos(2)
+                                camPosition = 2
+                        elif (received[2] == '0'):
+                            ot_enable = False
+                    elif (received[0:2] == 'RD'):
+                        if (received[2] == '1'):
+                            rd_enable = True
+                        elif (received[2] == '0'):
+                            rd_enable = False
+                    state = 0
+                    received = ''
                 else:
-                    time.sleep(0.1)
+                    received += c.decode()
+
+        ser.write(("$RS:" + str(int(st_enable)) + ":" + str(int(ot_enable)) + ":" + str(int(rd_enable)) + "\n").encode())
+        # Radio positioning
+        if (rd_enable):
+            data = radioPositioning.get_position()
+            if data:
+                ser.write(("$RD:%4.2f:%4.2f:%4.2f:%4.2f\n" % (data[0].x, data[0].y, data[1].x, data[1].y)).encode())
+        if (st_enable):
+            # Get camera stream for ST/OT
+            camera.capture(stream, 'bgr', use_video_port=True)
+
+            # Convert frame to greyscale
+            frame = stream.array
+            image = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            data = starTracker.track_stars(image, star_catalog, False, debug)
+            if data:
+                # convert mm to m
+                x = numpy.round(data['x'] / 1000.0, 4)
+                y = numpy.round(data['y'] / 1000.0, 4)
+                theta = data['theta']
+                ser.write(("$ST:%4.2f:%4.2f:%4.2f\n" % (x, y, theta)).encode())
+
+                # reset camera stream for next frame
+            stream.seek(0)
+            stream.truncate()
+        elif (ot_enable):
+            #TODO
+            camera.capture(stream, 'bgr', use_video_port=True)
+            frame = stream.array
+
+            data = detect_leds(frame)
+
+            toSend = '$OT:' + str(data[0][0]) + ':' + str(data[0][1]) + ':' + str(data[0][2]) + ':' + str(int(data[1])) + '\n'
+            ser.write(toSend.encode())
+
+            stream.seek(0)
+            stream.truncate()
+        else:
+            time.sleep(0.1)
                     
-                ##    stX = 1.5
-                ##    stY = 3.452
-                ##    stRho = 1.4563
-                ##    toSend = '$ST:' + str(stX) + ':' + str(stY) + ':' + str(stRho) + '\n'
-                ##    ser.write(toSend.encode())
+        ##    stX = 1.5
+        ##    stY = 3.452
+        ##    stRho = 1.4563
+        ##    toSend = '$ST:' + str(stX) + ':' + str(stY) + ':' + str(stRho) + '\n'
+        ##    ser.write(toSend.encode())
 
 except KeyboardInterrupt:
     ser.close()
