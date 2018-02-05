@@ -40,11 +40,9 @@ SOURCES += \
     QMeter/qmeterdrawfunctions.cpp \
     manualcontrol.cpp \
     Graphsource/tracking_plot.cpp \
-<<<<<<< HEAD
+    chartview.cpp \
     support.cpp
-=======
-    chartview.cpp
->>>>>>> 4f86ec18c7871d20b6d1ed530fd3a53b95b28d09
+    support.cpp
 
 HEADERS  += \
     WifiWrapper/basics.h \
@@ -56,11 +54,9 @@ HEADERS  += \
     powerdata.h \
     QMeter/qmeter.h \
     manualcontrol.h \
-<<<<<<< HEAD
+    chartview.h \
     support.h
-=======
-    chartview.h
->>>>>>> 4f86ec18c7871d20b6d1ed530fd3a53b95b28d09
+    support.h
 INCLUDEPATH += \
            WifiWrapper \
            Qcustomplot \
@@ -72,6 +68,7 @@ FORMS    += \
     tcwindow.ui \
     powerdata.ui \
     manualcontrol.ui \
+    support.ui
     support.ui
 
 
