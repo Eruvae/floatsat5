@@ -66,15 +66,17 @@ void ActuatorInterfaces::run()
 {
 	float period = 0.1;
 	setPeriodicBeat(25*MILLISECONDS, period * SECONDS);
-	int i = 0;
+	//int i = 0;
 	float err_int = 0;
 	int16_t targetSpeed = 0, wheelSpeed = 0;
 	int16_t oldTargetWheelSpeed = 0;
 	int16_t oldWheelSpeed = 0;
+	bool rwControllerActivated = true;
+	activateRWSpeedController.put(rwControllerActivated);
 	while(1)
 	{
-		i++;
-		int test = dc_test.readPins();
+		//i++;
+		//int test = dc_test.readPins();
 		//PRINTF("DC/DC Status: %d\n", test);
 
 		/*if (i % 80 < 20 || i % 80 > 60)
@@ -92,43 +94,52 @@ void ActuatorInterfaces::run()
 		hbridge_b_ina.setPins(~hbridge_b_ina.readPins());
 		hbridge_b_inb.setPins(~hbridge_b_inb.readPins());*/
 
+		int8_t wheelDirection = 0;
+		float dutyCycle = 0;
 
-		const float p = 10.0f;
-		const float i = 0.1f;
-		const float d = 0.5f;
+		if (rwControllerActivated)
+		{
+			const float p = 10.0f;
+			const float i = 0.1f;
+			const float d = 0.5f;
 
 
-		oldWheelSpeed = wheelSpeed;
-		tcReactionWheelTargetSpeed.get(targetSpeed);
-		reactionWheelSpeedBuffer.get(wheelSpeed);
+			oldWheelSpeed = wheelSpeed;
+			tcReactionWheelTargetSpeed.get(targetSpeed);
+			reactionWheelSpeedBuffer.get(wheelSpeed);
 
-		//PRINTF("Target Speed: %d, Current Speed: %d\n", targetSpeed, wheelSpeed);
+			//PRINTF("Target Speed: %d, Current Speed: %d\n", targetSpeed, wheelSpeed);
 
-		if (targetSpeed != oldTargetWheelSpeed)
-			err_int = 0; // if target speed changed, reset i part
+			if (targetSpeed != oldTargetWheelSpeed)
+				err_int = 0; // if target speed changed, reset i part
 
-		oldTargetWheelSpeed = err_int;
+			oldTargetWheelSpeed = err_int;
 
-		float baseDutyCycle = SIGN(targetSpeed) * (ABS(targetSpeed) + 375.07) / 8617.5306; // Formula from measurements
+			float baseDutyCycle = SIGN(targetSpeed) * (ABS(targetSpeed) + 375.07) / 8617.5306; // Formula from measurements
 
-		float error = targetSpeed - wheelSpeed;
-		err_int += error * period;
-		float err_dif = (wheelSpeed - oldWheelSpeed) / period;
+			float error = targetSpeed - wheelSpeed;
+			err_int += error * period;
+			float err_dif = (wheelSpeed - oldWheelSpeed) / period;
 
-		float errorDutyCycle = p * error / 8617.5306;
-		float errorIntDutyCycle = i * err_int / 8617.5306;
-		float errorDifDutyCycle = d * err_dif / 8617.5306;
+			float errorDutyCycle = p * error / 8617.5306;
+			float errorIntDutyCycle = i * err_int / 8617.5306;
+			float errorDifDutyCycle = d * err_dif / 8617.5306;
 
-		float dutyCycle = baseDutyCycle + errorDutyCycle /*+ errorIntDutyCycle*/ - errorDifDutyCycle;
+			float dutyCycle = baseDutyCycle + errorDutyCycle /*+ errorIntDutyCycle*/ - errorDifDutyCycle;
 
-		//PRINTF("Base Duty Cylcle: %f, Calculated duty cycle: %f\n", baseDutyCycle, dutyCycle);
+			//PRINTF("Base Duty Cylcle: %f, Calculated duty cycle: %f\n", baseDutyCycle, dutyCycle);
 
-		int8_t wheelDirection = SIGN(dutyCycle);
-		setWheelDirection(wheelDirection >= 0);
+			int8_t wheelDirection = SIGN(dutyCycle);
+			setWheelDirection(wheelDirection >= 0);
 
-		dutyCycle = LIMIT(ABS(dutyCycle), 0, 1);
+			dutyCycle = LIMIT(ABS(dutyCycle), 0, 1);
 
-		pwm_wheel.write(dutyCycle*1000);
+			pwm_wheel.write(dutyCycle*1000);
+		}
+		else
+		{
+			pwm_wheel.write(0);
+		}
 
 		ActuatorData data;
 		uint8_t valve1 = hbridge_valve1.readPins();

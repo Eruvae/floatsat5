@@ -57,9 +57,11 @@ int print_debug_msg(const char *format, ...)
 // TC CommBuffers
 CommBuffer<int16_t> tcReactionWheelTargetSpeed;
 Fifo<IMUCommand, 10> tcImuCommand;
+Semaphore targetPoseSemaphore;
 CommBuffer<Pose2D> tcTargetPose;
 Fifo<Pose2D, 20> tcNextTargetPoseList;
 //CommBuffer<bool> tcActivateController;
 CommBuffer<ControlParameters> tcControlParams;
 CommBuffer<float> desiredRotationSpeed;
+CommBuffer<bool> activateRWSpeedController;
 CommBuffer<bool> activateValvePWM;

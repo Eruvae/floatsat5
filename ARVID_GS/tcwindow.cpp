@@ -25,7 +25,6 @@ TCWindow::TCWindow(QWidget *parent, SatelliteLink *link) :
     ui->stackedTCData->setCurrentIndex(ui->comboTC->currentIndex());
     connect(ui->comboTC, SIGNAL(currentIndexChanged(int)), ui->stackedTCData, SLOT(setCurrentIndex(int)));
 
-
 }
 
 void TCWindow::sendtelecommand()

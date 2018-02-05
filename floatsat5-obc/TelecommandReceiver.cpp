@@ -38,7 +38,10 @@ void TelecommandReceiver::put(Telecommand &data)
 				, data.data.pose.yaw, data.data.pose.pitch, data.data.pose.roll);*/
 
 		//tcTargetPose.put(data.data.pose);
+		targetPoseSemaphore.enter();
+		tcNextTargetPoseList.clear();
 		tcTargetPose.put(data.data.pose);
+		targetPoseSemaphore.leave();
 		//itPoseControllerMode.publishConst(PoseControllerMode::FOLLOW_TRAJECTORY);
 	}
 	else if (data.id == SEND_RW_SPEED)
@@ -62,6 +65,7 @@ void TelecommandReceiver::put(Telecommand &data)
 	}
 	else if (data.id == CHANGE_PC_MODE)
 	{
+		tcNextTargetPoseList.clear();
 		PoseControllerMode mode = static_cast<PoseControllerMode>(data.data.pcMode);
 		itPoseControllerMode.publish(mode);
 	}
@@ -85,8 +89,10 @@ void TelecommandReceiver::put(Telecommand &data)
 	}
 	else if (data.id == SEND_POSE_TO_LIST)
 	{
-		static int i = 0;
-		print_debug_msg("Pose rec: %d", ++i);
+		//static int i = 0;
+		//print_debug_msg("Pose rec: %d", ++i);
+		targetPoseSemaphore.enter();
 		tcNextTargetPoseList.put(data.data.pose);
+		targetPoseSemaphore.leave();
 	}
 }
