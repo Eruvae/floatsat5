@@ -1,6 +1,6 @@
 # import the necessary packages
-from picamera.array import PiRGBArray
-from picamera import PiCamera
+import picamera
+import picamera.array
 import time
 import cv2
 import numpy as np
@@ -11,12 +11,12 @@ import serial
 ser = serial.Serial('/dev/ttyAMA0', 115200) # open serial port
 
 # initialize the camera and grab a reference to the raw camera capture
-camera = PiCamera()
+camera = picamera.PiCamera()
 #camera.resolution = (1280, 720)
 camera.resolution = (640, 480)
 camera.framerate = 32
-#rawCapture = PiRGBArray(camera, size=(1280, 720))
-rawCapture = PiRGBArray(camera, size=(640, 480))
+#rawCapture = picamera.array.PiRGBArray(camera, size=(1280, 720))
+rawCapture = picamera.array.PiRGBArray(camera, size=(640, 480))
 
 stream = picamera.array.PiRGBArray(camera)
 
