@@ -18,6 +18,8 @@ camera.framerate = 32
 #rawCapture = PiRGBArray(camera, size=(1280, 720))
 rawCapture = PiRGBArray(camera, size=(640, 480))
 
+stream = picamera.array.PiRGBArray(camera)
+
 camera.exposure_mode = "off"
 #camera.iso = 100
 camera.shutter_speed = 10000
@@ -120,10 +122,13 @@ ypos = 100
 x_0 = (0.35, 0.05, 0.3)
 
 # capture frames from the camera
-for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-	# grab the raw NumPy array representing the image, then initialize the timestamp
+#for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+while True:
+        # grab the raw NumPy array representing the image, then initialize the timestamp
 	# and occupied/unoccupied text
-	image = np.copy(frame.array)
+	#image = np.copy(frame.array)
+        camera.capture(stream, 'bgr', use_video_port=True)
+        image = stream.array
 
 	#print(camera.exposure_speed)
 
@@ -182,3 +187,5 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	
 	#cross(image, xpos, ypos, delta=20)
 	cv2.imshow("image", image)
+        stream.seek(0)
+        stream.truncate()
