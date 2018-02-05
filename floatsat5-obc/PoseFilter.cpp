@@ -16,7 +16,8 @@ PoseFilter poseFilter;
 PoseFilter::PoseFilter() : imuDataSub(itImuData, imuDataBuffer),
 		starTrackerPoseSub(itStarTrackerPose, starTrackerPoseBuffer),
 		radioPositionSub(itRadioPosition, radioPositionBuffer),
-		otDataSub(itObjectTrackingPose, otDataBuffer)
+		otDataSub(itObjectTrackingPose, otDataBuffer),
+		raspiStatusSub(itRaspiStatus, raspiStatusBuffer)
 {
 }
 
@@ -101,6 +102,14 @@ void PoseFilter::run()
 
 		// -------------------- Position Determination -------------------------
 
+		RaspiStatus rpiStatus;
+		raspiStatusBuffer.get(rpiStatus);
+
+		if (rpiStatus.stEnabled)
+		{
+
+		}
+
 		OTData otData;
 		otDataBuffer.get(otData);
 
@@ -118,6 +127,9 @@ void PoseFilter::run()
 		Pose2D stPose;
 		starTrackerPoseBuffer.get(stPose);
 
+		RadioPosition rdPose;
+		radioPositionBuffer.get(rdPose);
+
 		float stdYaw = (stPose.yaw - oldstYaw) / delt;
 		MOD(stdYaw, -180, 180);
 		oldstYaw = stPose.yaw;
@@ -125,12 +137,33 @@ void PoseFilter::run()
 		//print_debug_msg("ObjYaw: %f; MagYaw: %f", otYaw*180.0/M_PI, filteredHeading*180.0/M_PI);
 
 		Pose pose;
-		pose.x = stPose.x; //otX;
-		pose.y = -stPose.y; //otY;
+		if (rpiStatus.stEnabled)
+		{
+			pose.x = stPose.x; //otX;
+			pose.y = -stPose.y; //otY;
+		}
+		else if (rpiStatus.rdEnabled)
+		{
+			pose.x = rdPose.x1;
+			pose.y = rdPose.y1;
+		}
+		else
+		{
+			pose.x = 0;
+			pose.y = 0;
+		}
 		pose.z = 0;
 		pose.pitch = filteredPitch*180.0/M_PI;
 		pose.roll = filteredRoll*180.0/M_PI;
-		pose.yaw = stPose.yaw - 90.f;/*otYaw*180.0/M_PI;*//*filteredHeading*180.0/M_PI;*/
+
+		if (rpiStatus.stEnabled)
+		{
+			pose.yaw = stPose.yaw - 90.f;/*otYaw*180.0/M_PI;*//*filteredHeading*180.0/M_PI;*/
+		}
+		else
+		{
+			pose.yaw = filteredHeading*180.0/M_PI + 60.f;
+		}
 		MOD(pose.yaw, -180, 180);
 		pose.dpitch = dpitch*180/M_PI;
 		pose.droll = droll*180/M_PI;

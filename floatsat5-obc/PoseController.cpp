@@ -12,9 +12,9 @@ PoseController poseController;
 
 PoseController::PoseController() : filterePoseSub(itFilteredPose, filteredPoseBuffer),
 								reactionWheelSpeedSub(itReactionWheelSpeed, reactionWheelSpeedBuffer),
-								starTrackerPoseSub(itStarTrackerPose, starTrackerPoseBuffer),
-								poseControllerModeSub(itPoseControllerMode, poseControllerModeBuffer),
-								otDataSub(itObjectTrackingPose, otDataBuffer)
+								//starTrackerPoseSub(itStarTrackerPose, starTrackerPoseBuffer),
+								poseControllerModeSub(itPoseControllerMode, poseControllerModeBuffer)
+								//otDataSub(itObjectTrackingPose, otDataBuffer)
 {}
 
 
@@ -23,8 +23,8 @@ void PoseController::run()
 	const float period = 0.2;
 	setPeriodicBeat(20*MILLISECONDS, period*SECONDS);
 	Pose filteredPose;
-	Pose targetPose = {0};
-	tcTargetPose.put(targetPose); // Start with 0
+	Pose2D targetPose = {0};
+	//tcTargetPose.put(targetPose); // Start with 0
 	int16_t currentRwSpeed;
 	//bool activated = false;
 	PoseControllerMode mode = PoseControllerMode::STANDBY;
@@ -49,7 +49,7 @@ void PoseController::run()
 		poseControllerModeBuffer.get(mode);
 		filteredPoseBuffer.get(filteredPose);
 		reactionWheelSpeedBuffer.get(currentRwSpeed);
-		Pose oldTargetPose = targetPose;
+		Pose2D oldTargetPose = targetPose;
 		tcTargetPose.get(targetPose);
 		tcControlParams.get(params);
 		attP = params.attP; attD = params.attD; attI = params.attI;
@@ -144,12 +144,10 @@ void PoseController::run()
 			float goalY = targetPose.y;
 
 			// USE OT YAW
-
-			OTData otData;
+			/*OTData otData;
 			otDataBuffer.get(otData);
 			float r = otData.g0 + 0.2;
-			float otYaw = M_PI + otData.alpha + atan2(otData.G0, r);
-
+			float otYaw = M_PI + otData.alpha + atan2(otData.G0, r);*/
 			// END
 
 			float eX = goalX - x;
@@ -200,8 +198,12 @@ void PoseController::run()
 			//rotateCoord(dummyX, dummyY, M_PI/2.f, dummyX, dummyY);
 			//print_debug_msg("Dx: %.2f, Dy: %.2f\n", dummyX, dummyY);
 
-			print_debug_msg("a: %.2f, f1: %.2f, f2: %.2f, f3: %.2f\n", alpha, controls.f1, controls.f2, controls.f3);
+			//print_debug_msg("a: %.2f, f1: %.2f, f2: %.2f, f3: %.2f\n", alpha, controls.f1, controls.f2, controls.f3);
 			itThrusterControls.publish(controls);
+		}
+		else if (mode == PoseControllerMode::MOMENTUM_DAMPING)
+		{
+
 		}
 		else
 		{

@@ -22,7 +22,7 @@ private:
 	CommBuffer<ActuatorData> actuatorDataBuffer;
 	CommBuffer<Pose2D> starTrackerPoseBuffer;
 	CommBuffer<OTData> objectTrackingPoseBuffer;
-	CommBuffer<Position2D> radioPositionBuffer;
+	CommBuffer<RadioPosition> radioPositionBuffer;
 	CommBuffer<ThrusterControls> thrusterControlsBuffer;
 	CommBuffer<PoseControllerMode> poseControllerModeBuffer;
 

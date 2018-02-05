@@ -114,12 +114,12 @@ enum class Mode
 
 enum class PoseControllerMode
 {
-	STANDBY, HOLD_POSE, FOLLOW_TRAJECTORY, CHANGE_ATTITUDE, ROTATE
+	STANDBY, HOLD_POSE, FOLLOW_TRAJECTORY, CHANGE_ATTITUDE, ROTATE, MOMENTUM_DAMPING
 };
 
-struct __attribute__((packed)) Position2D
+struct __attribute__((packed)) RadioPosition
 {
-	float x, y;
+	float x1, y1, x2, y2;
 };
 
 struct __attribute__((packed)) Pose2D
@@ -156,6 +156,13 @@ struct __attribute__((packed)) RaspiCommandData
 	bool enable;
 };
 
+struct __attribute__((packed)) RaspiStatus
+{
+	bool stEnabled;
+	bool otEnabled;
+	bool rdEnabled;
+};
+
 struct __attribute__((packed)) ControlParameters
 {
 	float attP, attD, attI;
@@ -166,7 +173,7 @@ struct __attribute__((packed)) ControlParameters
 union __attribute__((packed)) TCdata
 {
 	IMUCommand imu_com;
-	Pose pose;
+	Pose2D pose;
 	int16_t wheel_target_speed;
 	uint8_t valveControl;
 	bool boolData;

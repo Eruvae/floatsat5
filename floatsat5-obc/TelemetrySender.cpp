@@ -40,7 +40,7 @@ void TelemetrySender::run()
 		ActuatorData actuatorStatus;
 		Pose2D starTrackerPose;
 		OTData objectTrackingPose;
-		Position2D radioPosition;
+		RadioPosition radioPosition;
 		ThrusterControls thrusterControls;
 		PoseControllerMode poseControllerMode;
 

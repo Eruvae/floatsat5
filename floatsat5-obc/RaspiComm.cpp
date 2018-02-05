@@ -54,7 +54,7 @@ int RaspiComm::decodeRTM(const char *buf, int len, RTM &receivedData/*, char **t
 			if (readStatus > MAX_DATA_NUM)
 				return -1;
 
-			if (strcmp(receivedData.id, "OT") == 0 && readStatus == 4)
+			if (strcmp(receivedData.id, "OT") == 0 && readStatus == 4) // OT found data
 			{
 				if (*readP == '1')
 					receivedData.otData.found = true;
@@ -65,7 +65,18 @@ int RaspiComm::decodeRTM(const char *buf, int len, RTM &receivedData/*, char **t
 
 				readP++;
 			}
-			else
+			else if (strcmp(receivedData.id, "RS") == 0) // Raspberry Pi Status
+			{
+				if (*readP == '1')
+					receivedData.boolData[readStatus - 1] = true;
+				else if (*readP == '0')
+					receivedData.boolData[readStatus - 1] = false;
+				else // error
+					return -1;
+
+				readP++;
+			}
+			else // default: float
 			{
 				char *tailP;
 				receivedData.data[readStatus - 1] = strtod(readP, &tailP);
@@ -102,7 +113,13 @@ void RaspiComm::publishData(RTM &receivedData)
 	}
 	else if (strcmp(receivedData.id, "RD") == 0) // Radio
 	{
+		print_debug_msg("RD-Pose: %f, %f, %f, %f", receivedData.radioPose.x1, receivedData.radioPose.y1, receivedData.radioPose.x2, receivedData.radioPose.y2);
 		itRadioPosition.publish(receivedData.radioPose);
+	}
+	else if (strcmp(receivedData.id, "RS") == 0)
+	{
+		//print_debug_msg("Status: %d, %d, %d", receivedData.status.stEnabled, receivedData.status.otEnabled, receivedData.status.rdEnabled);
+		itRaspiStatus.publish(receivedData.status);
 	}
 	else if (strcmp(receivedData.id, "OK") == 0)
 	{

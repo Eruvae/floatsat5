@@ -25,9 +25,11 @@ class RaspiComm : public Thread
 		union
 		{
 			float data[MAX_DATA_NUM];
+			bool boolData[MAX_DATA_NUM];
 			Pose2D starTrackerPose;
-			Position2D radioPose;
+			RadioPosition radioPose;
 			OTData otData;
+			RaspiStatus status;
 		};
 	};
 

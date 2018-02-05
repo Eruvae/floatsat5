@@ -20,6 +20,7 @@
 #define RPI_COMMAND	0x06
 #define SEND_CONTROL_PARAMS 0x07
 #define SEND_ROTATION_SPEED 0x08
+#define SEND_POSE_TO_LIST 0x09
 
 TelecommandReceiver telecommandReceiver;
 
@@ -36,6 +37,7 @@ void TelecommandReceiver::put(Telecommand &data)
 				, data.data.pose.x, data.data.pose.y, data.data.pose.z
 				, data.data.pose.yaw, data.data.pose.pitch, data.data.pose.roll);*/
 
+		//tcTargetPose.put(data.data.pose);
 		tcTargetPose.put(data.data.pose);
 		//itPoseControllerMode.publishConst(PoseControllerMode::FOLLOW_TRAJECTORY);
 	}
@@ -80,5 +82,11 @@ void TelecommandReceiver::put(Telecommand &data)
 		float rotationSpeed = data.data.rotationSpeed;
 		desiredRotationSpeed.put(rotationSpeed);
 		itPoseControllerMode.publishConst(PoseControllerMode::ROTATE);
+	}
+	else if (data.id == SEND_POSE_TO_LIST)
+	{
+		static int i = 0;
+		print_debug_msg("Pose rec: %d", ++i);
+		tcNextTargetPoseList.put(data.data.pose);
 	}
 }
