@@ -5,6 +5,7 @@ import cv2
 import picamera
 import picamera.array
 import numpy
+import radioPositioning
 import starTracker
 
 def setCamPos(index):
@@ -115,7 +116,13 @@ try:
                             received = ''
                         else:
                             received += c.decode()
-                    
+
+                ser.write(("$RS:" + str(int(st_enable)) + ":" + str(int(ot_enable)) + ":" + str(int(rd_enable)) + "\n").encode())
+                # Radio positioning
+                if (rd_enable):
+                    data = radioPositioning.get_position()
+                    if data:
+                        ser.write(("$RD:%4.2f:%4.2f:%4.2f:%4.2f\n" % (data[0].x, data[0].y, data[1].x, data[1].y)).encode())
                 if (st_enable):
                     # Get camera stream for ST/OT
                     camera.capture(stream, 'bgr', use_video_port=True)
@@ -123,7 +130,7 @@ try:
                     # Convert frame to greyscale
                     frame = stream.array
                     image = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                    data = starTracker.track_stars(image, star_catalog, True, debug)
+                    data = starTracker.track_stars(image, star_catalog, False, debug)
                     if data:
                         # convert mm to m
                         x = numpy.round(data['x'] / 1000.0, 4)

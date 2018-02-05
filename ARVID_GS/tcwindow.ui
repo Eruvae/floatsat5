@@ -729,12 +729,12 @@ QTableWidget QTableCornerButton::section {
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>801</width>
+     <width>881</width>
      <height>401</height>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>8</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -921,6 +921,39 @@ QTableWidget QTableCornerButton::section {
       </item>
       <item>
        <widget class="QCheckBox" name="T3_3">
+        <property name="text">
+         <string>Thruster 3</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="layoutWidget_11">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>90</y>
+       <width>121</width>
+       <height>121</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_15">
+      <item>
+       <widget class="QCheckBox" name="T1_4">
+        <property name="text">
+         <string>Thruster 1</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="T2_4">
+        <property name="text">
+         <string>Thruster 2</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="T3_4">
         <property name="text">
          <string>Thruster 3</string>
         </property>
