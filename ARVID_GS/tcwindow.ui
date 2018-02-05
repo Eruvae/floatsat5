@@ -19,7 +19,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget {
-    background-color: #333333;
+    background-color: #000000;
     color: #fffff8;
 }
 
@@ -729,12 +729,34 @@ QTableWidget QTableCornerButton::section {
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>881</width>
-     <height>401</height>
+     <width>961</width>
+     <height>351</height>
     </rect>
    </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QTabBar::tab 
+{
+    background: #000000;
+    color: white;   
+    border-color: #48555E;
+	height: 20px;
+	width:95px;
+}
+
+QTabBar::tab:selected, 
+QTabBar::tab:hover 
+{
+    border-top-color: #1D2A32;
+    border-color: #40494E;
+    color: black;
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #C1D8E8, stop: 1 #F0F5F8); 
+}</string>
+   </property>
    <property name="currentIndex">
-    <number>8</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -1081,6 +1103,43 @@ QTableWidget QTableCornerButton::section {
      </layout>
     </widget>
    </widget>
+   <widget class="QWidget" name="tab_9">
+    <attribute name="title">
+     <string>Rotation Speed</string>
+    </attribute>
+    <widget class="QWidget" name="layoutWidget_10">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>130</y>
+       <width>131</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_13">
+      <item>
+       <widget class="QLabel" name="label_41">
+        <property name="text">
+         <string>Speed (Rotation)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QDoubleSpinBox" name="rotationSpeed_3">
+        <property name="decimals">
+         <number>0</number>
+        </property>
+        <property name="minimum">
+         <double>-10000.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>10000.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
    <widget class="QWidget" name="tab_8">
     <attribute name="title">
      <string>Control Parameters</string>
@@ -1230,46 +1289,9 @@ QTableWidget QTableCornerButton::section {
      </layout>
     </widget>
    </widget>
-   <widget class="QWidget" name="tab_9">
-    <attribute name="title">
-     <string>Rotation Speed</string>
-    </attribute>
-    <widget class="QWidget" name="layoutWidget_10">
-     <property name="geometry">
-      <rect>
-       <x>320</x>
-       <y>130</y>
-       <width>131</width>
-       <height>61</height>
-      </rect>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_13">
-      <item>
-       <widget class="QLabel" name="label_41">
-        <property name="text">
-         <string>Speed (Rotation)</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QDoubleSpinBox" name="rotationSpeed_3">
-        <property name="decimals">
-         <number>0</number>
-        </property>
-        <property name="minimum">
-         <double>-10000.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>10000.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </widget>
    <widget class="QWidget" name="tab_10">
     <attribute name="title">
-     <string>Page</string>
+     <string>Send Trajectory</string>
     </attribute>
     <widget class="QPushButton" name="readPoseFileButton">
      <property name="geometry">
