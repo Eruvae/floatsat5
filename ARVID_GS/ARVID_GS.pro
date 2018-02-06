@@ -41,7 +41,9 @@ SOURCES += \
     manualcontrol.cpp \
     Graphsource/tracking_plot.cpp \
     chartview.cpp \
-    support.cpp
+    support.cpp \
+    Graphsource/radar.cpp \
+    SpeedMeter/speedmeter.cpp
     support.cpp
 
 HEADERS  += \
@@ -61,7 +63,8 @@ INCLUDEPATH += \
            WifiWrapper \
            Qcustomplot \
            Graphsource\
-           QMeter
+           QMeter\
+           SpeedMeter
 
 FORMS    += \
     mainwindow.ui \
