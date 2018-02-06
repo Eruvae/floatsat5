@@ -10,7 +10,7 @@ void MainWindow::SetupPlotTracking()
 {
     QCPScatterStyle shape;
     shape.setShape(QCPScatterStyle::ssTriangle);
-    shape.setPen(QPen(Qt::red));
+    shape.setPen(QPen(Qt::blue));
     shape.setSize(8);
 
     ui->trackPlot->setBackground(Qt::black);
@@ -18,6 +18,7 @@ void MainWindow::SetupPlotTracking()
     ui->trackPlot->xAxis->setTickLabelColor(Qt::white);
     ui->trackPlot->addGraph();
     ui->trackPlot->addGraph();
+
     ui->trackPlot->graph(0)->setScatterStyle(shape);
     ui->trackPlot->graph(0)->setLineStyle(QCPGraph::lsNone);
     ui->trackPlot->graph(1)->setPen(QPen(QColor(255, 0, 0)));
