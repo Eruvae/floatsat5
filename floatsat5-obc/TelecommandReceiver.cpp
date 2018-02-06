@@ -72,7 +72,7 @@ void TelecommandReceiver::put(Telecommand &data)
 		{
 			TrajectoryPlanData trajData;
 			Pose2D startPose = {0.5, -1, 0};
-			Pose2D endPose = {1.5, -1.5, 0};
+			Pose2D endPose = {1.5, -1.5, 90};
 			trajData.startPose = startPose;
 			trajData.endPose = endPose;
 			trajData.startTime = NOW() + 5*SECONDS;

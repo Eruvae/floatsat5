@@ -131,8 +131,8 @@ struct TrajectoryPlanData
 {
 	Pose2D startPose;
 	Pose2D endPose;
-	uint64_t startTime;
-	uint64_t endTime;
+	int64_t startTime;
+	int64_t endTime;
 };
 
 /*struct __attribute__((packed)) Pose25D

@@ -29,7 +29,7 @@ class PoseController : public Thread
 	float errRot_int = 0, old_dYaw = 0;
 	float attP = 50.f, attD = 100.f, attI = 2.f;
 	float rotP = 100.f, rotD = 0.f, rotI = 10.f;
-	float k = 1.5f, td = 20.f, ti = 0.5f, gamma = sqrt(3)/2; // trajectory control params
+	float k = 5.f, td = 10.f, ti = 0.5f, gamma = sqrt(3)/2; // trajectory control params
 
 	CommBuffer<Pose> filteredPoseBuffer;
 	Subscriber filterePoseSub;

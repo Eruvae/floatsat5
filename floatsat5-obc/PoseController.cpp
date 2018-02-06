@@ -55,6 +55,7 @@ void PoseController::controlPosition()
 
 	float eX = targetPose.x - x;
 	float eY = targetPose.y - y;
+	print_debug_msg("Errors: %f, %f", eX, eY);
 	rotateCoord(eX, eY, filteredPose.yaw*M_PI/180.f , eX, eY);
 
 
@@ -63,6 +64,7 @@ void PoseController::controlPosition()
 
 	float eX_dif = targetVel.x - velX;
 	float eY_dif = targetVel.y - velY;
+	rotateCoord(eX_dif, eY_dif, filteredPose.yaw*M_PI/180.f , eX_dif, eY_dif);
 
 	eX_int -= eX_arr[errIndex];
 	eY_int -= eY_arr[errIndex];
@@ -260,10 +262,13 @@ void PoseController::run()
 		}
 		else if (mode == PoseControllerMode::FOLLOW_TRAJECTORY_T)
 		{
+			valvePWMEnabled = true;
+			activateValvePWM.put(valvePWMEnabled);
+
 			TrajectoryPlanData plan;
 			trajPlanBuffer.get(plan);
-			float t = (NOW() - plan.startTime) / SECONDS;
-			float T = (plan.endTime - plan.startTime) / SECONDS;
+			float t = (float)(NOW() - plan.startTime) / SECONDS;
+			float T = (float)(plan.endTime - plan.startTime) / SECONDS;
 			targetPose = curveLinePos(s(t, T), plan.startPose, plan.endPose);
 			targetVel = curveLineVel(s(t, T), plan.startPose, plan.endPose);
 			targetVel.x *= ds(t, T);

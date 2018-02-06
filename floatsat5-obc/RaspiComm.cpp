@@ -103,7 +103,7 @@ void RaspiComm::publishData(RTM &receivedData)
 {
 	if (strcmp(receivedData.id, "ST") == 0) // Star Tracker
 	{
-		print_debug_msg("ST: %f, %f, %f", receivedData.starTrackerPose.x, receivedData.starTrackerPose.y, receivedData.starTrackerPose.yaw);
+		//print_debug_msg("ST: %f, %f, %f", receivedData.starTrackerPose.x, receivedData.starTrackerPose.y, receivedData.starTrackerPose.yaw);
 		itStarTrackerPose.publish(receivedData.starTrackerPose);
 	}
 	else if (strcmp(receivedData.id, "OT") == 0) // Object Tracking
@@ -113,7 +113,7 @@ void RaspiComm::publishData(RTM &receivedData)
 	}
 	else if (strcmp(receivedData.id, "RD") == 0) // Radio
 	{
-		print_debug_msg("RD-Pose: %f, %f, %f, %f", receivedData.radioPose.x1, receivedData.radioPose.y1, receivedData.radioPose.x2, receivedData.radioPose.y2);
+		//print_debug_msg("RD-Pose: %f, %f, %f, %f", receivedData.radioPose.x1, receivedData.radioPose.y1, receivedData.radioPose.x2, receivedData.radioPose.y2);
 		itRadioPosition.publish(receivedData.radioPose);
 	}
 	else if (strcmp(receivedData.id, "RS") == 0)
