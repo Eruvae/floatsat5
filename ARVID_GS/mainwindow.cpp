@@ -57,7 +57,6 @@ MainWindow::MainWindow(QWidget *parent) :
     link->addTopic(StarTrackerDataType);
     link->addTopic(OTDataType);
     link->addTopic(RadioPoseDataType);
-
     link->addTopic(DebugMsgType);
 
 
@@ -136,6 +135,7 @@ void MainWindow::readFromLink()
     {
         FilteredPose data(payload);
 
+        float oldvaluex=0, oldvaluey=0;
         ui->lcdx->display(data.x);
         ui->lcdy->display(data.y);
         ui->lcdz->display(data.z);
@@ -146,18 +146,17 @@ void MainWindow::readFromLink()
         ui->lcddpitch->display(data.dpitch);
         ui->lcddroll->display(data.droll);
 
+        QCPItemLine *lend = new QCPItemLine(ui->trackPlot);
         float valuex=data.x, valuey=data.y;
+        lend->start->setCoords(oldvaluex,oldvaluey);
+        lend->end->setCoords(-valuey,valuex);
+        ui->trackPlot->graph(0)->addData(-valuey,valuex); 
+        lend->setHead(QCPLineEnding::esFlatArrow);
 
-        double key = QTime::currentTime().msecsSinceStartOfDay()/1000.0; // time elapsed since start of demo, in seconds
-        static double lastPointKey = 0;
-        if (key-lastPointKey > 0.5)
-        {
-            ui->trackPlot->graph(0)->addData(-valuey,valuex);
-        }
+        oldvaluex=-valuey, oldvaluey=valuex;
 
-        lastPointKey = key;
+        ui->trackPlot->replot();
 
-        ui->trackPlot->graph(0)->removeDataBefore(lastPointKey);
 
         break;
 
@@ -226,6 +225,8 @@ void MainWindow::readFromLink()
     case OTDataType:
     {
         OTData data(payload);
+
+
         
         break;
 
@@ -236,6 +237,7 @@ void MainWindow::readFromLink()
         RadioPoseData data(payload);
         ui->rpLcdx->display(data.x);
         ui->rpLcdy->display(data.y);
+
 
         break;
 

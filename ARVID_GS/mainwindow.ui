@@ -845,7 +845,7 @@ QPushButton:hover{ background-color: grey; }
       <rect>
        <x>20</x>
        <y>30</y>
-       <width>211</width>
+       <width>251</width>
        <height>211</height>
       </rect>
      </property>
@@ -866,9 +866,9 @@ QPushButton:hover{ background-color: grey; }
     <widget class="ChartView" name="pchart" native="true">
      <property name="geometry">
       <rect>
-       <x>-60</x>
+       <x>-10</x>
        <y>-170</y>
-       <width>471</width>
+       <width>421</width>
        <height>711</height>
       </rect>
      </property>
@@ -1008,7 +1008,7 @@ color: rgb(0, 0, 0);</string>
      <x>0</x>
      <y>0</y>
      <width>983</width>
-     <height>18</height>
+     <height>23</height>
     </rect>
    </property>
    <property name="styleSheet">
