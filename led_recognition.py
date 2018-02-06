@@ -8,34 +8,42 @@ from scipy.optimize import fsolve
 import sys
 import serial
 
-ser = serial.Serial('/dev/ttyAMA0', 115200) # open serial port
+#ser = serial.Serial('/dev/ttyAMA0', 115200) # open serial port
 
 # initialize the camera and grab a reference to the raw camera capture
-camera = picamera.PiCamera()
+#camera = picamera.PiCamera()
 #camera.resolution = (1280, 720)
-camera.resolution = (640, 480)
-camera.framerate = 32
+#camera.resolution = (640, 480)
+#camera.framerate = 32
 #rawCapture = picamera.array.PiRGBArray(camera, size=(1280, 720))
-rawCapture = picamera.array.PiRGBArray(camera, size=(640, 480))
+#rawCapture = picamera.array.PiRGBArray(camera, size=(640, 480))
 
-stream = picamera.array.PiRGBArray(camera)
+#stream = picamera.array.PiRGBArray(camera)
 
-camera.exposure_mode = "off"
+#camera.exposure_mode = "off"
 #camera.iso = 100
-camera.shutter_speed = 10000
+#camera.shutter_speed = 10000
 
 # allow the camera to warmup
-time.sleep(0.1)
+#time.sleep(0.1)
 
 a = 9.3e-2
 c = 1.91e-3
 
-def cross(image, x_0, y_0, delta=10):
-    for x in range(x_0-delta, x_0+delta):
-        image[x,y_0] = 255
+size=(640, 480)
+
+def cross(image, x_0, y_0, delta=2):
+    def in_frame(x,y):
+        if (x<size[1] and x>0 and y<size[0] and y>0):
+            return True
+        
+    for x in range(x_0-delta-5, x_0+delta+5):
+        if in_frame(x,y_0):
+            image[x,y_0] = 255
 
     for y in range(y_0-delta, y_0+delta):
-        image[x_0,y] = 255
+        if in_frame(x_0,y):
+            image[x_0,y] = 255
 
 def f(x, *args):
     alpha, G_0, g_0 = x
@@ -72,10 +80,10 @@ def centeroid(mask):
 d_led_plate = 0.14
 d_cam_ir = 0.1
 
-def detect_led():
+#def detect_led():
     
 
-def detect_leds(frame):
+def detect_leds(frame, show_video):
     x_0 = (0.35, 0.05, 0.3)
 
     def reduce_noise(mask):
@@ -107,9 +115,14 @@ def detect_leds(frame):
     x_g = centeroid(g_mask)
     x_b = centeroid(b_mask)
 
-    #cross(image, 100, x_r)
-    #cross(image, 100, x_g)
-    #cross(image, 100, x_b)
+    if (show_video):
+        image = np.copy(frame)
+        cross(image, 100, x_r)
+        cross(image, 100, x_g)
+        cross(image, 100, x_b)
+        cv2.imshow("Image", image)
+        cv2.waitKey(1)
+        
 
     #cv2.imshow("mask", r_mask)
 
@@ -128,7 +141,7 @@ x_0 = (0.35, 0.05, 0.3)
 
 # capture frames from the camera
 #for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-while True:
+"""while True:
     # grab the raw NumPy array representing the image, then initialize the timestamp
     # and occupied/unoccupied text
     #image = np.copy(frame.array)
@@ -170,3 +183,4 @@ while True:
     cv2.imshow("image", frame)
     stream.seek(0)
     stream.truncate()
+"""

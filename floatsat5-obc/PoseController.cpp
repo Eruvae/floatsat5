@@ -62,8 +62,16 @@ void PoseController::controlPosition()
 	float eX_dif = (eX - oldeX) / period;
 	float eY_dif = (eY - oldeY) / period;
 
-	eX_int += eX * period;
-	eY_int += eY * period;
+	eX_int -= eX_arr[errIndex];
+	eY_int -= eY_arr[errIndex];
+	eX_arr[errIndex] = eX * period;
+	eY_arr[errIndex] = eY * period;
+	eX_int += eX_arr[errIndex];
+	eY_int += eY_arr[errIndex];
+	errIndex = (errIndex + 1) % ERR_ARR_SIZE;
+
+	//eX_int += eX * period;
+	//eY_int += eY * period;
 
 	oldeX = eX;
 	oldeY = eY;

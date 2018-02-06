@@ -4,7 +4,7 @@ import numpy
 import time
 
 # VEHICLE CALIBRATION
-CAMERA_VEHICLE_DX = 0  # distance that camera is to the 'left' of vehicle, in mm
+CAMERA_VEHICLE_DX = 0 # distance that camera is to the 'left' of vehicle, in mm
 CAMERA_VEHICLE_DY = 200  # distance that camera is in 'front' of vehicle, in mm
 CAM_FOV_MM_X = 270       # effective camera FOV width on table, in mm
 CAM_FOV_MM_Y = 230       # effective camera FOV height on table, in mm
@@ -191,7 +191,7 @@ def rank_by_detection_potential(stars, camera_width, camera_height):
         
         # Subtract score if neighbouring stars are too close to each other
         threshold = 5
-        for i in range(max(5, len(star.n_dists) - 1)):
+        for i in range(5):
             # Is distance between neighbour i and neibhour i+1 less than threshold?
             if ((star.n_dists[i+1] - star.n_dists[i]) < threshold):
                 # Increase score proportionally: d1<>2 more important than d4<>5 etc
@@ -206,7 +206,7 @@ def rank_by_detection_potential(stars, camera_width, camera_height):
 # given multiple matches the match with lowest total error is returned
 # returns None if no match is found
 # comment out later ifs to reduce number of triangles used
-def identify_star(star, catalog, debug):
+def identify_star(star, catalog):
     best_guess = None
     # calculate differences between stars planar angles and each catalog entry
     for entry in catalog:
@@ -243,7 +243,7 @@ def identify_star(star, catalog, debug):
         if (e_avg < lowest_error):
             # New best guess
             best_guess = entry
-    if best_guess and debug:
+    if best_guess:
         print("Found match: star identified as catalog star %d, with e_avg=%3.2f, e_min=%3.2f and e_max=%3.2f" % (best_guess.id, e_avg, e_min, e_max))
     return best_guess
 
@@ -255,30 +255,28 @@ def track_stars(image, catalog, show_video, debug):
 
     # get camera resolution from image size
     camera_width, camera_height  = len(image[0]), len(image)
+    print(camera_width)
+    print(camera_height)
 
     # Invert image to black on white for blob detection
     image = cv2.bitwise_not(image)
 
     # Detect stars
-    if debug:
-        print("detecting stars...")
+    print("detecting stars...")
     stars, image = detect_stars(image)
-    if debug:
-        print("found %d stars in image" % len(stars))
+    print("found %d stars in image" % len(stars))
 
-    # Cant do accurate ST with too little stars, likely that neighbours are missing
-    if len(stars) < 8:
-        print("Aborting, found less than 8 stars. Check camera configuration")
+    # Cant do ST with less than 7 stars: target + 6 neighbours
+    if len(stars) < 7:
+        print("Aborting, found less than 7 stars required for algorithm")
         return None
     
     # Determine closest neighbours
-    if debug:
-        print("finding neighbours...")
+    print("finding neighbours...")
     stars = get_neighbours(stars)
 
     # Rank stars by detection potential
-    if debug:
-        print("ranking stars...")
+    print("ranking stars...")
     ranked_stars = rank_by_detection_potential(stars, camera_width, camera_height)
 
     # Process stars in order of detection potential
@@ -286,15 +284,14 @@ def track_stars(image, catalog, show_video, debug):
     found = False
     for i in range(len(ranked_stars)):
 
-        if debug:
-            print("Trying to find catalog match for star %d" % (i+1))
+        print("Trying to find catalog match for star %d" % (i+1))
         camera_star = ranked_stars[i]
        
         # compute planar angles
         camera_star = compute_planar_angles(camera_star, stars)
 
         # try to identify star
-        catalog_star = identify_star(camera_star, catalog, debug)
+        catalog_star = identify_star(camera_star, catalog)
 
         # Did we successfully identify star?
         if catalog_star:
@@ -361,7 +358,8 @@ def track_stars(image, catalog, show_video, debug):
     if show_video:
         # print detected star no and x and y on screen
         if found: 
-            cv2.putText(image, "star %d x=%.0f y=%.0f theta=%0.f" % (catalog_star.id, x_vehicle, y_vehicle, theta), (10, 15), cv2.FONT_HERSHEY_PLAIN, 1, (0,0,255))
+            cv2.putText(image, "star %d x=%.0f y=%.0f theta=%0.f" % (catalog_star.id, catalog_star.x, catalog_star.y, theta), (10, 15), cv2.FONT_HERSHEY_PLAIN, 1, (0,0,255))
+            cv2.putText(image, "star %d x=%.0f y=%.0f theta=%0.f" % (catalog_star.id, x_vehicle, y_vehicle, theta), (10, 30), cv2.FONT_HERSHEY_PLAIN, 1, (0,0,255))
         # Draw triangle
         if camera_star:
             cv2.line(image, (int(camera_star.x), int(camera_star.y)), (int(stars[camera_star.neighbour_1].x), int(stars[camera_star.neighbour_1].y)), (0, 0, 255), 1, 1)
@@ -370,7 +368,7 @@ def track_stars(image, catalog, show_video, debug):
         for i in range(min(MAX_ATTEMPTS, len(ranked_stars))):
             cv2.putText(image,str(i+1), (int(ranked_stars[i].x+5),int(ranked_stars[i].y)), cv2.FONT_HERSHEY_SIMPLEX, 0.3, 255)
         # Draw FPS onto image
-        #cv2.putText(image, "FPS %.2f" % (1.0/(time.time()-start)), (camera_width-90, camera_height-10), cv2.FONT_HERSHEY_PLAIN, 1, (0,0,255))
+        cv2.putText(image, "FPS %.2f" % (1.0/(time.time()-start)), (camera_width-90, camera_height-10), cv2.FONT_HERSHEY_PLAIN, 1, (0,0,255))
         cv2.namedWindow('frame', cv2.WINDOW_NORMAL)
         cv2.resizeWindow('frame', 600, 480)
         cv2.imshow('frame', image)
