@@ -45,8 +45,6 @@ void PoseController::controlPosition()
 	// position control
 	float x = filteredPose.x;
 	float y = filteredPose.y;
-	float goalX = targetPose.x;
-	float goalY = targetPose.y;
 
 	// USE OT YAW
 	/*OTData otData;
@@ -55,12 +53,16 @@ void PoseController::controlPosition()
 	float otYaw = M_PI + otData.alpha + atan2(otData.G0, r);*/
 	// END
 
-	float eX = goalX - x;
-	float eY = goalY - y;
+	float eX = targetPose.x - x;
+	float eY = targetPose.y - y;
 	rotateCoord(eX, eY, filteredPose.yaw*M_PI/180.f , eX, eY);
 
-	float eX_dif = (eX - oldeX) / period;
-	float eY_dif = (eY - oldeY) / period;
+
+	float velX = (x - oldX) / period;
+	float velY = (y - oldY) / period;
+
+	float eX_dif = targetVel.x - velX;
+	float eY_dif = targetVel.y - velY;
 
 	eX_int -= eX_arr[errIndex];
 	eY_int -= eY_arr[errIndex];
@@ -73,8 +75,8 @@ void PoseController::controlPosition()
 	//eX_int += eX * period;
 	//eY_int += eY * period;
 
-	oldeX = eX;
-	oldeY = eY;
+	oldX = x;
+	oldY = y;
 
 	float zX = k * (eX + td * eX_dif + ti*eX_int);
 	float zY = k * (eY + td * eY_dif + ti*eY_int);
@@ -221,6 +223,9 @@ void PoseController::run()
 			valvePWMEnabled = true;
 			activateValvePWM.put(valvePWMEnabled);
 
+			targetVel.x = 0;
+			targetVel.y = 0;
+			targetVel.yaw = 0;
 			//if (activateRWSpeedControl)
 			controlYaw();
 
@@ -246,6 +251,31 @@ void PoseController::run()
 				}
 			}
 
+			targetVel.x = 0;
+			targetVel.y = 0;
+			targetVel.yaw = 0;
+
+			controlYaw();
+			controlPosition();
+		}
+		else if (mode == PoseControllerMode::FOLLOW_TRAJECTORY_T)
+		{
+			TrajectoryPlanData plan;
+			trajPlanBuffer.get(plan);
+			float t = (NOW() - plan.startTime) / SECONDS;
+			float T = (plan.endTime - plan.startTime) / SECONDS;
+			targetPose = curveLinePos(s(t, T), plan.startPose, plan.endPose);
+			targetVel = curveLineVel(s(t, T), plan.startPose, plan.endPose);
+			targetVel.x *= ds(t, T);
+			targetVel.y *= ds(t, T);
+			targetVel.yaw *= ds(t, T);
+
+			print_debug_msg("TPose: %f, %f, %f", targetPose.x, targetPose.y, targetPose.yaw);
+			print_debug_msg("TVel: %f, %f, %f", targetVel.x, targetVel.y, targetVel.yaw);
+
+			targetPoseSemaphore.enter();
+			tcTargetPose.put(targetPose);
+			targetPoseSemaphore.leave();
 			controlYaw();
 			controlPosition();
 		}

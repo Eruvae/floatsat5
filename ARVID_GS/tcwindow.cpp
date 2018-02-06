@@ -53,6 +53,8 @@ void TCWindow::telecommandsend()
             send.data.pcMode = 3;
         else if (ui->rotatebutton->isChecked())
             send.data.pcMode = 4;
+        else if (ui->trajectoryTbutton->isChecked())
+            send.data.pcMode = 5;
 
         TCLink->write<Telecommand>(TelecommandType,send);
     }

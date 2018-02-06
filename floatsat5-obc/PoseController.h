@@ -16,9 +16,10 @@ class PoseController : public Thread
 	const float period = 0.2;
 	Pose filteredPose = {0};
 	Pose2D targetPose = {0};
+	Pose2D targetVel = {0};
 	int16_t currentRwSpeed = 0;
 	PoseControllerMode mode = PoseControllerMode::STANDBY;
-	float oldeX = 0, oldeY = 0;
+	float oldX = 0, oldY = 0;
 	float eX_int = 0, eY_int = 0;
 	const static int ERR_ARR_SIZE = 10;
 	float eX_arr[ERR_ARR_SIZE] = {0}, eY_arr[ERR_ARR_SIZE] = {0};
@@ -44,6 +45,57 @@ class PoseController : public Thread
 
 	//CommBuffer<OTData> otDataBuffer;
 	//Subscriber otDataSub;
+
+	Pose2D curveLinePos(float s, const Pose2D &start, const Pose2D &end)
+	{
+		float xDif = end.x - start.x;
+		float yDif = end.y - start.y;
+		float yawDif = end.yaw - start.yaw;
+		MOD(yawDif, -180, 180);
+		Pose2D pose = {start.x + s*xDif, start.y + s*yDif, start.yaw + s*yawDif};
+		MOD(pose.yaw, -180, 180);
+		return pose;
+	}
+
+	Pose2D curveLineVel(float s, const Pose2D &start, const Pose2D &end)
+	{
+		float xDif = end.x - start.x;
+		float yDif = end.y - start.y;
+		float yawDif = end.yaw - start.yaw;
+		MOD(yawDif, -180, 180);
+		Pose2D pose = {xDif, yDif, yawDif};
+		return pose;
+	}
+
+	Pose2D curveLineAcc(float s, const Pose2D &start, const Pose2D &end)
+	{
+		Pose2D pose = {0, 0, 0};
+		return pose;
+	}
+
+	float s(float t, float T)
+	{
+		if (t <= 0)
+			return 0;
+		else if (t <= T/2)
+			return 2.f / (T*T) * (t*t);
+		else if (t < T)
+			return -2.f / (T*T) * ((t-T)*(t-T)) + 1;
+		else
+			return 1;
+	}
+
+	float ds(float t, float T)
+	{
+		if (t <= 0)
+			return 0;
+		else if (t <= T/2)
+			return t / (T*T);
+		else if (t < T)
+			return -1 / (T*T) * (t-T);
+		else
+			return 0;
+	}
 
 	void controlYaw();
 	void controlPosition();

@@ -114,7 +114,7 @@ enum class Mode
 
 enum class PoseControllerMode
 {
-	STANDBY, GOTO_POSE, FOLLOW_TRAJECTORY, CHANGE_ATTITUDE, ROTATE, MOMENTUM_DAMPING
+	STANDBY, GOTO_POSE, FOLLOW_TRAJECTORY, CHANGE_ATTITUDE, ROTATE, FOLLOW_TRAJECTORY_T
 };
 
 struct __attribute__((packed)) RadioPosition
@@ -125,6 +125,14 @@ struct __attribute__((packed)) RadioPosition
 struct __attribute__((packed)) Pose2D
 {
 	float x, y, yaw;
+};
+
+struct TrajectoryPlanData
+{
+	Pose2D startPose;
+	Pose2D endPose;
+	uint64_t startTime;
+	uint64_t endTime;
 };
 
 /*struct __attribute__((packed)) Pose25D

@@ -140,7 +140,7 @@ enum class Mode
 
 enum class PoseControllerMode
 {
-    STANDBY, HOLD_POSE, FOLLOW_TRAJECTORY, CHANGE_ATTITUDE, ROTATE
+    STANDBY, GOTO_POSE, FOLLOW_TRAJECTORY, CHANGE_ATTITUDE, ROTATE, FOLLOW_TRAJECTORY_T
 };
 
 struct __attribute__((packed)) Pose

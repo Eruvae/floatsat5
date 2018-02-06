@@ -67,6 +67,19 @@ void TelecommandReceiver::put(Telecommand &data)
 	{
 		tcNextTargetPoseList.clear();
 		PoseControllerMode mode = static_cast<PoseControllerMode>(data.data.pcMode);
+
+		if (mode == PoseControllerMode::FOLLOW_TRAJECTORY_T)
+		{
+			TrajectoryPlanData trajData;
+			Pose2D startPose = {0.5, -1, 0};
+			Pose2D endPose = {1.5, -1.5, 0};
+			trajData.startPose = startPose;
+			trajData.endPose = endPose;
+			trajData.startTime = NOW() + 5*SECONDS;
+			trajData.endTime = NOW() + 20*SECONDS;
+			trajPlanBuffer.put(trajData);
+		}
+
 		itPoseControllerMode.publish(mode);
 	}
 	else if (data.id == RPI_COMMAND)

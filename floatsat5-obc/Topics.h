@@ -50,6 +50,7 @@ int print_debug_msg(const char *format, ...);
 // TC CommBuffers
 extern CommBuffer<int16_t> tcReactionWheelTargetSpeed;
 extern Fifo<IMUCommand, 10> tcImuCommand;
+extern CommBuffer<TrajectoryPlanData> trajPlanBuffer;
 extern Semaphore targetPoseSemaphore;
 extern CommBuffer<Pose2D> tcTargetPose;
 extern Fifo<Pose2D, 20> tcNextTargetPoseList;
