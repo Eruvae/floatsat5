@@ -42,6 +42,39 @@ def f(x, *args):
     z_1, z_2, z_3 = args
     return (c*z_1-(G_0+a*np.sin(alpha))/(g_0-a*np.cos(alpha)), c*z_2-(G_0+a*np.sin(alpha+2./3.*np.pi))/(g_0-a*np.cos(alpha+2./3.*np.pi)), c*z_3-(G_0+a*np.sin(alpha+4./3.*np.pi))/(g_0-a*np.cos(alpha+4./3.*np.pi)))
 
+def centeroid(mask):
+    im2, contours, hierachy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    # search for the spot with largest area
+
+    if len(contours) == 0:
+        return -1
+    else:
+        cont = contours[0]
+
+    for cnt in contours:
+        if cv2.contourArea(cnt) > cv2.contourArea(cont):
+            cont = cnt 
+
+        #cv2.drawContours(image, cont, -1, (0,255,0), 3)
+
+        x_pos = 0 
+
+        num = 0 
+        for x in cont[:,0,0]:
+            x_pos += x
+            num += 1
+
+            if num == 0:
+                return -1
+            else:
+                return x_pos//num
+
+d_led_plate = 0.14
+d_cam_ir = 0.1
+
+def detect_led():
+    
+
 def detect_leds(frame):
     x_0 = (0.35, 0.05, 0.3)
 
@@ -49,33 +82,6 @@ def detect_leds(frame):
         mask = cv2.erode(mask, None)
         mask = cv2.dilate(mask, None)
         return mask
-
-    def centeroid(mask):
-        im2, contours, hierachy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-        # search for the spot with largest area
-
-        if len(contours) == 0:
-            return -1
-        else:
-            cont = contours[0]
-
-        for cnt in contours:
-            if cv2.contourArea(cnt) > cv2.contourArea(cont):
-                cont = cnt
-
-            #cv2.drawContours(image, cont, -1, (0,255,0), 3)
-
-            x_pos = 0
-
-            num = 0
-            for x in cont[:,0,0]:
-                x_pos += x
-                num += 1
-
-                if num == 0:
-                    return -1
-                else:
-                    return x_pos//num
 
     def calculate_pos(x_0, x_r, x_g, x_b):
         x_values = (x_r, x_g, x_b)
