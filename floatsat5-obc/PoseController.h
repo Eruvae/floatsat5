@@ -20,12 +20,15 @@ class PoseController : public Thread
 	PoseControllerMode mode = PoseControllerMode::STANDBY;
 	float oldeX = 0, oldeY = 0;
 	float eX_int = 0, eY_int = 0;
+	const static int ERR_ARR_SIZE = 10;
+	float eX_arr[ERR_ARR_SIZE] = {0}, eY_arr[ERR_ARR_SIZE] = {0};
+	int errIndex = 0;
 	float oldYawErr = 0;
 	float errYaw_int = 0;
 	float errRot_int = 0, old_dYaw = 0;
-	float attP = 10.f, attD = 20.f, attI = 0.f;
+	float attP = 50.f, attD = 100.f, attI = 2.f;
 	float rotP = 100.f, rotD = 0.f, rotI = 10.f;
-	float k = 1.5f, td = 8.f, ti = 0.05f, gamma = sqrt(3)/2; // trajectory control params
+	float k = 1.5f, td = 20.f, ti = 0.5f, gamma = sqrt(3)/2; // trajectory control params
 
 	CommBuffer<Pose> filteredPoseBuffer;
 	Subscriber filterePoseSub;
