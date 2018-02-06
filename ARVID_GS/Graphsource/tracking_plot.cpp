@@ -13,6 +13,9 @@ void MainWindow::SetupPlotTracking()
     shape.setPen(QPen(Qt::red));
     shape.setSize(8);
 
+    ui->trackPlot->setBackground(Qt::black);
+    ui->trackPlot->yAxis->setTickLabelColor(Qt::white);
+    ui->trackPlot->xAxis->setTickLabelColor(Qt::white);
     ui->trackPlot->addGraph();
     ui->trackPlot->graph(0)->setScatterStyle(shape);
     ui->trackPlot->xAxis->setLabel("Y");
@@ -26,13 +29,5 @@ void MainWindow::SetupPlotTracking()
     ui->trackPlot->yAxis->setAutoTickStep(false);
     ui->trackPlot->yAxis->setTickStep(0.5);
     ui->trackPlot->yAxis->setRange(0, 2.2);
-
-
-//    QTimer *dataTimer = new QTimer();
-
-//    setup a timer that repeatedly calls MainWindow::realtimeDataSlot:
-
-//    dataTimer->start(500);
-//    connect(dataTimer, SIGNAL(timeout()),ui->trackPlot, SLOT(replot()));
 
 }
