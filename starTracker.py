@@ -4,10 +4,10 @@ import numpy
 import time
 
 # VEHICLE CALIBRATION
-CAMERA_VEHICLE_DX = -30  # distance that camera is to the 'left' of vehicle, in mm
-CAMERA_VEHICLE_DY = 220  # distance that camera is in 'front' of vehicle, in mm
-CAM_FOV_MM_X = 230       # effective camera FOV width on table, in mm
-CAM_FOV_MM_Y = 180       # effective camera FOV height on table, in mm
+CAMERA_VEHICLE_DX = 0 # distance that camera is to the 'left' of vehicle, in mm
+CAMERA_VEHICLE_DY = 200  # distance that camera is in 'front' of vehicle, in mm
+CAM_FOV_MM_X = 270       # effective camera FOV width on table, in mm
+CAM_FOV_MM_Y = 230       # effective camera FOV height on table, in mm
 
 # ST algorithm calibration
 MAX_ATTEMPTS = 5  # number of different stars algorithm will try before giving up

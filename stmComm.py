@@ -27,8 +27,12 @@ def setCamPos(index):
         time.sleep(0.1)
         p.ChangeDutyCycle(8)
         time.sleep(0.1)
+        p.ChangeDutyCycle(8.5)
+        time.sleep(0.1)
         p.ChangeDutyCycle(0)
     elif (index == 2):
+        p.ChangeDutyCycle(8)
+        time.sleep(0.1)
         p.ChangeDutyCycle(7.5)
         time.sleep(0.1)
         p.ChangeDutyCycle(7)
@@ -47,24 +51,22 @@ def setCamPos(index):
         time.sleep(0.1)
         p.ChangeDutyCycle(0)
 
-camera = None
-stream = None
-
-def setup_camera_st():
-    camera = picamera.PiCamera()
-    stream = picamera.array.PiRGBArray(camera)
+def setup_camera_st(camera, stream):
     camera.resolution = (320, 240)
     camera.brightness = 30
     camera.contrast = 95
+    camera.framerate = 30
+    camera.exposure_mode = "auto"
+    camera.shutter_speed = 0
     time.sleep(0.1)
 
-def setup_camera_ot():
-    camera = picamera.PiCamera()
-    stream = picamera.array.PiRGBArray(camera)
+def setup_camera_ot(camera, stream):
     camera.resolution = (640, 480)
+    camera.brightness = 50
+    camera.contrast = 0
     camera.framerate = 32
     camera.exposure_mode = "off"
-    camera.shutter_speed = 10000
+    camera.shutter_speed = 5000
     time.sleep(0.1)
 
 ser = serial.Serial('/dev/ttyAMA0', 115200)  # open serial port
@@ -78,6 +80,15 @@ p.start(0)
 camPosition = 1 # -1 - undefined; 1 - ST; 2 - OT
 state = 0
 received = ''
+
+camera = picamera.PiCamera()
+stream = picamera.array.PiRGBArray(camera)
+print(camera.resolution)
+print(camera.brightness)
+print(camera.contrast)
+print(camera.framerate)
+print(camera.exposure_mode)
+print(camera.shutter_speed)
 
 debug = False
 # Read ST catalogs into memory
@@ -101,8 +112,8 @@ try:
                         if (received[2] == '1'):
                             ot_enable = False
                             st_enable = True
-                            setup_camera_st()
-                            if (camPosition != 1)
+                            setup_camera_st(camera, stream)
+                            if (camPosition != 1):
                                 setCamPos(1)
                                 camPosition = 1
                         elif (received[2] == '0'):
@@ -111,7 +122,8 @@ try:
                         if (received[2] == '1'):
                             st_enable = False
                             ot_enable = True
-                            setup_camera_ot()
+                            setup_camera_ot(camera, stream)
+                            print(camera.shutter_speed)
                             if (camPosition != 2):
                                 setCamPos(2)
                                 camPosition = 2
@@ -156,7 +168,7 @@ try:
             camera.capture(stream, 'bgr', use_video_port=True)
             frame = stream.array
 
-            data = detect_leds(frame)
+            data = detect_leds(frame, False)
 
             toSend = '$OT:' + str(data[0][0]) + ':' + str(data[0][1]) + ':' + str(data[0][2]) + ':' + str(int(data[1])) + '\n'
             ser.write(toSend.encode())
