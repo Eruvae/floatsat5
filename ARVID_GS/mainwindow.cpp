@@ -314,7 +314,7 @@ void MainWindow::readFromLink(){
     case OTDataType:
     {
         OTData data(payload);
-
+        qDebug() << data.alpha << ", " << data.g0 << ", " << data.G0 << ", " << data.found << endl;
         break;
     }
 

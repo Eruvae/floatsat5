@@ -33,7 +33,7 @@ void TCWindow::telecommandsend()
 
     if (ui->tabWidget->currentIndex()==0)
     {
-        send.id == DEACTIVATE_CONTROLLER;
+        send.id = DEACTIVATE_CONTROLLER;
         send.data.boolData = ui->activateControllerBox_3->isChecked();
 
         TCLink->write<Telecommand>(TelecommandType,send);
@@ -42,6 +42,7 @@ void TCWindow::telecommandsend()
 
     else if (ui->tabWidget->currentIndex()==1)
     {
+        send.id = CHANGE_PC_MODE;
         if (ui->standbybutton->isChecked())
             send.data.pcMode = 0;
         else if (ui->holdposebutton->isChecked())
@@ -58,6 +59,7 @@ void TCWindow::telecommandsend()
 
     else if (ui->tabWidget->currentIndex()==2)
     {
+        send.id = RPI_COMMAND;
         if (ui->stbutton->isChecked())
             send.data.rpiComData.command = 0;
         else if (ui->otbutton->isChecked())
@@ -74,7 +76,7 @@ void TCWindow::telecommandsend()
 
     else
     {
-        send.id == SEND_POSE_TO_LIST;
+        send.id = SEND_POSE_TO_LIST;
         for (Pose2D pose : poses)
         {
             send.data.pose = pose;
