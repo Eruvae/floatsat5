@@ -27,7 +27,7 @@ void MainWindow::SetupGraphCurrent()
     ui->graph_temp->xAxis->setTickLabelColor(Qt::white);
 
     ui->graph_temp->xAxis->setTickLabelType(QCPAxis::ltDateTime);
-    ui->graph_temp->xAxis->setDateTimeFormat("hh:mm:ss");
+    ui->graph_temp->xAxis->setDateTimeFormat("mm:ss");
     ui->graph_temp->xAxis->setAutoTickStep(false);
     ui->graph_temp->xAxis->setTickStep(2);
     ui->graph_temp->axisRect()->setupFullAxesBox();
