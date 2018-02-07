@@ -18,6 +18,7 @@
 #include <QtCore/QDebug>
 
 #define LIMIT(x,min,max)   ((x)<(min)?(min):(x)>(max)?(max):(x))
+#define PI 3.14159265
 
 float voltagema, currentma,voltagemb, currentmb,voltagemc, currentmc,voltagemd, currentmd;
 bool valve1=false, valve2=false, valve3=false;
@@ -254,15 +255,35 @@ void MainWindow::readFromLink()
         float Go=data.G0 , go=data.g0+0.2, alpha=data.alpha;
 
         float r= sqrt( Go*Go + go*go);
+        float angle= atan(Go/go) * (180/PI);
 
-        double key = QTime::currentTime().msecsSinceStartOfDay()/1000.0; // time elapsed since start of demo, in seconds
-        static double lastPointKey = 0;
+        if (angle<0)
+        {
+            double key = QTime::currentTime().msecsSinceStartOfDay()/1000.0; // time elapsed since start of demo, in seconds
+            static double lastPointKey = 0;
+
+            if (key-lastPointKey > 0.01)
+            {
+                series1->append(-angle, r); //to plot
+                chart->addSeries(series1); //to plot
+            }
+
+            lastPointKey=key;
+
+        }
+
+        else
+        {
+            double key = QTime::currentTime().msecsSinceStartOfDay()/1000.0; // time elapsed since start of demo, in seconds
+            static double lastPointKey = 0;
 
         if (key-lastPointKey > 0.01)
         {
-            series1->append(alpha, r); //to plot
+            series1->append(angle, r); //to plot
             chart->addSeries(series1); //to plot
+        }
 
+            lastPointKey=key;
         }
 
         series1->clear(); //to plot
