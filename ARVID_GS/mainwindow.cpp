@@ -273,6 +273,34 @@ void MainWindow::readFromLink()
         break;
 
     } //end case RadioPoseDataType
+    case PoseControllerModeType:
+        if (payload.enumData == 0)
+            ui->controlMode->setText("Stand By");
+        else if (payload.enumData == 1)
+            ui->controlMode->setText("Goto Pose");
+        else if (payload.enumData == 2)
+            ui->controlMode->setText("Follow Trajectory");
+        else if (payload.enumData == 3)
+            ui->controlMode->setText("Change Attitude");
+        else if (payload.enumData == 4)
+            ui->controlMode->setText("Rotate");
+        else if (payload.enumData == 5)
+            ui->controlMode->setText("Follow Trajectory T");
+        break;
+    case MissionStateType:
+        if (payload.enumData == 0)
+            ui->controlMode->setText("Stand By");
+        else if (payload.enumData == 1)
+            ui->controlMode->setText("Start Searching");
+        else if (payload.enumData == 2)
+            ui->controlMode->setText("Searching Target");
+        else if (payload.enumData == 3)
+            ui->controlMode->setText("Moving to Target");
+        else if (payload.enumData == 4)
+            ui->controlMode->setText("Rendezvouz Target");
+        else if (payload.enumData == 5)
+            ui->controlMode->setText("Docking");
+        break;
 
     case DebugMsgType:
     {

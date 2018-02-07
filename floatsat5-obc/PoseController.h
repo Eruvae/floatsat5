@@ -77,7 +77,7 @@ class PoseController : public Thread
 	{
 		float betaDif = betaEnd - betaStart;
 		float beta = betaStart + betaDif * s;
-		Pose2D pose = {center.x + r*cos(beta*M_PI/180), center.y + r*sin(beta*M_PI/180), 0/*180 + beta*/};
+		Pose2D pose = {center.x + r*cos(beta*M_PI/180), center.y + r*sin(beta*M_PI/180), 180 + beta};
 		MOD(pose.yaw, -180, 180);
 		return pose;
 	}
@@ -86,7 +86,7 @@ class PoseController : public Thread
 	{
 		float betaDif = betaEnd - betaStart;
 		float beta = betaStart + betaDif * s;
-		Pose2D pose = {-r*betaDif*M_PI/180*sin(beta*M_PI/180), r*betaDif*M_PI/180*cos(beta*M_PI/180), 0/*betaDif*/};
+		Pose2D pose = {-r*betaDif*M_PI/180*sin(beta*M_PI/180), r*betaDif*M_PI/180*cos(beta*M_PI/180), betaDif};
 		return pose;
 	}
 

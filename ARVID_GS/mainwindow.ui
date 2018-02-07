@@ -862,7 +862,7 @@ QPushButton:hover{ background-color: grey; }
     <property name="title">
      <string>Infrared Sensors</string>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -1108,7 +1108,7 @@ QPushButton:hover{ background-color: grey; }
     <property name="title">
      <string>Radio Position</string>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>12</x>
@@ -1213,13 +1213,13 @@ QPushButton:hover{ background-color: grey; }
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>91</width>
-       <height>101</height>
+       <width>107</width>
+       <height>120</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -1330,7 +1330,7 @@ QPushButton:hover{ background-color: grey; }
      </layout>
     </widget>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>720</x>
@@ -1355,7 +1355,7 @@ QPushButton:hover{ background-color: grey; }
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="cmode">
+        <widget class="QLabel" name="missionState">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -1383,9 +1383,9 @@ QPushButton:hover{ background-color: grey; }
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_40">
+        <widget class="QLabel" name="controlMode">
          <property name="text">
-          <string>Control Mode:</string>
+          <string>Stand By</string>
          </property>
         </widget>
        </item>
@@ -1400,7 +1400,7 @@ QPushButton:hover{ background-color: grey; }
      <x>0</x>
      <y>0</y>
      <width>983</width>
-     <height>23</height>
+     <height>18</height>
     </rect>
    </property>
    <property name="styleSheet">
