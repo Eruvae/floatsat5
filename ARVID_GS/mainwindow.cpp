@@ -60,6 +60,8 @@ MainWindow::MainWindow(QWidget *parent) :
     link->addTopic(OTDataType);
     link->addTopic(RadioPoseDataType);
     link->addTopic(DebugMsgType);
+    link->addTopic(PoseControllerModeType);
+    link->addTopic(MissionStateType);
 
 
     SetupSpeedMeter();

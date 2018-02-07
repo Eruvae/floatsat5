@@ -1082,7 +1082,7 @@ QPushButton:hover{ background-color: grey; }
        <x>20</x>
        <y>30</y>
        <width>311</width>
-       <height>301</height>
+       <height>311</height>
       </rect>
      </property>
     </widget>
@@ -1183,7 +1183,7 @@ QPushButton:hover{ background-color: grey; }
       <rect>
        <x>10</x>
        <y>15</y>
-       <width>281</width>
+       <width>231</width>
        <height>21</height>
       </rect>
      </property>
@@ -1531,7 +1531,7 @@ QPushButton:hover{ background-color: grey; }
      <x>0</x>
      <y>0</y>
      <width>1019</width>
-     <height>23</height>
+     <height>18</height>
     </rect>
    </property>
    <property name="styleSheet">
