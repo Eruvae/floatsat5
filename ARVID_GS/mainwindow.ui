@@ -1084,8 +1084,8 @@ QPushButton:hover{ background-color: grey; }
       <rect>
        <x>20</x>
        <y>30</y>
-       <width>211</width>
-       <height>211</height>
+       <width>311</width>
+       <height>311</height>
       </rect>
      </property>
     </widget>
@@ -1163,7 +1163,6 @@ QPushButton:hover{ background-color: grey; }
      </layout>
     </widget>
    </widget>
->>>>>>> 5874180949b2387504b692d4d4df17af757301b8
    <widget class="QGroupBox" name="groupBox_10">
     <property name="geometry">
      <rect>
@@ -1186,9 +1185,9 @@ QPushButton:hover{ background-color: grey; }
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>20</y>
+       <y>15</y>
        <width>231</width>
-       <height>16</height>
+       <height>21</height>
       </rect>
      </property>
     </widget>
@@ -1514,7 +1513,6 @@ QPushButton:hover{ background-color: grey; }
      <x>0</x>
      <y>0</y>
      <width>1019</width>
-     <width>983</width>
      <height>18</height>
     </rect>
    </property>

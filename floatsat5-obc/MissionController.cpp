@@ -101,6 +101,9 @@ void MissionController::run()
 				}
 				suspendCallerUntil(NOW() + 50*MILLISECONDS);
 
+				targetPoseSemaphore.enter();
+				tcTargetPose.put(searchingPose);
+				targetPoseSemaphore.leave();
 				itPoseControllerMode.publishConst(PoseControllerMode::GOTO_POSE);
 				state = MissionState::STANDBY;
 				itMissionState.publish(state);
