@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>564</width>
-    <height>279</height>
+    <width>657</width>
+    <height>395</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,7 +41,7 @@ QTableWidget QTableCornerButton::section {
     <rect>
      <x>20</x>
      <y>20</y>
-     <width>511</width>
+     <width>621</width>
      <height>211</height>
     </rect>
    </property>
@@ -67,7 +67,7 @@ QTabBar::tab:hover
 }</string>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>6</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -448,12 +448,30 @@ QTabBar::tab:hover
      </layout>
     </widget>
    </widget>
+   <widget class="QWidget" name="tab_7">
+    <attribute name="title">
+     <string>Magnet</string>
+    </attribute>
+    <widget class="QCheckBox" name="mCheck">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>80</y>
+       <width>81</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Activate</string>
+     </property>
+    </widget>
+   </widget>
   </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>240</y>
+     <x>270</x>
+     <y>250</y>
      <width>101</width>
      <height>28</height>
     </rect>

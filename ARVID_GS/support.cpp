@@ -15,6 +15,7 @@
 #define SEND_CONTROL_PARAMS 0x07
 #define SEND_ROTATION_SPEED 0x08
 #define SEND_POSE_TO_LIST 0x09
+#define ACTIVATE_MAGNET 0x0B
 
 Support::Support(QWidget *parent, SatelliteLink *link) :
     QDialog(parent),
@@ -94,13 +95,23 @@ void Support::telecommand()
         TCLink->write<Telecommand>(TelecommandType,sender);
     }
 
-    else
+    else if (ui->tabWidget->currentIndex()==5)
     {
         sender.id = SEND_ROTATION_SPEED;
 
         sender.data.rotationSpeed= ui->rotationSpeed_3->value();
 
         TCLink->write<Telecommand>(TelecommandType,sender);
+    }
+
+    else
+    {
+        sender.id = ACTIVATE_MAGNET;
+
+        sender.data.boolData=ui->mCheck->isChecked();
+        TCLink->write<Telecommand>(TelecommandType,sender);
+
+
     }
 
 

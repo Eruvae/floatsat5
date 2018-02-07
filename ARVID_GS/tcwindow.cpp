@@ -110,6 +110,7 @@ void TCWindow::telecommandsend()
             send.data.trajData.circleData.betaStart = ui->cAngleS->value();
             send.data.trajData.circleData.betaEnd = ui->cAngleE->value();
         }
+        TCLink->write<Telecommand>(TelecommandType,send);
     }
 
 
