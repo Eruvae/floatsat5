@@ -80,8 +80,12 @@ def centeroid(mask):
 d_led_plate = 0.14
 d_cam_ir = 0.1
 
-#def detect_led():
-    
+def detect_led(frame, show_video):
+    hsv_image = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    r_mask = cv2.inRange(hsv_image, np.array([170,50,50]), np.array([180,25    5,255]))
+    z_r = centeroid(r_mask)
+
+    return np.arctan(c*z_r)
 
 def detect_leds(frame, show_video):
     x_0 = (0.35, 0.05, 0.3)
