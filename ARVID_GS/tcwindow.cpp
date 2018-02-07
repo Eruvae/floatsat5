@@ -15,6 +15,7 @@
 #define SEND_CONTROL_PARAMS 0x07
 #define SEND_ROTATION_SPEED 0x08
 #define SEND_POSE_TO_LIST 0x09
+#define SEND_TRAJECTORY 0x0A
 
 TCWindow::TCWindow(QWidget *parent, SatelliteLink *link) :
     QDialog(parent),
@@ -76,7 +77,7 @@ void TCWindow::telecommandsend()
         TCLink->write<Telecommand>(TelecommandType,send);
     }
 
-    else
+    else if (ui->tabWidget->currentIndex()==3)
     {
         send.id = SEND_POSE_TO_LIST;
         for (Pose2D pose : poses)
@@ -86,6 +87,12 @@ void TCWindow::telecommandsend()
             QThread::msleep(25);
         }
         return;
+    }
+
+    else
+    {
+        send.id = SEND_TRAJECTORY;
+
     }
 
 

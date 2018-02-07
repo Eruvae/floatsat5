@@ -154,34 +154,29 @@ void MainWindow::readFromLink()
         //lend->end->setCoords(-valuey,valuex);
         //ui->trackPlot->graph(0)->addData(-valuey,valuex);
 
-
-
+        QCPCurve *track = new QCPCurve(ui->trackPlot->xAxis, ui->trackPlot->yAxis);
 
 
         //oldvaluex=-valuey, oldvaluey=valuex;
 
-
-
-
         if (valuex>0 && -valuey>0)
         {
 
-
         double key = QTime::currentTime().msecsSinceStartOfDay()/1000.0; // time elapsed since start of demo, in seconds
-        static double lastPointKey = 0;
 
+        track->setPen(QPen(Qt::blue));
+
+        static double lastPointKey = 0;
 
         if (key-lastPointKey > 5)
           {
 
-            ui->trackPlot->graph(0)->addData(-valuey, valuex);
+            track->addData(key, -valuey, valuex);
+//            ui->trackPlot->graph(0)->addData(-valuey, valuex);
             lastPointKey=key;
-          }
+           }
 
-         ui->trackPlot->graph(1)->addData(-valuey, valuex);
-
-
-
+//         ui->trackPlot->graph(1)->addData(-valuey, valuex);
 
         ui->trackPlot->replot();
         }
