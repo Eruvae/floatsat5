@@ -43,7 +43,7 @@ QTableWidget QTableCornerButton::section {
   <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>10</x>
      <y>10</y>
      <width>521</width>
      <height>411</height>
@@ -253,9 +253,9 @@ QTabBar::tab:hover
     <widget class="QWidget" name="">
      <property name="geometry">
       <rect>
-       <x>12</x>
-       <y>21</y>
-       <width>491</width>
+       <x>10</x>
+       <y>22</y>
+       <width>511</width>
        <height>351</height>
       </rect>
      </property>

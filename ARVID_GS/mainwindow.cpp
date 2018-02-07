@@ -5,7 +5,6 @@
 #include "tcwindow.h"
 #include "powerdata.h"
 #include "qmeter.h"
-#include "chartview.h"
 #include "qcustomplot.h"
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
@@ -24,30 +23,16 @@ float voltagema, currentma,voltagemb, currentmb,voltagemc, currentmc,voltagemd, 
 bool valve1=false, valve2=false, valve3=false;
 int counter=0;
 int missedPackets;
-//double graphvaluecurrent=0;
 int MissedPackets=0;
 int recievedPackets=0;
 float Power;
+
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-
-
-
-
-
-//    QMediaPlayer *player = new QMediaPlayer(this);
-//    player->setMedia(QUrl("D:/Interstellar Main Theme - Extra Extended - Soundtrack by Hans Zimmer (mp3cut.net).mp3"));
-//    player->setVolume(100);
-//    player->play();
-//    qDebug()<< player->errorString();
-
-
-
-
 
     link = new SatelliteLink(this);
     link->addTopic(PowerTelemetryType);
@@ -140,8 +125,6 @@ void MainWindow::readFromLink()
     {
         FilteredPose data(payload);
 
-        //float oldvaluex=0, oldvaluey=0;
-
         ui->lcdx->display(data.x);
         ui->lcdy->display(data.y);
         ui->lcdz->display(data.z);
@@ -155,8 +138,6 @@ void MainWindow::readFromLink()
 
         float valuex=data.x, valuey=data.y;
 
-
-
         if (valuex>0 && -valuey>0)
         {
 
@@ -166,15 +147,14 @@ void MainWindow::readFromLink()
 
         if (key-lastPointKey > 3)
           {
-
             track->addData(-valuey, valuex);
-//          ui->trackPlot->graph(0)->addData(-valuey, valuex);
             lastPointKey=key;
            }
 
-//         ui->trackPlot->graph(1)->addData(-valuey, valuex);
+        trackline->addData(-valuex, valuey);
 
         ui->trackPlot->replot();
+
         }
 
 
@@ -254,13 +234,17 @@ void MainWindow::readFromLink()
         float angleGlob = alpha + M_PI - otYaw + ui->lcdyaw->value()*M_PI/180;
         float otX = r * cos(angleGlob);
         float otY = r * sin(angleGlob);
+        float otXAbs = (r * cos (angleGlob) + ui->lcdx->value());
+        float otYAbs = (r * sin (angleGlob) - ui->lcdy->value());
         ui->lcdNumber->display(otX);
         ui->lcdNumber_2->display(otY);
         ui->lcdNumber_3->display(alpha);
         ui->lcdNumber_4->display(data.found);
 
+        ui->trackPlot->graph(0)->addData(otXAbs, otYAbs);
+        ui->trackPlot->graph(0)->clearData();
+        ui->trackPlot->replot();
 
-        
         break;
 
     } //end case OTDataType

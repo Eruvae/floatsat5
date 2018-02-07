@@ -40,7 +40,6 @@ SOURCES += \
     QMeter/qmeterdrawfunctions.cpp \
     manualcontrol.cpp \
     Graphsource/tracking_plot.cpp \
-    chartview.cpp \
     support.cpp \
     SpeedMeter/speedmeter.cpp
     support.cpp
@@ -55,7 +54,6 @@ HEADERS  += \
     powerdata.h \
     QMeter/qmeter.h \
     manualcontrol.h \
-    chartview.h \
     support.h
     support.h
 INCLUDEPATH += \

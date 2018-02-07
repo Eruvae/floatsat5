@@ -113,93 +113,6 @@ void TCWindow::telecommandsend()
         TCLink->write<Telecommand>(TelecommandType,send);
     }
 
-
-
-//    switch(ui->tabWidget->currentIndex())
-//    {
-//    case 0: // CALIB_IMU
-//        if (ui->gyrobutton->isChecked())
-//                send.data.imu_com=(IMUCommand)0;
-//        else if (ui->accbutton->isChecked())
-//                send.data.imu_com=(IMUCommand)1;
-//        else if (ui->magbutton->isChecked())
-//                send.data.imu_com=(IMUCommand)2;
-
-//        //send.data.imu_com = (IMUCommand)ui->comboIMUcal->currentIndex();
-//        break;
-
-//    case 1: // SEND_POS
-//        send.data.pose.x = ui->PoseX->value();
-//        send.data.pose.y = ui->PoseY->value();
-//        send.data.pose.yaw = ui->PoseYaw->value();
-//        break;
-
-//    case 2: // SEND_RW_SPEED
-//        send.data.wheel_target_speed=ui->RWSpeed_3->value();
-//        break;
-
-//    case 3: //THRUSTER_CONTROL
-//    {
-//        uint8_t data = 0;
-//        if (ui->T1_3->isChecked()) data |= 0b1;
-//        if (ui->T2_3->isChecked()) data |= 0b10;
-//        if (ui->T3_3->isChecked()) data |= 0b100;
-//        send.data.valveControl = data;
-//        break;
-//    }
-
-//    case 4: //DEACTIVATE_CONTROLLER
-//        send.data.boolData = ui->activateControllerBox_3->isChecked();
-//        break;
-
-//    case 5: //CHANGE_PC_MODE
-//        if (ui->standbybutton->isChecked())
-//            send.data.pcMode = 0;
-//        else if (ui->holdposebutton->isChecked())
-//            send.data.pcMode = 1;
-//        else if (ui->trajectorybutton->isChecked())
-//            send.data.pcMode = 2;
-//        else if (ui->attitudebutton->isChecked())
-//            send.data.pcMode = 3;
-//        else if (ui->rotatebutton->isChecked())
-//            send.data.pcMode = 4;
-
-//        //send.data.pcMode = ui->comboPCmode->currentIndex();
-//        break;
-
-//    case 6: //RPI_COMMAND
-//        if (ui->stbutton->isChecked())
-//            send.data.rpiComData.command = 0;
-//        else if (ui->otbutton->isChecked())
-//            send.data.rpiComData.command = 1;
-//        else if (ui->rpbutton->isChecked())
-//            send.data.rpiComData.command = 2;
-
-//        //send.data.rpiComData.command = ui->comboRPIcom->currentIndex();
-//        send.data.rpiComData.enable = ui->rpicheck->isChecked();
-//        //qDebug() << "Bool: " << send.data.rpiComData.enable << endl;
-//        break;
-
-//    case 7: //SEND_CONTROL_DATA
-//        send.data.controlParams.attP = ui->attP_3->value();
-//        send.data.controlParams.attD = ui->attD_3->value();
-//        send.data.controlParams.attI = ui->attI_3->value();
-//        send.data.controlParams.traP = ui->trajP_3->value();
-//        send.data.controlParams.traD = ui->trajD_3->value();
-//        send.data.controlParams.traI = ui->trajI_3->value();
-//        send.data.controlParams.rotP = ui->rotP_3->value();
-//        send.data.controlParams.rotD = ui->rotD_3->value();
-//        send.data.controlParams.rotI = ui->rotI_3->value();
-//        break;
-
-//    case 8: //ROTATION_SPEED
-//        send.data.rotationSpeed= ui->rotationSpeed_3->value();
-//        break;
-//    }
-
-//    int written = TCLink->write<Telecommand>(TelecommandType,send);
-//    qDebug() << "Bytes written: " << written << endl;
-
 }
 
 void TCWindow::readPosesFromFile(QFile &file, QVector<Pose2D> &poses)
@@ -264,5 +177,5 @@ void TCWindow::on_readPoseFileButton_clicked()
         ui->posesToSendTable->setItem(i, 2, new QTableWidgetItem(QString::number(poses[i].yaw)));
         //qDebug() << "Pose: (" << p.x << "," << p.y << "," << p.yaw << ")" << endl;
     }
-    // TODO: Display Poses, send telecommand
+
 }

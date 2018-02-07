@@ -5,7 +5,6 @@
 #include <QScatterSeries>
 #include <QPolarChart>
 #include <QValueAxis>
-#include "chartview.h"
 #include "satellitelink.h"
 #include "tcwindow.h"
 #include "manualcontrol.h"
@@ -37,7 +36,7 @@ private:
     QQueue<int> batteryStateQueue;
 
     QCPCurve *track;
-
+    QCPCurve *trackline;
 
 
 

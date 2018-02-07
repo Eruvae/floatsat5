@@ -14,7 +14,7 @@ void MainWindow::SetupGraphCurrent()
 
 {
 
-    ui->graph_temp->addGraph(); // blue line
+    ui->graph_temp->addGraph();
     ui->graph_temp->graph(0)->setPen(QPen(QColor(255, 0, 0)));
     ui->graph_temp->setBackground(Qt::black);
     ui->graph_temp->axisRect()->setBackground(Qt::black);
@@ -38,7 +38,7 @@ void MainWindow::SetupGraphCurrent()
     connect(ui->graph_temp->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->graph_temp->yAxis2, SLOT(setRange(QCPRange)));
     QTimer dataTimer;
 
-    // setup a timer that repeatedly calls MainWindow::realtimeDataSlot:
+
 
     dataTimer.start(0); // Interval 0 means to refresh as fast as possible
 
@@ -47,30 +47,25 @@ void MainWindow::SetupGraphCurrent()
 
 void MainWindow::SetupRealtimeDataSlotCurrent(double newValue)
 {
-// calculate two new data points:
+
 double key = QTime::currentTime().msecsSinceStartOfDay()/1000.0; // time elapsed since start of demo, in seconds
 static double lastPointKey = 0;
-if (key-lastPointKey > 0.01) // at most add point every 10 ms
+if (key-lastPointKey > 0.01) //
 {
-  // add data to lines:
+
   ui->graph_temp->graph(0)->addData(key, newValue);
-  //ui->graph_temp->graph(1)->addData(key, qCos(key)+qrand()/(double)RAND_MAX*0.5*qSin(key/0.4364));
-  // rescale value (vertical) axis to fit the current data:
-  //ui->graph_temp->graph(0)->rescaleValueAxis();
-  //ui->graph_temp->graph(0)->rescaleValueAxis(true);
   ui->graph_temp->graph(0)->rescaleAxes(true);
   lastPointKey = key;
 }
-// make key axis range scroll with the data (at a constant range size of 8):
+
 ui->graph_temp->xAxis->setRange(key, 8, Qt::AlignRight);
-//ui->graph_temp->yAxis->setRange(newValue, Qt::AlignTop);
 ui->graph_temp->replot();
 
-// calculate frames per second:
+
 static double lastFpsKey;
 static int frameCount;
 ++frameCount;
-if (key-lastFpsKey > 2) // average fps over 2 seconds
+if (key-lastFpsKey > 2)
 {
   ui->statusBar->showMessage(
         QString("%1 FPS, Total Data points: %2")
