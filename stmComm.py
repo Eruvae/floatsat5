@@ -5,7 +5,8 @@ import cv2
 import picamera
 import picamera.array
 import numpy
-import radioPositioning
+#import radioPositioning
+import get_radioPos_urllib3.py as radioPositioning
 import starTracker
 from led_recognition import detect_leds
 
@@ -66,7 +67,7 @@ def setup_camera_ot(camera, stream):
     camera.contrast = 0
     camera.framerate = 32
     camera.exposure_mode = "off"
-    camera.shutter_speed = 5000
+    camera.shutter_speed = 1000
     time.sleep(0.1)
 
 ser = serial.Serial('/dev/ttyAMA0', 115200)  # open serial port
@@ -142,9 +143,10 @@ try:
         ser.write(("$RS:" + str(int(st_enable)) + ":" + str(int(ot_enable)) + ":" + str(int(rd_enable)) + "\n").encode())
         # Radio positioning
         if (rd_enable):
-            data = radioPositioning.get_position()
+            data = radioPositioning.get_position(4, 5)
             if data:
-                ser.write(("$RD:%4.2f:%4.2f:%4.2f:%4.2f\n" % (data[0].x, data[0].y, data[1].x, data[1].y)).encode())
+                #ser.write(("$RD:%4.2f:%4.2f:%4.2f:%4.2f\n" % (data[0].x, data[0].y, data[1].x, data[1].y)).encode())
+                ser.write(("$RD:%4.2f:%4.2f:%4.2f:%4.2f\n" % (data[0][0], data[0][1], data[1][0], data[1][1])).encode())
         if (st_enable):
             # Get camera stream for ST/OT
             camera.capture(stream, 'bgr', use_video_port=True)

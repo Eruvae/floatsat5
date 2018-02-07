@@ -82,7 +82,7 @@ d_cam_ir = 0.1
 
 def detect_led(frame, show_video):
     hsv_image = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    r_mask = cv2.inRange(hsv_image, np.array([170,50,50]), np.array([180,25    5,255]))
+    r_mask = cv2.inRange(hsv_image, np.array([170,50,50]), np.array([180,255,255]))
     z_r = centeroid(r_mask)
 
     return np.arctan(c*z_r)
