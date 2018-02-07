@@ -28,4 +28,14 @@ void MainWindow::SetupPlotTracking()
     ui->trackPlot->yAxis->setTickStep(0.5);
     ui->trackPlot->yAxis->setRange(0, 2.2);
 
+    QCPScatterStyle shape;
+    shape.setShape(QCPScatterStyle::ssTriangle);
+    shape.setPen(QPen(Qt::blue));
+    shape.setSize(8);
+
+    track = new QCPCurve(ui->trackPlot->xAxis, ui->trackPlot->yAxis);
+    track->setScatterStyle(shape);
+    track->setLineStyle(QCPCurve::LineStyle::lsLine);
+    track->setPen(QPen(Qt::blue));
+
 }

@@ -156,13 +156,6 @@ void MainWindow::readFromLink()
         //lend->end->setCoords(-valuey,valuex);
         //ui->trackPlot->graph(0)->addData(-valuey,valuex);
 
-        QCPScatterStyle shape;
-        shape.setShape(QCPScatterStyle::ssTriangle);
-        shape.setPen(QPen(Qt::blue));
-        shape.setSize(8);
-
-        QCPCurve *track = new QCPCurve(ui->trackPlot->xAxis, ui->trackPlot->yAxis);
-        track->setScatterStyle(shape);
 
         //oldvaluex=-valuey, oldvaluey=valuex;
 
@@ -170,8 +163,6 @@ void MainWindow::readFromLink()
         {
 
         double key = QTime::currentTime().msecsSinceStartOfDay()/1000.0; // time elapsed since start of demo, in seconds
-
-        track->setPen(QPen(Qt::blue));
 
         static double lastPointKey = 0;
 
@@ -261,6 +252,14 @@ void MainWindow::readFromLink()
 
         float r= sqrt( Go*Go + go*go);
         float angle= atan(Go/go) * (180/PI);
+        float otYaw = M_PI + alpha + atan2(Go, go);
+        float angleGlob = alpha + M_PI - otYaw + ui->lcdyaw->value()*M_PI/180;
+        float otX = r * cos(angleGlob);
+        float otY = r * sin(angleGlob);
+        ui->lcdNumber->display(otX);
+        ui->lcdNumber_2->display(otY);
+        ui->lcdNumber_3->display(alpha);
+        ui->lcdNumber_4->display(data.found);
 
         if (angle<0)
         {
@@ -270,7 +269,6 @@ void MainWindow::readFromLink()
             if (key-lastPointKey > 0.01)
             {
                 series1->append(-angle, r); //to plot
-                chart->addSeries(series1); //to plot
             }
 
             lastPointKey=key;
@@ -285,7 +283,6 @@ void MainWindow::readFromLink()
         if (key-lastPointKey > 0.01)
         {
             series1->append(angle, r); //to plot
-            chart->addSeries(series1); //to plot
         }
 
             lastPointKey=key;

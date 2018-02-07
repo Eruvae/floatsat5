@@ -21,7 +21,8 @@
 #define SEND_CONTROL_PARAMS 0x07
 #define SEND_ROTATION_SPEED 0x08
 #define SEND_POSE_TO_LIST 0x09
-#define SEND_TRAJECTORY	0x10
+#define SEND_TRAJECTORY	0x0A
+#define ACTIVATE_MAGNET 0x0B
 
 TelecommandReceiver telecommandReceiver;
 
@@ -135,5 +136,9 @@ void TelecommandReceiver::put(Telecommand &data)
 		planData.endTime += curTime;
 		trajPlanBuffer.put(planData);
 		itPoseControllerMode.publishConst(PoseControllerMode::FOLLOW_TRAJECTORY_T);
+	}
+	else if (data.id == ACTIVATE_MAGNET)
+	{
+		actuatorInterfaces.activateElectroMagnet(data.data.boolData);
 	}
 }

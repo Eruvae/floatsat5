@@ -76,7 +76,7 @@ void MissionController::run()
 				filteredPoseBuffer.get(currentPose);
 				float rx = otData.g0 + 0.2;
 				float r = sqrt(rx*rx + otData.G0*otData.G0);
-				float otYaw = M_PI + otData.alpha + atan2(otData.G0, r);
+				float otYaw = M_PI + otData.alpha + atan2(otData.G0, rx);
 				float angle = otData.alpha + M_PI - otYaw + currentPose.yaw*M_PI/180;
 				float otX = r * cos(angle);
 				float otY = r * sin(angle);

@@ -20,6 +20,8 @@ public:
 
 	void init();
 
+	void activateElectroMagnet(bool activate);
+
 	void setWheelDirection(bool forward);
 
 	void setThrusterStatus(int number, bool status);

@@ -18,6 +18,8 @@ HAL_GPIO hbridge_valve1(GPIO_072); // hbridge_c_ina
 HAL_GPIO hbridge_valve2(GPIO_071); // hbridge_b_inb
 HAL_GPIO hbridge_valve3(GPIO_016); // hbridge_b_ina
 
+HAL_GPIO hbridge_electomagnet(GPIO_079); // hbridge_d_ina
+
 ActuatorInterfaces actuatorInterfaces;
 
 ActuatorInterfaces::ActuatorInterfaces() : reactionWheelSpeedBuffer(), reactionWheelSpeedSub(itReactionWheelSpeed, reactionWheelSpeedBuffer)
@@ -36,6 +38,7 @@ void ActuatorInterfaces::init()
 	hbridge_valve1.init(true, 1, 0);
 	hbridge_valve2.init(true, 1, 0);
 	hbridge_valve3.init(true, 1, 0);
+	hbridge_electomagnet.init(true, 1, 0);
 }
 
 void ActuatorInterfaces::setWheelDirection(bool forward)
@@ -50,6 +53,11 @@ void ActuatorInterfaces::setWheelDirection(bool forward)
 		hbridge_a_ina.setPins(0);
 		hbridge_a_inb.setPins(1);
 	}
+}
+
+void ActuatorInterfaces::activateElectroMagnet(bool activate)
+{
+	hbridge_electomagnet.setPins(activate);
 }
 
 void ActuatorInterfaces::setThrusterStatus(int number, bool status)

@@ -10,6 +10,7 @@
 #include "tcwindow.h"
 #include "manualcontrol.h"
 #include "support.h"
+#include "qcustomplot.h"
 
 
 
@@ -39,6 +40,7 @@ private:
     QPolarChart *chart;
     QValueAxis *radialAxis;
     QValueAxis *angularAxis;
+    QCPCurve *track;
 
 
 
