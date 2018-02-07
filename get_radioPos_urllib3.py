@@ -11,7 +11,7 @@ def get_radioPos(mynode, othersnode):
     http = urllib3.PoolManager()
 
     ##% Set UART port - Say True or False if you want to send data via UART or not
-    wantUART = True
+    wantUART = False
     
     if wantUART == True:
         ser = serial.Serial(
