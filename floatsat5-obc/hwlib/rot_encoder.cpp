@@ -5,7 +5,7 @@
  *      Author: Minh
  */
 
-#include "../hwlib/includes/rot_encoder.h"
+#include "rot_encoder.h"
 
 #include "timemodel.h"
 #include "stdlib.h"

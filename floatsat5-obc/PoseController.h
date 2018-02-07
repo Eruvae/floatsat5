@@ -67,9 +67,26 @@ class PoseController : public Thread
 		return pose;
 	}
 
-	Pose2D curveLineAcc(float s, const Pose2D &start, const Pose2D &end)
+	/*Pose2D curveLineAcc(float s, const Pose2D &start, const Pose2D &end)
 	{
 		Pose2D pose = {0, 0, 0};
+		return pose;
+	}*/
+
+	Pose2D curveCirclePos(float s, const Pose2D &center, float r, float betaStart, float betaEnd)
+	{
+		float betaDif = betaEnd - betaStart;
+		float beta = betaStart + betaDif * s;
+		Pose2D pose = {center.x + r*cos(beta*M_PI/180), center.y + r*sin(beta*M_PI/180), 0/*180 + beta*/};
+		MOD(pose.yaw, -180, 180);
+		return pose;
+	}
+
+	Pose2D curveCircleVel(float s, const Pose2D &center, float r, float betaStart, float betaEnd)
+	{
+		float betaDif = betaEnd - betaStart;
+		float beta = betaStart + betaDif * s;
+		Pose2D pose = {-r*betaDif*sin(beta*M_PI/180), r*betaDif*cos(beta*M_PI/180), 0/*betaDif*/};
 		return pose;
 	}
 

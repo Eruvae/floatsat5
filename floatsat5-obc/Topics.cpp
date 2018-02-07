@@ -25,6 +25,7 @@ Topic<RadioPosition> itRadioPosition(3008, "Radio Position IT");
 Topic<ThrusterControls> itThrusterControls(3009, "Thruster Controls IT");
 Topic<PoseControllerMode> itPoseControllerMode(3010, "Pose Controller Mode IT");
 Topic<RaspiStatus> itRaspiStatus(3011, "Raspberry Pi Status IT");
+Topic<MissionState> itMissionState(3012, "Mission State IT");
 
 // TM topics, should only be published in TM Sender thread
 Topic<PowerData> tmPowerData(5000, "Power Data TM");
@@ -38,6 +39,8 @@ Topic<OTData> tmObjectTrackingPose(5007, "Object Tracking Pose TM");
 Topic<RadioPosition> tmRadioPosition(5008, "Radio Position TM");
 Topic<ThrusterControls> tmThrusterControls(5009, "Thruster Controls TM");
 Topic<PoseControllerMode> tmPoseControllerMode(5010, "Pose Controller Mode TM");
+Topic<RaspiStatus> tmRaspiStatus(5011, "Raspberry Pi Status TM");
+Topic<MissionState> tmMissionState(5012, "Mission State TM");
 
 Fifo<DebugMessage, 50> debugMsgFifo;
 Topic<DebugMessage> tmDebugMsg(6000, "Debug Message TM");
@@ -66,3 +69,5 @@ CommBuffer<ControlParameters> tcControlParams;
 CommBuffer<float> desiredRotationSpeed;
 CommBuffer<bool> activateRWSpeedController;
 CommBuffer<bool> activateValvePWM;
+CommBuffer<bool> starTrackerReceived;
+CommBuffer<bool> objectTrackerReceived;

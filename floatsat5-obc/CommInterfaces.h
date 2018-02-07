@@ -10,7 +10,7 @@
 
 #include "rodos.h"
 
-#include "hwlib/includes/rot_encoder.h"
+#include "hwlib/rot_encoder.h"
 #include "wifi/drivers/esp8266/ESP8266.h"
 #include "wifi/drivers/wf121/wf121.h"
 #include "wifi/linkinterfacewifi.h"

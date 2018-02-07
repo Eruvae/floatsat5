@@ -107,9 +107,14 @@ enum RaspiCommand
 	ST, OT, RD
 };
 
-enum class Mode
+/*enum class Mode
 {
 	STANDBY, HOLD_POSE, TRACK_OBJECT, GOTO_POSE, DOCKING
+};*/
+
+enum class MissionState
+{
+	STANDBY, START_SEARCHING, SEARCHING_TARGET, START_MOVING, GOTO_TARGET, DOCKING
 };
 
 enum class PoseControllerMode
@@ -127,12 +132,31 @@ struct __attribute__((packed)) Pose2D
 	float x, y, yaw;
 };
 
-struct TrajectoryPlanData
+#define LINE 0
+#define CIRCLE 1
+
+struct TrajectoryLineData
 {
 	Pose2D startPose;
 	Pose2D endPose;
+};
+
+struct TracetoryCircleData
+{
+	Pose2D centerPose;
+	float r, betaStart, betaEnd;
+};
+
+struct TrajectoryPlanData
+{
+	union
+	{
+		TrajectoryLineData lineData;
+		TracetoryCircleData circleData;
+	};
 	int64_t startTime;
 	int64_t endTime;
+	int type;
 };
 
 /*struct __attribute__((packed)) Pose25D

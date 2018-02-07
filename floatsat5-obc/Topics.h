@@ -28,6 +28,7 @@ extern Topic<RadioPosition> itRadioPosition;
 extern Topic<ThrusterControls> itThrusterControls;
 extern Topic<PoseControllerMode> itPoseControllerMode;
 extern Topic<RaspiStatus> itRaspiStatus;
+extern Topic<MissionState> itMissionState;
 
 // TM topics, should only be published in TM Sender thread
 extern Topic<PowerData> tmPowerData;
@@ -41,6 +42,8 @@ extern Topic<OTData> tmObjectTrackingPose;
 extern Topic<RadioPosition> tmRadioPosition;
 extern Topic<ThrusterControls> tmThrusterControls;
 extern Topic<PoseControllerMode> tmPoseControllerMode;
+extern Topic<RaspiStatus> tmRaspiStatus;
+extern Topic<MissionState> tmMissionState;
 
 extern Fifo<DebugMessage, 50> debugMsgFifo;
 extern Topic<DebugMessage> tmDebugMsg;
@@ -59,5 +62,7 @@ extern CommBuffer<ControlParameters> tcControlParams;
 extern CommBuffer<float> desiredRotationSpeed;
 extern CommBuffer<bool> activateRWSpeedController;
 extern CommBuffer<bool> activateValvePWM;
+extern CommBuffer<bool> starTrackerReceived;
+extern CommBuffer<bool> objectTrackerReceived;
 
 #endif /* TOPICS_H_ */

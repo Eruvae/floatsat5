@@ -55,7 +55,7 @@ void PoseController::controlPosition()
 
 	float eX = targetPose.x - x;
 	float eY = targetPose.y - y;
-	print_debug_msg("Errors: %f, %f", eX, eY);
+	//print_debug_msg("Errors: %f, %f", eX, eY);
 	rotateCoord(eX, eY, filteredPose.yaw*M_PI/180.f , eX, eY);
 
 
@@ -269,14 +269,22 @@ void PoseController::run()
 			trajPlanBuffer.get(plan);
 			float t = (float)(NOW() - plan.startTime) / SECONDS;
 			float T = (float)(plan.endTime - plan.startTime) / SECONDS;
-			targetPose = curveLinePos(s(t, T), plan.startPose, plan.endPose);
-			targetVel = curveLineVel(s(t, T), plan.startPose, plan.endPose);
+			if (plan.type == LINE)
+			{
+				targetPose = curveLinePos(s(t, T), plan.lineData.startPose, plan.lineData.endPose);
+				targetVel = curveLineVel(s(t, T), plan.lineData.startPose, plan.lineData.endPose);
+			}
+			else if (plan.type == CIRCLE)
+			{
+				targetPose = curveCirclePos(s(t, T), plan.circleData.centerPose, plan.circleData.r, plan.circleData.betaStart, plan.circleData.betaEnd);
+				targetVel = curveCircleVel(s(t, T), plan.circleData.centerPose, plan.circleData.r, plan.circleData.betaStart, plan.circleData.betaEnd);
+			}
 			targetVel.x *= ds(t, T);
 			targetVel.y *= ds(t, T);
 			targetVel.yaw *= ds(t, T);
 
 			print_debug_msg("TPose: %f, %f, %f", targetPose.x, targetPose.y, targetPose.yaw);
-			print_debug_msg("TVel: %f, %f, %f", targetVel.x, targetVel.y, targetVel.yaw);
+			//print_debug_msg("TVel: %f, %f, %f", targetVel.x, targetVel.y, targetVel.yaw);
 
 			targetPoseSemaphore.enter();
 			tcTargetPose.put(targetPose);

@@ -57,9 +57,19 @@ void TelecommandReceiver::put(Telecommand &data)
 	}
 	else if (data.id == DEACTIVATE_CONTROLLER)
 	{
-		itPoseControllerMode.publishConst(PoseControllerMode::STANDBY);
-		int16_t speed = 0;
-		tcReactionWheelTargetSpeed.put(speed);
+		if (data.data.boolData == false)
+		{
+			print_debug_msg("Bool false");
+			itMissionState.publishConst(MissionState::STANDBY);
+			itPoseControllerMode.publishConst(PoseControllerMode::STANDBY);
+			int16_t speed = 0;
+			tcReactionWheelTargetSpeed.put(speed);
+		}
+		else
+		{
+			print_debug_msg("Bool true");
+			itMissionState.publishConst(MissionState::START_SEARCHING);
+		}
 		//tcActivateController.put(data.data.boolData); // legacy
 
 	}
@@ -71,12 +81,20 @@ void TelecommandReceiver::put(Telecommand &data)
 		if (mode == PoseControllerMode::FOLLOW_TRAJECTORY_T)
 		{
 			TrajectoryPlanData trajData;
-			Pose2D startPose = {0.5, -1, 0};
+			trajData.circleData.centerPose = {0.8, -1.2, 0};
+			trajData.circleData.betaStart = -180.f;
+			trajData.circleData.betaEnd = 20.f;
+			trajData.circleData.r = 0.3;
+			trajData.startTime = NOW() + 5*SECONDS;
+			trajData.endTime = NOW() + 25*SECONDS;
+			trajData.type = CIRCLE;
+			/*Pose2D startPose = {0.5, -1, 0};
 			Pose2D endPose = {1.5, -1.5, 90};
-			trajData.startPose = startPose;
-			trajData.endPose = endPose;
+			trajData.lineData.startPose = startPose;
+			trajData.lineData.endPose = endPose;
 			trajData.startTime = NOW() + 5*SECONDS;
 			trajData.endTime = NOW() + 20*SECONDS;
+			trajData.type = LINE;*/
 			trajPlanBuffer.put(trajData);
 		}
 

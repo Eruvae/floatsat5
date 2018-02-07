@@ -105,11 +105,15 @@ void RaspiComm::publishData(RTM &receivedData)
 	{
 		//print_debug_msg("ST: %f, %f, %f", receivedData.starTrackerPose.x, receivedData.starTrackerPose.y, receivedData.starTrackerPose.yaw);
 		itStarTrackerPose.publish(receivedData.starTrackerPose);
+		bool stReceived = true;
+		starTrackerReceived.put(stReceived);
 	}
 	else if (strcmp(receivedData.id, "OT") == 0) // Object Tracking
 	{
-		//print_debug_msg("OTdata: %.2f, %.2f, %.2f, %d", receivedData.otData.alpha, receivedData.otData.g0, receivedData.otData.G0, receivedData.otData.found);
+		//print_debug_msg("OTdata: %.2f, %.2f, %.2f, %.2f, %d", r, otX, otY, otYaw, receivedData.otData.found);
 		itObjectTrackingPose.publish(receivedData.otData);
+		bool otReceived = true;
+		objectTrackerReceived.put(otReceived);
 	}
 	else if (strcmp(receivedData.id, "RD") == 0) // Radio
 	{

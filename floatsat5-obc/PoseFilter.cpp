@@ -30,6 +30,8 @@ void PoseFilter::run()
 	float otX = 0, otY = 0, otYaw = 0, otOldYaw = 0, dotYaw = 0;
 	float stX = 0, stY = 0, stYaw = 0;
 	float oldstYaw = 0;
+	float magnetometerYawOffset = 60.f;
+	float oldX = 0, oldY = 0;
 	setPeriodicBeat(15*MILLISECONDS, delt*SECONDS);
 	while(1)
 	{
@@ -105,25 +107,6 @@ void PoseFilter::run()
 		RaspiStatus rpiStatus;
 		raspiStatusBuffer.get(rpiStatus);
 
-		if (rpiStatus.stEnabled)
-		{
-
-		}
-
-		OTData otData;
-		otDataBuffer.get(otData);
-
-		if (otData.found)
-		{
-			float r = otData.g0 + 0.2;
-			otX = r * cos(otData.alpha);
-			otY = r * sin(otData.alpha);
-			otYaw = M_PI + otData.alpha + atan2(otData.G0, r);
-			MOD(otYaw, -M_PI, M_PI);
-
-			//print_debug_msg("OT: %.2f, %.2f, %.2f, %.2f", r, otX, otY, otYaw);
-		}
-
 		Pose2D stPose;
 		starTrackerPoseBuffer.get(stPose);
 
@@ -149,9 +132,11 @@ void PoseFilter::run()
 		}
 		else
 		{
-			pose.x = 0;
-			pose.y = 0;
+			pose.x = oldX;
+			pose.y = oldY;
 		}
+		oldX = pose.x;
+		oldY = pose.y;
 		pose.z = 0;
 		pose.pitch = filteredPitch*180.0/M_PI;
 		pose.roll = filteredRoll*180.0/M_PI;
@@ -159,10 +144,11 @@ void PoseFilter::run()
 		if (rpiStatus.stEnabled)
 		{
 			pose.yaw = stPose.yaw - 90.f;/*otYaw*180.0/M_PI;*//*filteredHeading*180.0/M_PI;*/
+			magnetometerYawOffset = pose.yaw - filteredHeading*180.0/M_PI;
 		}
 		else
 		{
-			pose.yaw = filteredHeading*180.0/M_PI + 60.f;
+			pose.yaw = filteredHeading*180.0/M_PI + magnetometerYawOffset;
 		}
 		MOD(pose.yaw, -180, 180);
 		pose.dpitch = dpitch*180/M_PI;
@@ -170,6 +156,23 @@ void PoseFilter::run()
 		pose.dyaw = gyro[2]*180/M_PI;/*stdYaw;*///dyaw*180/M_PI;
 
 		itFilteredPose.publish(pose);
+
+		// DEBUG:
+		/*OTData otData;
+		otDataBuffer.get(otData);
+
+		if (otData.found)
+		{
+			float r = otData.g0 + 0.2;
+			otYaw = M_PI + otData.alpha + atan2(otData.G0, r);
+			float angle = otData.alpha + M_PI - otYaw + pose.yaw*M_PI/180;
+			otX = r * cos(angle);
+			otY = r * sin(angle);
+			MOD(otYaw, -M_PI, M_PI);
+
+			print_debug_msg("OTdata: %.2f, %.2f, %.2f, %.2f, %.2f, %d", r, otX, otY, otYaw, angle, otData.found);
+		}*/
+
 
 		suspendUntilNextBeat();
 	}
