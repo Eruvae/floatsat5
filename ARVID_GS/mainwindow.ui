@@ -1519,6 +1519,9 @@ QPushButton:hover{ background-color: grey; }
      <width>1019</width>
 =======
      <width>983</width>
+<<<<<<< HEAD
+>>>>>>> 5874180949b2387504b692d4d4df17af757301b8
+=======
 >>>>>>> 5874180949b2387504b692d4d4df17af757301b8
      <height>18</height>
     </rect>
