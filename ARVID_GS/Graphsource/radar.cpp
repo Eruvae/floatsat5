@@ -23,13 +23,11 @@ void MainWindow::SetupRadar()
 {
 
 
-
-//Start Radar
 const qreal angularMin = 0;
 const qreal angularMax = 360;
 
 const qreal radialMin = 0;
-const qreal radialMax = 1;
+const qreal radialMax = 100;
 
 
 
@@ -37,13 +35,14 @@ const qreal radialMax = 1;
  series1->setColor(QColor(0, 153, 51));
  series1->setBorderColor(QColor(0, 153, 51));
  series1->setMarkerSize(11);
- series1->append(80, 90); //to plot
- series1->clear(); //to plot
+
+
 
 
 chart = new QPolarChart();
-chart->addSeries(series1); //to plot
+ui->pchart->setChart(chart);
 chart->setBackgroundVisible(false);
+
 
 
 angularAxis = new QValueAxis();
@@ -55,7 +54,7 @@ angularAxis->setShadesBrush(QBrush(QColor(0, 0, 0)));
 chart->addAxis(angularAxis, QPolarChart::PolarOrientationAngular);
 
 radialAxis = new QValueAxis();
-radialAxis->setTickCount(5);
+radialAxis->setTickCount(6);
 radialAxis->setLabelFormat("%d");
 radialAxis->setLabelsColor(Qt::white);
 chart->addAxis(radialAxis, QPolarChart::PolarOrientationRadial);
@@ -66,8 +65,7 @@ chart->addAxis(radialAxis, QPolarChart::PolarOrientationRadial);
 radialAxis->setRange(radialMin, radialMax);
 angularAxis->setRange(angularMin, angularMax);
 
-ui->pchart->setChart(chart); //to plot
 ui->pchart->setRenderHint(QPainter::Antialiasing);
-//End Radar
+
 
 }

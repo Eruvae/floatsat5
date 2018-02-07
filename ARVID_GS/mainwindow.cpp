@@ -169,7 +169,7 @@ void MainWindow::readFromLink()
 
         static double lastPointKey = 0;
 
-        if (key-lastPointKey > 5)
+        if (key-lastPointKey > 3)
           {
 
             track->addData(key, -valuey, valuex);
@@ -250,6 +250,22 @@ void MainWindow::readFromLink()
     case OTDataType:
     {
         OTData data(payload); 
+
+        float Go=data.G0 , go=data.g0+0.2, alpha=data.alpha;
+
+        float r= sqrt( Go*Go + go*go);
+
+        double key = QTime::currentTime().msecsSinceStartOfDay()/1000.0; // time elapsed since start of demo, in seconds
+        static double lastPointKey = 0;
+
+        if (key-lastPointKey > 0.01)
+        {
+            series1->append(alpha, r); //to plot
+            chart->addSeries(series1); //to plot
+
+        }
+
+        series1->clear(); //to plot
 
         
         break;
