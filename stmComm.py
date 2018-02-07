@@ -66,7 +66,7 @@ def setup_camera_ot(camera, stream):
     camera.contrast = 0
     camera.framerate = 32
     camera.exposure_mode = "off"
-    camera.shutter_speed = 5000
+    camera.shutter_speed = 1000
     time.sleep(0.1)
 
 ser = serial.Serial('/dev/ttyAMA0', 115200)  # open serial port
