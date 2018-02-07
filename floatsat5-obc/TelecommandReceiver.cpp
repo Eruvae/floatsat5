@@ -21,6 +21,7 @@
 #define SEND_CONTROL_PARAMS 0x07
 #define SEND_ROTATION_SPEED 0x08
 #define SEND_POSE_TO_LIST 0x09
+#define SEND_TRAJECTORY	0x10
 
 TelecommandReceiver telecommandReceiver;
 
@@ -125,5 +126,14 @@ void TelecommandReceiver::put(Telecommand &data)
 		targetPoseSemaphore.enter();
 		tcNextTargetPoseList.put(data.data.pose);
 		targetPoseSemaphore.leave();
+	}
+	else if (data.id == SEND_TRAJECTORY)
+	{
+		TrajectoryPlanData planData = data.data.trajData;
+		int64_t curTime = NOW();
+		planData.startTime += curTime;
+		planData.endTime += curTime;
+		trajPlanBuffer.put(planData);
+		itPoseControllerMode.publishConst(PoseControllerMode::FOLLOW_TRAJECTORY_T);
 	}
 }

@@ -38,9 +38,9 @@ Topic<Pose2D> tmStarTrackerPose(5006, "Star Tracker Pose TM");
 Topic<OTData> tmObjectTrackingPose(5007, "Object Tracking Pose TM");
 Topic<RadioPosition> tmRadioPosition(5008, "Radio Position TM");
 Topic<ThrusterControls> tmThrusterControls(5009, "Thruster Controls TM");
-Topic<PoseControllerMode> tmPoseControllerMode(5010, "Pose Controller Mode TM");
+Topic<int> tmPoseControllerMode(5010, "Pose Controller Mode TM");
 Topic<RaspiStatus> tmRaspiStatus(5011, "Raspberry Pi Status TM");
-Topic<MissionState> tmMissionState(5012, "Mission State TM");
+Topic<int> tmMissionState(5012, "Mission State TM");
 
 Fifo<DebugMessage, 50> debugMsgFifo;
 Topic<DebugMessage> tmDebugMsg(6000, "Debug Message TM");

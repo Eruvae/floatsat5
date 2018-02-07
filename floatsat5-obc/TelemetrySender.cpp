@@ -20,7 +20,9 @@ TelemetrySender::TelemetrySender() : powerDataSub(itPowerData, powerDataBuffer),
 		objectTrackingPoseSub(itObjectTrackingPose, objectTrackingPoseBuffer),
 		radioPositionSub(itRadioPosition, radioPositionBuffer),
 		thrusterControlsSub(itThrusterControls, thrusterControlsBuffer),
-		poseControllerModeSub(itPoseControllerMode, poseControllerModeBuffer)
+		poseControllerModeSub(itPoseControllerMode, poseControllerModeBuffer),
+		raspiStatusSub(itRaspiStatus, raspiStatusBuffer),
+		missionStateSub(itMissionState, missionStateBuffer)
 {
 }
 
@@ -43,6 +45,8 @@ void TelemetrySender::run()
 		RadioPosition radioPosition;
 		ThrusterControls thrusterControls;
 		PoseControllerMode poseControllerMode;
+		RaspiStatus raspiStatus;
+		MissionState missionState;
 
 		powerDataBuffer.get(powerData);
 		filteredPoseBuffer.get(filteredPose);
@@ -55,6 +59,8 @@ void TelemetrySender::run()
 		radioPositionBuffer.get(radioPosition);
 		thrusterControlsBuffer.get(thrusterControls);
 		poseControllerModeBuffer.get(poseControllerMode);
+		raspiStatusBuffer.get(raspiStatus);
+		missionStateBuffer.get(missionState);
 
 
 		//PRINTF("TM rw speed: %d\n", reactionWheelSpeed);
@@ -79,7 +85,11 @@ void TelemetrySender::run()
 		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
 		tmThrusterControls.publish(thrusterControls);
 		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
-		tmPoseControllerMode.publish(poseControllerMode);
+		tmPoseControllerMode.publishConst((int)poseControllerMode);
+		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
+		tmRaspiStatus.publish(raspiStatus);
+		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
+		tmMissionState.publishConst((int)missionState);
 		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
 
 		while(!debugMsgFifo.isEmpty())

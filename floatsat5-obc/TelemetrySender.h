@@ -25,6 +25,8 @@ private:
 	CommBuffer<RadioPosition> radioPositionBuffer;
 	CommBuffer<ThrusterControls> thrusterControlsBuffer;
 	CommBuffer<PoseControllerMode> poseControllerModeBuffer;
+	CommBuffer<RaspiStatus> raspiStatusBuffer;
+	CommBuffer<MissionState> missionStateBuffer;
 
 	Subscriber powerDataSub;
 	Subscriber filteredPoseSub;
@@ -37,6 +39,8 @@ private:
 	Subscriber radioPositionSub;
 	Subscriber thrusterControlsSub;
 	Subscriber poseControllerModeSub;
+	Subscriber raspiStatusSub;
+	Subscriber missionStateSub;
 public:
 	TelemetrySender();
 	void run();

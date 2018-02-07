@@ -6,6 +6,10 @@
 
 #define USER_DATA_MAX_LEN 992
 
+#define NANOSECONDS    1LL
+#define MICROSECONDS   (1000LL * NANOSECONDS)
+#define MILLISECONDS   (1000LL * MICROSECONDS)
+#define SECONDS        (1000LL * MILLISECONDS)
 
 enum PayloadType{
 
@@ -162,6 +166,33 @@ struct __attribute__((packed)) ControlParameters
     float rotP, rotD, rotI;
 };
 
+#define LINE 0
+#define CIRCLE 1
+
+struct __attribute__((packed)) TrajectoryLineData
+{
+    Pose2D startPose;
+    Pose2D endPose;
+};
+
+struct __attribute__((packed)) TracetoryCircleData
+{
+    Pose2D centerPose;
+    float r, betaStart, betaEnd;
+};
+
+struct __attribute__((packed)) TrajectoryPlanData
+{
+    union
+    {
+        TrajectoryLineData lineData;
+        TracetoryCircleData circleData;
+    };
+    int64_t startTime;
+    int64_t endTime;
+    int type;
+};
+
 union __attribute__((packed)) TCdata
 {
     IMUCommand imu_com;
@@ -173,6 +204,7 @@ union __attribute__((packed)) TCdata
     RaspiCommandData rpiComData;
     ControlParameters controlParams;
     float rotationSpeed;
+    TrajectoryPlanData trajData;
 };
 
 struct __attribute__((packed)) Telecommand

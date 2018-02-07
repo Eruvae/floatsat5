@@ -51,7 +51,10 @@ void ManualControl::sendReactionWheel()
     double rspeed = gamepad->buttonR2();
 
     qDebug() << lspeed << ", " << rspeed << endl;
-    send.data.wheel_target_speed = (lspeed - rspeed) * 8000;
+    static int wheelSpeed = 0;
+    wheelSpeed += (lspeed - rspeed) * 100;
+    wheelSpeed = wheelSpeed > 8000 ? 8000 : wheelSpeed < -8000 ? -8000 : wheelSpeed;
+    send.data.wheel_target_speed = wheelSpeed;//(lspeed - rspeed) * 8000;
     link->write<Telecommand>(TelecommandType, send);
 }
 

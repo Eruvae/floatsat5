@@ -72,7 +72,7 @@ QTabBar::tab:hover
 }</string>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>4</number>
    </property>
    <widget class="QWidget" name="tab_5">
     <attribute name="title">
@@ -250,7 +250,7 @@ QTabBar::tab:hover
     <attribute name="title">
      <string>Trajectory</string>
     </attribute>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>11</x>
@@ -263,14 +263,14 @@ QTabBar::tab:hover
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QRadioButton" name="radioButton">
+         <widget class="QRadioButton" name="comboLineTraj">
           <property name="text">
            <string>Line Trajectory</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="radioButton_2">
+         <widget class="QRadioButton" name="comboCircleTraj">
           <property name="text">
            <string>Circle Trajectory</string>
           </property>
@@ -354,34 +354,84 @@ QTabBar::tab:hover
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_11">
               <item>
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_4"/>
+               <widget class="QDoubleSpinBox" name="startPoseX">
+                <property name="minimum">
+                 <double>-100.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>100.000000000000000</double>
+                </property>
+               </widget>
               </item>
               <item>
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_3"/>
+               <widget class="QDoubleSpinBox" name="startPoseY">
+                <property name="minimum">
+                 <double>-100.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>100.000000000000000</double>
+                </property>
+               </widget>
               </item>
               <item>
-               <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
+               <widget class="QDoubleSpinBox" name="startPoseYaw">
+                <property name="minimum">
+                 <double>-180.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>180.000000000000000</double>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_12">
               <item>
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_6"/>
+               <widget class="QDoubleSpinBox" name="endPoseX">
+                <property name="minimum">
+                 <double>-100.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>100.000000000000000</double>
+                </property>
+               </widget>
               </item>
               <item>
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_2"/>
+               <widget class="QDoubleSpinBox" name="endPoseY">
+                <property name="minimum">
+                 <double>-100.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>100.000000000000000</double>
+                </property>
+               </widget>
               </item>
               <item>
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_5"/>
+               <widget class="QDoubleSpinBox" name="endPoseYaw">
+                <property name="minimum">
+                 <double>-180.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>180.000000000000000</double>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="lStartT"/>
+             <widget class="QDoubleSpinBox" name="lStartT">
+              <property name="maximum">
+               <double>1000.000000000000000</double>
+              </property>
+             </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="lEndT"/>
+             <widget class="QDoubleSpinBox" name="lEndT">
+              <property name="maximum">
+               <double>1000.000000000000000</double>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -399,7 +449,14 @@ QTabBar::tab:hover
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="cX"/>
+             <widget class="QDoubleSpinBox" name="cX">
+              <property name="minimum">
+               <double>-100.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>100.000000000000000</double>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -413,7 +470,14 @@ QTabBar::tab:hover
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="cY"/>
+             <widget class="QDoubleSpinBox" name="cY">
+              <property name="minimum">
+               <double>-100.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>100.000000000000000</double>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -427,7 +491,14 @@ QTabBar::tab:hover
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="cAngleS"/>
+             <widget class="QDoubleSpinBox" name="cAngleS">
+              <property name="minimum">
+               <double>-180.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>180.000000000000000</double>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -441,7 +512,14 @@ QTabBar::tab:hover
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="cAngleE"/>
+             <widget class="QDoubleSpinBox" name="cAngleE">
+              <property name="minimum">
+               <double>-180.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>180.000000000000000</double>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -469,7 +547,11 @@ QTabBar::tab:hover
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="cStartT"/>
+             <widget class="QDoubleSpinBox" name="cStartT">
+              <property name="maximum">
+               <double>1000.000000000000000</double>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -483,7 +565,11 @@ QTabBar::tab:hover
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="cEndT"/>
+             <widget class="QDoubleSpinBox" name="cEndT">
+              <property name="maximum">
+               <double>1000.000000000000000</double>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>

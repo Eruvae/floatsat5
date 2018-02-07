@@ -108,6 +108,8 @@ void CommInterfaces::init()
 	gw.addTopicsToForward(&tmRadioPosition);
 	gw.addTopicsToForward(&tmThrusterControls);
 	gw.addTopicsToForward(&tmPoseControllerMode);
+	gw.addTopicsToForward(&tmRaspiStatus);
+	gw.addTopicsToForward(&tmMissionState);
 
 	gw.addTopicsToForward(&tmDebugMsg);
 

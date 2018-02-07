@@ -41,9 +41,9 @@ extern Topic<Pose2D> tmStarTrackerPose;
 extern Topic<OTData> tmObjectTrackingPose;
 extern Topic<RadioPosition> tmRadioPosition;
 extern Topic<ThrusterControls> tmThrusterControls;
-extern Topic<PoseControllerMode> tmPoseControllerMode;
+extern Topic<int> tmPoseControllerMode;
 extern Topic<RaspiStatus> tmRaspiStatus;
-extern Topic<MissionState> tmMissionState;
+extern Topic<int> tmMissionState;
 
 extern Fifo<DebugMessage, 50> debugMsgFifo;
 extern Topic<DebugMessage> tmDebugMsg;

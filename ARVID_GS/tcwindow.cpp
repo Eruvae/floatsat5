@@ -92,7 +92,24 @@ void TCWindow::telecommandsend()
     else
     {
         send.id = SEND_TRAJECTORY;
-
+        if (ui->comboLineTraj->isChecked())
+        {
+            send.data.trajData.type = LINE;
+            send.data.trajData.startTime = ui->lStartT->value() * SECONDS;
+            send.data.trajData.endTime = ui->lEndT->value() * SECONDS;
+            send.data.trajData.lineData.startPose = {ui->startPoseX->value(), ui->startPoseY->value(), ui->startPoseYaw->value()};
+            send.data.trajData.lineData.endPose = {ui->endPoseX->value(), ui->endPoseY->value(), ui->endPoseYaw->value()};
+        }
+        else if (ui->comboCircleTraj->isChecked())
+        {
+            send.data.trajData.type = CIRCLE;
+            send.data.trajData.startTime = ui->cStartT->value() * SECONDS;
+            send.data.trajData.endTime = ui->cEndT->value() * SECONDS;
+            send.data.trajData.circleData.r = ui->cR->value();
+            send.data.trajData.circleData.centerPose = {ui->cX->value(), ui->cY->value(), 0.f};
+            send.data.trajData.circleData.betaStart = ui->cAngleS->value();
+            send.data.trajData.circleData.betaEnd = ui->cAngleE->value();
+        }
     }
 
 

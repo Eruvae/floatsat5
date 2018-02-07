@@ -135,19 +135,19 @@ struct __attribute__((packed)) Pose2D
 #define LINE 0
 #define CIRCLE 1
 
-struct TrajectoryLineData
+struct __attribute__((packed)) TrajectoryLineData
 {
 	Pose2D startPose;
 	Pose2D endPose;
 };
 
-struct TracetoryCircleData
+struct __attribute__((packed)) TracetoryCircleData
 {
 	Pose2D centerPose;
 	float r, betaStart, betaEnd;
 };
 
-struct TrajectoryPlanData
+struct __attribute__((packed)) TrajectoryPlanData
 {
 	union
 	{
@@ -213,6 +213,7 @@ union __attribute__((packed)) TCdata
 	RaspiCommandData rpiComData;
 	ControlParameters controlParams;
 	float rotationSpeed;
+	TrajectoryPlanData trajData;
 };
 
 struct __attribute__((packed)) Telecommand
