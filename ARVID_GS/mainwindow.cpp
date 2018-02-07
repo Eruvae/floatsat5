@@ -62,9 +62,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     SetupSpeedMeter();
-    SetupRadar();
     SetupGraphCurrent();
     SetupPlotTracking();
+    SetupRadar();
+
 
 
     QTimer *timer = new QTimer(this);
@@ -248,8 +249,7 @@ void MainWindow::readFromLink()
 
     case OTDataType:
     {
-        OTData data(payload);
-
+        OTData data(payload); 
 
         
         break;
