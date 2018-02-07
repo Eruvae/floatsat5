@@ -250,13 +250,13 @@ QTabBar::tab:hover
     <attribute name="title">
      <string>Trajectory</string>
     </attribute>
-    <widget class="QWidget" name="layoutWidget">
+    <widget class="QWidget" name="">
      <property name="geometry">
       <rect>
-       <x>11</x>
-       <y>20</y>
-       <width>501</width>
-       <height>343</height>
+       <x>12</x>
+       <y>21</y>
+       <width>491</width>
+       <height>351</height>
       </rect>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -285,11 +285,17 @@ QTabBar::tab:hover
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_4">
             <item>
-             <widget class="QLabel" name="label_13">
-              <property name="text">
-               <string/>
+             <spacer name="verticalSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
               </property>
-             </widget>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
             </item>
             <item>
              <widget class="QLabel" name="label">
@@ -585,7 +591,7 @@ QTabBar::tab:hover
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>420</y>
+     <y>430</y>
      <width>121</width>
      <height>28</height>
     </rect>

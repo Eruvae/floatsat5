@@ -12,6 +12,7 @@
 #include "support.h"
 
 
+
 namespace Ui {
 class MainWindow;
 }
@@ -38,6 +39,8 @@ private:
     QPolarChart *chart;
     QValueAxis *radialAxis;
     QValueAxis *angularAxis;
+
+
 
 
 signals:

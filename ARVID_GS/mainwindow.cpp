@@ -156,8 +156,13 @@ void MainWindow::readFromLink()
         //lend->end->setCoords(-valuey,valuex);
         //ui->trackPlot->graph(0)->addData(-valuey,valuex);
 
-        QCPCurve *track = new QCPCurve(ui->trackPlot->xAxis, ui->trackPlot->yAxis);
+        QCPScatterStyle shape;
+        shape.setShape(QCPScatterStyle::ssTriangle);
+        shape.setPen(QPen(Qt::blue));
+        shape.setSize(8);
 
+        QCPCurve *track = new QCPCurve(ui->trackPlot->xAxis, ui->trackPlot->yAxis);
+        track->setScatterStyle(shape);
 
         //oldvaluex=-valuey, oldvaluey=valuex;
 
@@ -173,8 +178,8 @@ void MainWindow::readFromLink()
         if (key-lastPointKey > 3)
           {
 
-            track->addData(key, -valuey, valuex);
-//            ui->trackPlot->graph(0)->addData(-valuey, valuex);
+            track->addData(-valuey, valuex);
+//          ui->trackPlot->graph(0)->addData(-valuey, valuex);
             lastPointKey=key;
            }
 

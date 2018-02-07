@@ -8,20 +8,16 @@
 
 void MainWindow::SetupPlotTracking()
 {
-    QCPScatterStyle shape;
-    shape.setShape(QCPScatterStyle::ssTriangle);
-    shape.setPen(QPen(Qt::blue));
-    shape.setSize(8);
 
     ui->trackPlot->setBackground(Qt::black);
     ui->trackPlot->yAxis->setTickLabelColor(Qt::white);
     ui->trackPlot->xAxis->setTickLabelColor(Qt::white);
-    ui->trackPlot->addGraph();
-    ui->trackPlot->addGraph();
+//    ui->trackPlot->addGraph();
+//    ui->trackPlot->addGraph();
 
-    ui->trackPlot->graph(0)->setScatterStyle(shape);
-    ui->trackPlot->graph(0)->setLineStyle(QCPGraph::lsNone);
-    ui->trackPlot->graph(1)->setPen(QPen(QColor(255, 0, 0)));
+//    ui->trackPlot->graph(0)->setScatterStyle(shape);
+//    ui->trackPlot->graph(0)->setLineStyle(QCPGraph::lsNone);
+//    ui->trackPlot->graph(1)->setPen(QPen(QColor(255, 0, 0)));
     ui->trackPlot->xAxis->setLabel("Y");
     ui->trackPlot->yAxis->setLabel("X");
     ui->trackPlot->axisRect()->setupFullAxesBox();
