@@ -8,6 +8,8 @@
         <file>Img/splash.jpg</file>
         <file>Img/wrench.png</file>
         <file>Img/Telecommang.png</file>
+        <file>Img/wrench22.png</file>
+        <file>Img/images.png</file>
     </qresource>
     <qresource prefix="/Project Sounds">
         <file>Sounds/ltbb_001.mp3</file>

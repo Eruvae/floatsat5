@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Support and Maintainance</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="arvid_res.qrc">
+    <normaloff>:/Project Images/Img/wrench22.png</normaloff>:/Project Images/Img/wrench22.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget {
@@ -493,6 +497,8 @@ QPushButton:hover{ background-color: grey; }
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="arvid_res.qrc"/>
+ </resources>
  <connections/>
 </ui>

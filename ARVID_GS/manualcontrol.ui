@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Manual Control</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="arvid_res.qrc">
+    <normaloff>:/Project Images/Img/images.png</normaloff>:/Project Images/Img/images.png</iconset>
+  </property>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
@@ -56,6 +60,8 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="arvid_res.qrc"/>
+ </resources>
  <connections/>
 </ui>
