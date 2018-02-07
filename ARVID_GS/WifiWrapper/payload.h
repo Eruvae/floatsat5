@@ -23,6 +23,8 @@ enum PayloadType{
     StarTrackerDataType=5006,
     OTDataType=5007,
     RadioPoseDataType=5008,
+    PoseControllerModeType=5010,
+    MissionStateType=5012,
 
     DebugMsgType = 6000,
 
@@ -65,6 +67,7 @@ struct __attribute__((packed)) Payload
         IMUData imuData;
         int16_t reactionWheelSpeed;
         Pose2D starTrackerPose;
+        int enumData;
 
     };
     Payload();

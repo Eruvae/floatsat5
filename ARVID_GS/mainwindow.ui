@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>983</width>
-    <height>707</height>
+    <width>1019</width>
+    <height>798</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -316,7 +316,7 @@ background-color: rgb(0, 0, 0);</string>
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>322</width>
+       <width>311</width>
        <height>93</height>
       </rect>
      </property>
@@ -785,7 +785,7 @@ QPushButton:hover{ background-color: grey; }
      <rect>
       <x>690</x>
       <y>10</y>
-      <width>281</width>
+      <width>300</width>
       <height>251</height>
      </rect>
     </property>
@@ -847,8 +847,8 @@ QPushButton:hover{ background-color: grey; }
    <widget class="QGroupBox" name="groupBox_5">
     <property name="geometry">
      <rect>
-      <x>690</x>
-      <y>320</y>
+      <x>370</x>
+      <y>560</y>
       <width>161</width>
       <height>181</height>
      </rect>
@@ -862,7 +862,7 @@ QPushButton:hover{ background-color: grey; }
     <property name="title">
      <string>Infrared Sensors</string>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -974,10 +974,10 @@ QPushButton:hover{ background-color: grey; }
    <widget class="QGroupBox" name="groupBox_6">
     <property name="geometry">
      <rect>
-      <x>690</x>
-      <y>510</y>
+      <x>370</x>
+      <y>390</y>
       <width>161</width>
-      <height>131</height>
+      <height>151</height>
      </rect>
     </property>
     <property name="font">
@@ -1064,10 +1064,10 @@ QPushButton:hover{ background-color: grey; }
    <widget class="QGroupBox" name="groupBox_7">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>380</y>
-      <width>661</width>
-      <height>261</height>
+      <x>5</x>
+      <y>390</y>
+      <width>351</width>
+      <height>351</height>
      </rect>
     </property>
     <property name="font">
@@ -1084,12 +1084,14 @@ QPushButton:hover{ background-color: grey; }
       <rect>
        <x>20</x>
        <y>30</y>
-       <width>611</width>
+       <width>211</width>
        <height>211</height>
       </rect>
      </property>
     </widget>
    </widget>
+<<<<<<< HEAD
+=======
    <widget class="QGroupBox" name="groupBox_9">
     <property name="geometry">
      <rect>
@@ -1108,7 +1110,7 @@ QPushButton:hover{ background-color: grey; }
     <property name="title">
      <string>Radio Position</string>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>12</x>
@@ -1163,12 +1165,13 @@ QPushButton:hover{ background-color: grey; }
      </layout>
     </widget>
    </widget>
+>>>>>>> 5874180949b2387504b692d4d4df17af757301b8
    <widget class="QGroupBox" name="groupBox_10">
     <property name="geometry">
      <rect>
-      <x>860</x>
-      <y>320</y>
-      <width>111</width>
+      <x>690</x>
+      <y>270</y>
+      <width>301</width>
       <height>41</height>
      </rect>
     </property>
@@ -1186,7 +1189,7 @@ QPushButton:hover{ background-color: grey; }
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>61</width>
+       <width>231</width>
        <height>16</height>
       </rect>
      </property>
@@ -1195,10 +1198,10 @@ QPushButton:hover{ background-color: grey; }
    <widget class="QGroupBox" name="groupBox_11">
     <property name="geometry">
      <rect>
-      <x>860</x>
-      <y>370</y>
-      <width>111</width>
-      <height>131</height>
+      <x>560</x>
+      <y>390</y>
+      <width>131</width>
+      <height>151</height>
      </rect>
     </property>
     <property name="font">
@@ -1213,13 +1216,13 @@ QPushButton:hover{ background-color: grey; }
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>91</width>
-       <height>101</height>
+       <width>107</width>
+       <height>120</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -1330,12 +1333,12 @@ QPushButton:hover{ background-color: grey; }
      </layout>
     </widget>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>720</x>
-      <y>260</y>
-      <width>229</width>
+      <x>690</x>
+      <y>320</y>
+      <width>300</width>
       <height>53</height>
      </rect>
     </property>
@@ -1355,7 +1358,7 @@ QPushButton:hover{ background-color: grey; }
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="cmode">
+        <widget class="QLabel" name="missionState">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -1383,9 +1386,9 @@ QPushButton:hover{ background-color: grey; }
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_40">
+        <widget class="QLabel" name="controlMode">
          <property name="text">
-          <string>Control Mode:</string>
+          <string>Stand By</string>
          </property>
         </widget>
        </item>
@@ -1393,14 +1396,131 @@ QPushButton:hover{ background-color: grey; }
      </item>
     </layout>
    </widget>
+   <widget class="QGroupBox" name="groupBox_8">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>560</y>
+      <width>131</width>
+      <height>181</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Radio Position</string>
+    </property>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>111</width>
+       <height>37</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_31">
+      <item>
+       <widget class="QLabel" name="label_33">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>X</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLCDNumber" name="rpLcdx"/>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>130</y>
+       <width>111</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_32">
+      <item>
+       <widget class="QLabel" name="label_34">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Y</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLCDNumber" name="rpLcdy"/>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="horizontalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>111</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_36">
+      <item>
+       <widget class="QLabel" name="label_42">
+        <property name="text">
+         <string>Status:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_41">
+        <property name="text">
+         <string>Receiving</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="label_43">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>430</y>
+      <width>281</width>
+      <height>281</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/Project Images/Img/Arvid.png) 0 0 0 0 strech strech;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
+<<<<<<< HEAD
+     <width>1019</width>
+=======
      <width>983</width>
-     <height>23</height>
+>>>>>>> 5874180949b2387504b692d4d4df17af757301b8
+     <height>18</height>
     </rect>
    </property>
    <property name="styleSheet">
