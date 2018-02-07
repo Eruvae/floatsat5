@@ -33,6 +33,8 @@ void MainWindow::SetupPlotTracking()
     shape.setPen(QPen(Qt::blue));
     shape.setSize(8);
 
+
+
     track = new QCPCurve(ui->trackPlot->xAxis, ui->trackPlot->yAxis);
     track->setScatterStyle(shape);
     track->setLineStyle(QCPCurve::LineStyle::lsLine);

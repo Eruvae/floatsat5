@@ -65,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent) :
     SetupSpeedMeter();
     SetupGraphCurrent();
     SetupPlotTracking();
-    SetupRadar();
+
 
 
 
@@ -150,14 +150,10 @@ void MainWindow::readFromLink()
         ui->lcddpitch->display(data.dpitch);
         ui->lcddroll->display(data.droll);
 
-        //QCPItemLine *lend = new QCPItemLine(ui->trackPlot);
+
         float valuex=data.x, valuey=data.y;
-        //lend->start->setCoords(oldvaluex,oldvaluey);
-        //lend->end->setCoords(-valuey,valuex);
-        //ui->trackPlot->graph(0)->addData(-valuey,valuex);
 
 
-        //oldvaluex=-valuey, oldvaluey=valuex;
 
         if (valuex>0 && -valuey>0)
         {
@@ -261,34 +257,6 @@ void MainWindow::readFromLink()
         ui->lcdNumber_3->display(alpha);
         ui->lcdNumber_4->display(data.found);
 
-        if (angle<0)
-        {
-            double key = QTime::currentTime().msecsSinceStartOfDay()/1000.0; // time elapsed since start of demo, in seconds
-            static double lastPointKey = 0;
-
-            if (key-lastPointKey > 0.01)
-            {
-                series1->append(-angle, r); //to plot
-            }
-
-            lastPointKey=key;
-
-        }
-
-        else
-        {
-            double key = QTime::currentTime().msecsSinceStartOfDay()/1000.0; // time elapsed since start of demo, in seconds
-            static double lastPointKey = 0;
-
-        if (key-lastPointKey > 0.01)
-        {
-            series1->append(angle, r); //to plot
-        }
-
-            lastPointKey=key;
-        }
-
-        series1->clear(); //to plot
 
         
         break;

@@ -36,10 +36,6 @@ private:
 
     QQueue<int> batteryStateQueue;
 
-    QScatterSeries *series1;
-    QPolarChart *chart;
-    QValueAxis *radialAxis;
-    QValueAxis *angularAxis;
     QCPCurve *track;
 
 
@@ -52,7 +48,6 @@ signals:
 public slots:
 void readFromLink();
 void SetupGraphCurrent();
-void SetupRadar();
 void SetupPlotTracking();
 void SetupRealtimeDataSlotCurrent(double newValue);
 void SetupSpeedMeter();

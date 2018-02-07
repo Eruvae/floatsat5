@@ -42,8 +42,7 @@ SOURCES += \
     Graphsource/tracking_plot.cpp \
     chartview.cpp \
     support.cpp \
-    SpeedMeter/speedmeter.cpp \
-    Graphsource/radar.cpp
+    SpeedMeter/speedmeter.cpp
     support.cpp
 
 HEADERS  += \
