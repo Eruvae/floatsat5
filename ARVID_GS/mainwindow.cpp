@@ -204,7 +204,7 @@ void MainWindow::readFromLink()
         {
             float valuex=data.x, valuey=data.y;
 
-            if (valuex>0 && -valuey>0)
+            if (valuex>0 && valuey>0)
             {
 
             double key = QTime::currentTime().msecsSinceStartOfDay()/1000.0; // time elapsed since start of demo, in seconds
@@ -274,7 +274,7 @@ void MainWindow::readFromLink()
         {
             float valuex=data.x1, valuey=data.y1;
 
-            if (valuex>0 && -valuey>0)
+            if (valuex>0 && valuey>0)
             {
 
             double key = QTime::currentTime().msecsSinceStartOfDay()/1000.0; // time elapsed since start of demo, in seconds
