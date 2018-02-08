@@ -13,6 +13,7 @@ class ManualControl : public QDialog
 {
     Q_OBJECT
 
+    int wheelSpeed;
 public:
     explicit ManualControl(QWidget *parent = 0, SatelliteLink *link = 0);
     ~ManualControl();
@@ -25,6 +26,7 @@ private:
 private slots:
     void sendThrusters();
     void sendReactionWheel();
+    void stopReactionWheel(bool stop);
     void sendThrustersAdvanced();
 };
 

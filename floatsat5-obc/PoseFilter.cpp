@@ -128,7 +128,7 @@ void PoseFilter::run()
 		else if (rpiStatus.rdEnabled)
 		{
 			pose.x = rdPose.x1;
-			pose.y = rdPose.y1;
+			pose.y = -rdPose.y1;
 		}
 		else
 		{

@@ -6,7 +6,8 @@ ManualControl::ManualControl(QWidget *parent, SatelliteLink *link) :
     QDialog(parent),
     ui(new Ui::ManualControl),
     link(link),
-    gamepad(0)
+    gamepad(0),
+    wheelSpeed(0)
 {
     ui->setupUi(this);
 
@@ -19,7 +20,7 @@ ManualControl::ManualControl(QWidget *parent, SatelliteLink *link) :
     connect(gamepad, SIGNAL(buttonR2Changed(double)), this, SLOT(sendReactionWheel()));
     connect(gamepad, SIGNAL(axisRightXChanged(double)), this, SLOT(sendThrustersAdvanced()));
     connect(gamepad, SIGNAL(axisRightYChanged(double)), this, SLOT(sendThrustersAdvanced()));
-
+    connect(gamepad, SIGNAL(buttonL3Changed(bool)), this, SLOT(stopReactionWheel(bool)));
 }
 
 ManualControl::~ManualControl()
@@ -43,16 +44,26 @@ void ManualControl::sendThrusters(/*short uID, QList<XboxOneButtons> pressedButt
     link->write<Telecommand>(TelecommandType, send);
 }
 
+void ManualControl::stopReactionWheel(bool stop)
+{
+    if (stop)
+    {
+        Telecommand send;
+        send.id = 2; // SEND_RW_SPEED
+        wheelSpeed = 0;
+        send.data.wheel_target_speed = wheelSpeed;
+        link->write<Telecommand>(TelecommandType, send);
+    }
+}
+
 void ManualControl::sendReactionWheel()
 {
     Telecommand send;
     send.id = 2; // SEND_RW_SPEED
     double lspeed = gamepad->buttonL2();
     double rspeed = gamepad->buttonR2();
-
     qDebug() << lspeed << ", " << rspeed << endl;
-    static int wheelSpeed = 0;
-    wheelSpeed += (lspeed - rspeed) * 100;
+    wheelSpeed += (lspeed - rspeed) * 300;
     wheelSpeed = wheelSpeed > 8000 ? 8000 : wheelSpeed < -8000 ? -8000 : wheelSpeed;
     send.data.wheel_target_speed = wheelSpeed;//(lspeed - rspeed) * 8000;
     link->write<Telecommand>(TelecommandType, send);
