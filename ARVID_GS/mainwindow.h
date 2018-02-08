@@ -37,6 +37,8 @@ private:
 
     QCPCurve *track;
     QCPCurve *trackline;
+    QCPCurve *trackrp;
+    QCPCurve *trackrpline;
 
 
 

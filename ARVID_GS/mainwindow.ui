@@ -316,7 +316,7 @@ background-color: rgb(0, 0, 0);</string>
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>311</width>
+       <width>322</width>
        <height>93</height>
       </rect>
      </property>
@@ -1499,9 +1499,9 @@ QPushButton:hover{ background-color: grey; }
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_41">
+       <widget class="QLabel" name="rpLabel">
         <property name="text">
-         <string>Receiving</string>
+         <string>Enabled</string>
         </property>
        </widget>
       </item>

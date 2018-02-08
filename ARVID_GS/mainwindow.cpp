@@ -138,29 +138,6 @@ void MainWindow::readFromLink()
         ui->lcddroll->display(data.droll);
 
 
-        if (stEnable)
-        {
-            float valuex=data.x, valuey=data.y;
-
-            if (valuex>0 && -valuey>0)
-            {
-
-            double key = QTime::currentTime().msecsSinceStartOfDay()/1000.0; // time elapsed since start of demo, in seconds
-
-            static double lastPointKey = 0;
-
-            if (key-lastPointKey > 3)
-              {
-                track->addData(-valuey, valuex);
-                lastPointKey=key;
-               }
-
-            trackline->addData(-valuey, valuex);
-
-            ui->trackPlot->replot();
-
-            }
-        }
 
 
         break;
@@ -223,6 +200,30 @@ void MainWindow::readFromLink()
         ui->starLcdy->display(data.y);
         ui->starLcdAngle->display(data.yaw);
 
+        if (stEnable)
+        {
+            float valuex=data.x, valuey=data.y;
+
+            if (valuex>0 && -valuey>0)
+            {
+
+            double key = QTime::currentTime().msecsSinceStartOfDay()/1000.0; // time elapsed since start of demo, in seconds
+
+            static double lastPointKey = 0;
+
+            if (key-lastPointKey > 3)
+              {
+                track->addData(valuey, valuex);
+                lastPointKey=key;
+               }
+
+            trackline->addData(valuey, valuex);
+
+            ui->trackPlot->replot();
+
+            }
+        }
+
         break;
 
     } //end case StarTrackerDataType
@@ -231,6 +232,8 @@ void MainWindow::readFromLink()
     {
         OTData data(payload); 
 
+        if(otEnable)
+        {
         static float oldGo = 0, oldgo = 0, oldalpha = 0;
         if (data.found && (oldGo != data.G0 || oldgo != data.g0 || oldalpha != data.alpha))
         {
@@ -255,6 +258,7 @@ void MainWindow::readFromLink()
             ui->trackPlot->replot();
             ui->trackPlot->graph(0)->clearData();
         }
+        }
 
         break;
 
@@ -263,8 +267,39 @@ void MainWindow::readFromLink()
     case RadioPoseDataType:
     {
         RadioPoseData data(payload);
-        ui->rpLcdx->display(data.x);
-        ui->rpLcdy->display(data.y);
+        ui->rpLcdx->display(data.x1);
+        ui->rpLcdy->display(data.y1);
+
+        if (rdEnable)
+        {
+            float valuex=data.x1, valuey=data.y1;
+
+            if (valuex>0 && -valuey>0)
+            {
+
+            double key = QTime::currentTime().msecsSinceStartOfDay()/1000.0; // time elapsed since start of demo, in seconds
+
+            static double lastPointKey = 0;
+
+            if (key-lastPointKey > 3)
+              {
+                trackrp->addData(valuey, valuex);
+                lastPointKey=key;
+               }
+
+            trackrpline->addData(valuey, valuex);
+
+            ui->trackPlot->replot();
+
+            }
+        }
+
+
+
+        else
+        {
+            ui->rpLabel->setText("Disabled");
+        }
 
 
         break;

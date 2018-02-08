@@ -40,6 +40,11 @@ void MainWindow::SetupPlotTracking()
     shape.setPen(QPen(Qt::blue));
     shape.setSize(8);
 
+    QCPScatterStyle shaperp;
+    shaperp.setShape(QCPScatterStyle::ssTriangleInverted);
+    shaperp.setPen(QPen(Qt::yellow));
+    shaperp.setSize(8);
+
     track = new QCPCurve(ui->trackPlot->xAxis, ui->trackPlot->yAxis);
     track->setScatterStyle(shape);
     track->setLineStyle(QCPCurve::LineStyle::lsNone);
@@ -47,6 +52,19 @@ void MainWindow::SetupPlotTracking()
 
     trackline = new QCPCurve(ui->trackPlot->xAxis, ui->trackPlot->yAxis);
     trackline->setPen(QPen(Qt::red));
+
+    trackrp = new QCPCurve (ui->trackPlot->xAxis, ui->trackPlot->yAxis);
+    trackrp->setScatterStyle(shaperp);
+    trackrp->setLineStyle(QCPCurve::LineStyle::lsNone);
+    trackrp->setPen(QPen(Qt::yellow));
+
+    trackrpline = new QCPCurve (ui->trackPlot->xAxis, ui->trackPlot->yAxis);
+    trackrpline->setPen(QPen(Qt::magenta));
+
+
+
+
+
 
 
 

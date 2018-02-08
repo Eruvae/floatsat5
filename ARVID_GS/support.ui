@@ -71,7 +71,7 @@ QTabBar::tab:hover
 }</string>
    </property>
    <property name="currentIndex">
-    <number>6</number>
+    <number>4</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -316,6 +316,9 @@ QTabBar::tab:hover
         <property name="maximum">
          <double>100.000000000000000</double>
         </property>
+        <property name="value">
+         <double>50.000000000000000</double>
+        </property>
        </widget>
       </item>
       <item row="1" column="2">
@@ -326,6 +329,9 @@ QTabBar::tab:hover
         <property name="maximum">
          <double>100.000000000000000</double>
         </property>
+        <property name="value">
+         <double>5.000000000000000</double>
+        </property>
        </widget>
       </item>
       <item row="1" column="3">
@@ -334,6 +340,9 @@ QTabBar::tab:hover
          <double>-100.000000000000000</double>
         </property>
         <property name="maximum">
+         <double>100.000000000000000</double>
+        </property>
+        <property name="value">
          <double>100.000000000000000</double>
         </property>
        </widget>
@@ -353,6 +362,9 @@ QTabBar::tab:hover
         <property name="maximum">
          <double>100.000000000000000</double>
         </property>
+        <property name="value">
+         <double>100.000000000000000</double>
+        </property>
        </widget>
       </item>
       <item row="2" column="2">
@@ -362,6 +374,9 @@ QTabBar::tab:hover
         </property>
         <property name="maximum">
          <double>100.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>10.000000000000000</double>
         </property>
        </widget>
       </item>
@@ -390,6 +405,9 @@ QTabBar::tab:hover
         <property name="maximum">
          <double>100.000000000000000</double>
         </property>
+        <property name="value">
+         <double>2.000000000000000</double>
+        </property>
        </widget>
       </item>
       <item row="3" column="2">
@@ -400,6 +418,9 @@ QTabBar::tab:hover
         <property name="maximum">
          <double>100.000000000000000</double>
         </property>
+        <property name="value">
+         <double>0.500000000000000</double>
+        </property>
        </widget>
       </item>
       <item row="3" column="3">
@@ -409,6 +430,9 @@ QTabBar::tab:hover
         </property>
         <property name="maximum">
          <double>100.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>10.000000000000000</double>
         </property>
        </widget>
       </item>
@@ -474,8 +498,8 @@ QTabBar::tab:hover
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>250</y>
+     <x>250</x>
+     <y>260</y>
      <width>101</width>
      <height>28</height>
     </rect>

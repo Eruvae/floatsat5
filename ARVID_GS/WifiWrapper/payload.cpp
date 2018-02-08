@@ -104,8 +104,10 @@ OTData::OTData(const Payload Payload)
 
 RadioPoseData::RadioPoseData(const Payload Payload)
 {
-    x=Payload.userDataFloat[0];
-    y=Payload.userDataFloat[1];
+    y1=Payload.userDataFloat[1];
+    x1=Payload.userDataFloat[0];
+    y2=Payload.userDataFloat[3];
+    x2=Payload.userDataFloat[2];
 }
 
 //IMUData::IMUData(const Payload payload)

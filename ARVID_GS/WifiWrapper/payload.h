@@ -127,7 +127,7 @@ struct __attribute__((packed)) OTData
 
 struct __attribute__((packed)) RadioPoseData
 {
-    float x,y;
+    float x1,y1, x2, y2;
     RadioPoseData(const Payload Payload);
 };
 
