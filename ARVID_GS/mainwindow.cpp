@@ -27,6 +27,7 @@ int MissedPackets=0;
 int recievedPackets=0;
 float Power;
 
+bool stEnable = false, otEnable = false, rdEnable = false;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -46,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
     link->addTopic(RadioPoseDataType);
     link->addTopic(DebugMsgType);
     link->addTopic(PoseControllerModeType);
+    link->addTopic(RaspiStatusType);
     link->addTopic(MissionStateType);
 
 
@@ -136,25 +138,28 @@ void MainWindow::readFromLink()
         ui->lcddroll->display(data.droll);
 
 
-        float valuex=data.x, valuey=data.y;
-
-        if (valuex>0 && -valuey>0)
+        if (stEnable)
         {
+            float valuex=data.x, valuey=data.y;
 
-        double key = QTime::currentTime().msecsSinceStartOfDay()/1000.0; // time elapsed since start of demo, in seconds
+            if (valuex>0 && -valuey>0)
+            {
 
-        static double lastPointKey = 0;
+            double key = QTime::currentTime().msecsSinceStartOfDay()/1000.0; // time elapsed since start of demo, in seconds
 
-        if (key-lastPointKey > 3)
-          {
-            track->addData(-valuey, valuex);
-            lastPointKey=key;
-           }
+            static double lastPointKey = 0;
 
-        trackline->addData(-valuey, valuex);
+            if (key-lastPointKey > 3)
+              {
+                track->addData(-valuey, valuex);
+                lastPointKey=key;
+               }
 
-        ui->trackPlot->replot();
+            trackline->addData(-valuey, valuex);
 
+            ui->trackPlot->replot();
+
+            }
         }
 
 
@@ -239,14 +244,14 @@ void MainWindow::readFromLink()
             float otX = r * cos(angleGlob);
             float otY = r * sin(angleGlob);
             float otXAbs = (r * cos (angleGlob) + ui->lcdx->value());
-            float otYAbs = (r * sin (angleGlob) - ui->lcdy->value());
+            float otYAbs = (r * sin (angleGlob) + ui->lcdy->value());
 
             ui->lcdNumber->display(otX+ui->lcdx->value());
             ui->lcdNumber_2->display(otY-ui->lcdy->value());
             ui->lcdNumber_3->display(alpha);
             ui->lcdNumber_4->display(data.found);
 
-            ui->trackPlot->graph(0)->addData(otXAbs, otYAbs);
+            ui->trackPlot->graph(0)->addData(-otYAbs, otXAbs);
             ui->trackPlot->replot();
             ui->trackPlot->graph(0)->clearData();
         }
@@ -278,6 +283,12 @@ void MainWindow::readFromLink()
             ui->controlMode->setText("Rotate");
         else if (payload.enumData == 5)
             ui->controlMode->setText("Follow Trajectory T");
+        break;
+    case RaspiStatusType:
+        stEnable = payload.userDataBool[0];
+        otEnable = payload.userDataBool[1];
+        rdEnable = payload.userDataBool[2];
+        //qDebug() << "RPI: " << stEnable << ", " << otEnable << ", " << rdEnable << ", " << endl;
         break;
     case MissionStateType:
         if (payload.enumData == 0)

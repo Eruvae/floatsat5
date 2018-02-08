@@ -24,6 +24,7 @@ enum PayloadType{
     OTDataType=5007,
     RadioPoseDataType=5008,
     PoseControllerModeType=5010,
+    RaspiStatusType=5011,
     MissionStateType=5012,
 
     DebugMsgType = 6000,
