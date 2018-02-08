@@ -238,6 +238,9 @@ void MainWindow::readFromLink()
         float otYAbs = (r * sin (angleGlob) - ui->lcdy->value());
 
 
+
+
+
         ui->lcdNumber->display(otX+ui->lcdx->value());
         ui->lcdNumber_2->display(otY-ui->lcdy->value());
         ui->lcdNumber_3->display(alpha);

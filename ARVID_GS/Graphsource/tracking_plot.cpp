@@ -19,7 +19,6 @@ void MainWindow::SetupPlotTracking()
     otshape.setShape(QCPScatterStyle::ssDiamond);
     otshape.setPen(QPen(Qt::green));
 
-
     ui->trackPlot->graph(0)->setScatterStyle(otshape);
     ui->trackPlot->graph(0)->setLineStyle(QCPGraph::lsNone);
 
@@ -41,8 +40,6 @@ void MainWindow::SetupPlotTracking()
     shape.setPen(QPen(Qt::blue));
     shape.setSize(8);
 
-
-
     track = new QCPCurve(ui->trackPlot->xAxis, ui->trackPlot->yAxis);
     track->setScatterStyle(shape);
     track->setLineStyle(QCPCurve::LineStyle::lsNone);
@@ -50,7 +47,6 @@ void MainWindow::SetupPlotTracking()
 
     trackline = new QCPCurve(ui->trackPlot->xAxis, ui->trackPlot->yAxis);
     trackline->setPen(QPen(Qt::red));
-
 
 
 
