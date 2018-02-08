@@ -226,29 +226,30 @@ void MainWindow::readFromLink()
     {
         OTData data(payload); 
 
-        float Go=data.G0 , go=data.g0+0.2, alpha=data.alpha;
+        static float oldGo = 0, oldgo = 0, oldalpha = 0;
+        if (data.found && (oldGo != data.G0 || oldgo != data.g0 || oldalpha != data.alpha))
+        {
+            float Go=data.G0 , go=data.g0+0.2, alpha=data.alpha;
+            oldGo = data.G0; oldgo = data.g0; oldalpha = alpha;
 
-        float r= sqrt( Go*Go + go*go);
-        float angle= atan(Go/go) * (180/PI);
-        float otYaw = M_PI + alpha + atan2(Go, go);
-        float angleGlob = alpha + M_PI - otYaw + ui->lcdyaw->value()*M_PI/180;
-        float otX = r * cos(angleGlob);
-        float otY = r * sin(angleGlob);
-        float otXAbs = (r * cos (angleGlob) + ui->lcdx->value());
-        float otYAbs = (r * sin (angleGlob) - ui->lcdy->value());
+            float r= sqrt( Go*Go + go*go);
+            float angle= atan(Go/go) * (180/PI);
+            float otYaw = M_PI + alpha + atan2(Go, go);
+            float angleGlob = alpha + M_PI - otYaw + ui->lcdyaw->value()*M_PI/180;
+            float otX = r * cos(angleGlob);
+            float otY = r * sin(angleGlob);
+            float otXAbs = (r * cos (angleGlob) + ui->lcdx->value());
+            float otYAbs = (r * sin (angleGlob) - ui->lcdy->value());
 
+            ui->lcdNumber->display(otX+ui->lcdx->value());
+            ui->lcdNumber_2->display(otY-ui->lcdy->value());
+            ui->lcdNumber_3->display(alpha);
+            ui->lcdNumber_4->display(data.found);
 
-
-
-
-        ui->lcdNumber->display(otX+ui->lcdx->value());
-        ui->lcdNumber_2->display(otY-ui->lcdy->value());
-        ui->lcdNumber_3->display(alpha);
-        ui->lcdNumber_4->display(data.found);
-
-        ui->trackPlot->graph(0)->addData(otXAbs, otYAbs);
-        ui->trackPlot->replot();
-        ui->trackPlot->graph(0)->clearData();
+            ui->trackPlot->graph(0)->addData(otXAbs, otYAbs);
+            ui->trackPlot->replot();
+            ui->trackPlot->graph(0)->clearData();
+        }
 
         break;
 
@@ -280,17 +281,17 @@ void MainWindow::readFromLink()
         break;
     case MissionStateType:
         if (payload.enumData == 0)
-            ui->controlMode->setText("Stand By");
+            ui->missionState->setText("Stand By");
         else if (payload.enumData == 1)
-            ui->controlMode->setText("Start Searching");
+            ui->missionState->setText("Start Searching");
         else if (payload.enumData == 2)
-            ui->controlMode->setText("Searching Target");
+            ui->missionState->setText("Searching Target");
         else if (payload.enumData == 3)
-            ui->controlMode->setText("Moving to Target");
+            ui->missionState->setText("Moving to Target");
         else if (payload.enumData == 4)
-            ui->controlMode->setText("Rendezvouz Target");
+            ui->missionState->setText("Rendezvouz Target");
         else if (payload.enumData == 5)
-            ui->controlMode->setText("Docking");
+            ui->missionState->setText("Docking");
         break;
 
     case DebugMsgType:

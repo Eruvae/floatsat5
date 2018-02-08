@@ -86,12 +86,12 @@ void MissionController::run()
 				float otY = r * sin(angle);
 				MOD(otYaw, -M_PI, M_PI);
 				targetPose = {currentPose.x + otX, currentPose.y + otY, (float)(angle*180.0/M_PI)};
-				preTargetDistance = r - 0.4;
-				preTargetPose = {currentPose.x + (r-0.4) * cos(angle), currentPose.y + (r-0.4) * sin(angle), (float)(angle*180.0/M_PI)};
+				preTargetDistance = r - 0.2;
+				preTargetPose = {currentPose.x + (r-0.2) * cos(angle), currentPose.y + (r-0.2) * sin(angle), (float)(angle*180.0/M_PI)};
 				MOD(targetPose.yaw, -180, 180);
 
 				// TEMPORARY: GO TO STANDBY, then manually dock
-				bool stReceived = false;
+				/*bool stReceived = false;
 				starTrackerReceived.put(stReceived);
 				raspiComm.sendCommand(ST, true);
 				while(stReceived == false)
@@ -107,7 +107,7 @@ void MissionController::run()
 				itPoseControllerMode.publishConst(PoseControllerMode::GOTO_POSE);
 				state = MissionState::STANDBY;
 				itMissionState.publish(state);
-				continue;
+				continue;*/
 
 				missionStateBuffer.get(state);
 				if (state == MissionState::STANDBY) continue;
@@ -146,7 +146,8 @@ void MissionController::run()
 			suspendCallerUntil(NOW() + totalTime + 5*SECONDS);
 			missionStateBuffer.get(state);
 			if (state == MissionState::STANDBY) continue;
-			state = MissionState::RENDEZVOUZ_TARGET;
+			// state = MissionState::RENDEZVOUZ_TARGET;
+			state = MissionState::STANDBY; // not going to other modes
 			itMissionState.publish(state);
 			/*targetPoseSemaphore.enter();
 			tcTargetPose.put(searchingPose);
