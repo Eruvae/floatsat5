@@ -49,8 +49,8 @@ void MainWindow::SetupPlotTracking()
     track->setPen(QPen(Qt::blue));
 
     trackline = new QCPCurve(ui->trackPlot->xAxis, ui->trackPlot->yAxis);
-    trackline->setLineStyle(QCPCurve::LineStyle::lsLine);
     trackline->setPen(QPen(Qt::red));
+
 
 
 

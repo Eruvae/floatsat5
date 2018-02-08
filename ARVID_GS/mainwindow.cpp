@@ -151,7 +151,7 @@ void MainWindow::readFromLink()
             lastPointKey=key;
            }
 
-        trackline->addData(-valuex, valuey);
+        trackline->addData(-valuey, valuex);
 
         ui->trackPlot->replot();
 
@@ -236,14 +236,16 @@ void MainWindow::readFromLink()
         float otY = r * sin(angleGlob);
         float otXAbs = (r * cos (angleGlob) + ui->lcdx->value());
         float otYAbs = (r * sin (angleGlob) - ui->lcdy->value());
-        ui->lcdNumber->display(otX);
-        ui->lcdNumber_2->display(otY);
+
+
+        ui->lcdNumber->display(otX+ui->lcdx->value());
+        ui->lcdNumber_2->display(otY-ui->lcdy->value());
         ui->lcdNumber_3->display(alpha);
         ui->lcdNumber_4->display(data.found);
 
         ui->trackPlot->graph(0)->addData(otXAbs, otYAbs);
-        ui->trackPlot->graph(0)->clearData();
         ui->trackPlot->replot();
+        ui->trackPlot->graph(0)->clearData();
 
         break;
 
