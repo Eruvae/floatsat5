@@ -46,6 +46,7 @@ void PoseFilter::run()
 
 		// ---------------------- Attitude Determination ----------------------------
 
+		// get IMU data
 		IMUData imuData;
 		imuDataBuffer.get(imuData);
 
@@ -57,14 +58,17 @@ void PoseFilter::run()
 			mag[i] = *(&imuData.mag_x + i)*MAG_FACTOR_2GA;
 		}
 
+		// calculate pitch and roll from accelerometer
 		double pitchAccMag = atan2(acc[0], sqrt(acc[1]*acc[1]+acc[2]*acc[2]));
 		double rollAccMag = atan2(acc[1], sqrt(acc[0]*acc[0]+acc[2]*acc[2]));
 
+		// calculate heading from magnetometer
 		double mxh = mag[0]*cos(filteredPitch) + mag[2]*sin(filteredPitch);
 		double myh = mag[0]*sin(filteredRoll)*sin(filteredPitch) + mag[1]*cos(filteredRoll) - mag[2]*sin(filteredRoll)*cos(filteredPitch);
 
 		double headingAccMag = -atan2(myh, mxh);
 
+		// integrate gyro values with previous pose
 		double dp = (cos(filteredRoll)*cos(filteredPitch)*gyro[1] - sin(filteredRoll)*cos(filteredPitch)*gyro[2]) / cos(filteredPitch);
 		double dr = (cos(filteredPitch)*gyro[0] + sin(filteredRoll)*sin(filteredPitch)*gyro[1] + cos(filteredRoll)*sin(filteredPitch)*gyro[2]) / cos(filteredPitch);
 		double dh = (sin(filteredRoll)*gyro[1] + cos(filteredRoll)*gyro[2]) / cos(filteredPitch);
@@ -76,7 +80,7 @@ void PoseFilter::run()
 		double headingGyro = filteredHeading + dh*delt;
 		MOD(headingGyro, -M_PI, M_PI);
 
-
+		// filter gyro data with acc/mag data (complementary filter)
 		MAXDIF_PI(pitchGyro, pitchAccMag);
 		filteredPitch = alpha * pitchGyro + (1 - alpha) * pitchAccMag;
 		MAXDIF_PI(rollGyro, rollAccMag);
@@ -120,33 +124,33 @@ void PoseFilter::run()
 		//print_debug_msg("ObjYaw: %f; MagYaw: %f", otYaw*180.0/M_PI, filteredHeading*180.0/M_PI);
 
 		Pose pose;
-		if (rpiStatus.stEnabled)
+		if (rpiStatus.stEnabled) // if star tracker enabled: use it for position
 		{
 			pose.x = stPose.x; //otX;
 			pose.y = -stPose.y; //otY;
 		}
-		else if (rpiStatus.rdEnabled)
+		else if (rpiStatus.rdEnabled) // otherwise, if radio enabled, use this
 		{
 			pose.x = rdPose.x1;
 			pose.y = -rdPose.y1;
 		}
-		else
+		else // otherwise, keep previous position
 		{
 			pose.x = oldX;
 			pose.y = oldY;
 		}
 		oldX = pose.x;
 		oldY = pose.y;
-		pose.z = 0;
+		pose.z = 0; // no z (2D system)
 		pose.pitch = filteredPitch*180.0/M_PI;
 		pose.roll = filteredRoll*180.0/M_PI;
 
-		if (rpiStatus.stEnabled)
+		if (rpiStatus.stEnabled) // use star tracker yaw if active
 		{
 			pose.yaw = stPose.yaw - 90.f;/*otYaw*180.0/M_PI;*//*filteredHeading*180.0/M_PI;*/
-			magnetometerYawOffset = pose.yaw - filteredHeading*180.0/M_PI;
+			magnetometerYawOffset = pose.yaw - filteredHeading*180.0/M_PI; // recalibrate magnetometer with ST data
 		}
-		else
+		else // otherwise use magnetometer yaw
 		{
 			pose.yaw = filteredHeading*180.0/M_PI + magnetometerYawOffset;
 		}

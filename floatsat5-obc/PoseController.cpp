@@ -21,11 +21,7 @@ void PoseController::controlYaw()
 {
 	// yaw control
 	float yaw = filteredPose.yaw;
-	float goalYaw = targetPose.yaw; // TODO: change via Topic
-
-	//const float p = 15.0f;
-	//const float i = 0.1f;
-	//const float d = 0.2f;
+	float goalYaw = targetPose.yaw;
 
 	float error = goalYaw - yaw;
 	MOD(error, -180, 180);
@@ -35,7 +31,7 @@ void PoseController::controlYaw()
 	float rwSpeedDifDps = attP * error - attD * filteredPose.dyaw + attI * errYaw_int;
 
 	int16_t rwSpeedDifRpm = (int16_t)(rwSpeedDifDps / 6);
-	int16_t newRwSpeed = currentRwSpeed + rwSpeedDifRpm;
+	int16_t newRwSpeed = currentRwSpeed + rwSpeedDifRpm; // control output is difference of RW-speed
 
 	tcReactionWheelTargetSpeed.put(newRwSpeed);
 }
@@ -53,12 +49,13 @@ void PoseController::controlPosition()
 	float otYaw = M_PI + otData.alpha + atan2(otData.G0, r);*/
 	// END
 
+	// x and y errors in global system
 	float eX = targetPose.x - x;
 	float eY = targetPose.y - y;
 	//print_debug_msg("Errors: %f, %f", eX, eY);
-	rotateCoord(eX, eY, filteredPose.yaw*M_PI/180.f , eX, eY);
+	rotateCoord(eX, eY, filteredPose.yaw*M_PI/180.f , eX, eY); // convert to vehicle system
 
-
+	// same for velocity
 	float velX = (x - oldX) / period;
 	float velY = (y - oldY) / period;
 
@@ -66,6 +63,7 @@ void PoseController::controlPosition()
 	float eY_dif = targetVel.y - velY;
 	rotateCoord(eX_dif, eY_dif, filteredPose.yaw*M_PI/180.f , eX_dif, eY_dif);
 
+	// use only ERR_ARR_SIZE values for integral part
 	eX_int -= eX_arr[errIndex];
 	eY_int -= eY_arr[errIndex];
 	eX_arr[errIndex] = eX * period;
@@ -80,6 +78,7 @@ void PoseController::controlPosition()
 	oldX = x;
 	oldY = y;
 
+	// calculate control values
 	float zX = k * (eX + td * eX_dif + ti*eX_int);
 	float zY = k * (eY + td * eY_dif + ti*eY_int);
 
@@ -91,6 +90,7 @@ void PoseController::controlPosition()
 
 	//print_debug_msg("Gx: %.2f, Gy: %.2f, Yaw: %.2f, a: %.2f", gX, gY, filteredPose.yaw, alpha);
 
+	// decide which thrusters to activate and how long
 	ThrusterControls controls;
 	if (alpha > 300 || alpha < 60)
 	{
@@ -116,29 +116,13 @@ void PoseController::controlPosition()
 	//print_debug_msg("Dx: %.2f, Dy: %.2f\n", dummyX, dummyY);
 
 	//print_debug_msg("a: %.2f, f1: %.2f, f2: %.2f, f3: %.2f\n", alpha, controls.f1, controls.f2, controls.f3);
-	itThrusterControls.publish(controls);
+	itThrusterControls.publish(controls); // send controls to valvePWN thread
 }
 
 void PoseController::run()
 {
-
 	setPeriodicBeat(20*MILLISECONDS, period*SECONDS);
-	/*Pose filteredPose;
-	Pose2D targetPose = {0};
-	//tcTargetPose.put(targetPose); // Start with 0
-	int16_t currentRwSpeed;
-	//bool activated = false;
-	PoseControllerMode mode = PoseControllerMode::STANDBY;*/
-	//tcActivateController.put(activated);
 	itPoseControllerMode.publish(mode);
-	/*float oldeX = 0, oldeY = 0;
-	float eX_int = 0, eY_int = 0;
-	float oldYawErr = 0;
-	float errYaw_int = 0;
-	float errRot_int = 0, old_dYaw = 0;
-	float attP = 10.f, attD = -4.f, attI = 0.f;
-	float rotP = 100.f, rotD = 0.f, rotI = 10.f;
-	float k = 1.5f, td = 5.f, ti = 0.05f, gamma = sqrt(3)/2; // trajectory control params*/
 	ControlParameters params = {attP, attD, attI, k, td, ti, rotP, rotD, rotI};
 	tcControlParams.put(params);
 	bool valvePWMEnabled = false;
@@ -146,7 +130,6 @@ void PoseController::run()
 	bool activateRWSpeedControl = true;
 	while(1)
 	{
-		//tcActivateController.get(activated);
 		PoseControllerMode oldMode = mode;
 		poseControllerModeBuffer.get(mode);
 		filteredPoseBuffer.get(filteredPose);
@@ -154,6 +137,7 @@ void PoseController::run()
 		Pose2D oldTargetPose = targetPose;
 		if (mode != PoseControllerMode::FOLLOW_TRAJECTORY && !tcNextTargetPoseList.isEmpty())
 		{
+			// go to follow trajectory mode if pose list was published
 			mode = PoseControllerMode::FOLLOW_TRAJECTORY;
 			itPoseControllerMode.publish(mode);
 			tcNextTargetPoseList.get(targetPose);
@@ -169,6 +153,7 @@ void PoseController::run()
 		k = params.traP; td = params.traD; ti = params.traI;
 		rotP = params.rotP; rotD = params.rotD; rotI = params.rotI;
 
+		// desaturate wheel; not used
 		/*if (activateRWSpeedControl && ABS(currentRwSpeed) > 4500)
 		{
 			activateRWSpeedControl = false;
@@ -185,10 +170,11 @@ void PoseController::run()
 			targetPose.yaw != oldTargetPose.yaw ||
 			mode != oldMode) // reset int
 		{
+			// reset integral parts if target or mode changed
 			eX_int = 0; eY_int = 0; errYaw_int = 0; errRot_int = 0;
 		}
 
-		if (mode == PoseControllerMode::CHANGE_ATTITUDE)
+		if (mode == PoseControllerMode::CHANGE_ATTITUDE) // control only attitude, no position
 		{
 			valvePWMEnabled = false;
 			activateValvePWM.put(valvePWMEnabled);
@@ -197,12 +183,12 @@ void PoseController::run()
 			controlYaw();
 
 		}
-		else if (mode == PoseControllerMode::ROTATE)
+		else if (mode == PoseControllerMode::ROTATE) // rotate at desired speed
 		{
 			valvePWMEnabled = false;
 			activateValvePWM.put(valvePWMEnabled);
 
-			float targetRotationSpeed; // DPS, change to tc later
+			float targetRotationSpeed;
 			desiredRotationSpeed.get(targetRotationSpeed);
 			float dyaw = filteredPose.dyaw;
 
@@ -219,12 +205,13 @@ void PoseController::run()
 
 			tcReactionWheelTargetSpeed.put(newRwSpeed);
 		}
-		else if (mode == PoseControllerMode::GOTO_POSE)
+		else if (mode == PoseControllerMode::GOTO_POSE) // stay or goto set position
 		{
 			// activate valve PWM
 			valvePWMEnabled = true;
 			activateValvePWM.put(valvePWMEnabled);
 
+			// target velocity is 0 (stay at point)
 			targetVel.x = 0;
 			targetVel.y = 0;
 			targetVel.yaw = 0;
@@ -233,13 +220,14 @@ void PoseController::run()
 
 			controlPosition();
 		}
-		else if (mode == PoseControllerMode::FOLLOW_TRAJECTORY)
+		else if (mode == PoseControllerMode::FOLLOW_TRAJECTORY) // follow trajectory by using pose list (legacy, not used)
 		{
 			valvePWMEnabled = true;
 			activateValvePWM.put(valvePWMEnabled);
 
 			if (ABS(targetPose.x - filteredPose.x) < 0.1 && ABS(targetPose.y - filteredPose.y) < 0.1)
 			{
+				// use next pose as target if pose list not empty, otherwise stay at current pose
 				if (!tcNextTargetPoseList.isEmpty())
 				{
 					tcNextTargetPoseList.get(targetPose);
@@ -260,15 +248,17 @@ void PoseController::run()
 			controlYaw();
 			controlPosition();
 		}
-		else if (mode == PoseControllerMode::FOLLOW_TRAJECTORY_T)
+		else if (mode == PoseControllerMode::FOLLOW_TRAJECTORY_T) // time based trajectory control
 		{
 			valvePWMEnabled = true;
 			activateValvePWM.put(valvePWMEnabled);
 
+			// read plan
 			TrajectoryPlanData plan;
 			trajPlanBuffer.get(plan);
 			float t = (float)(NOW() - plan.startTime) / SECONDS;
 			float T = (float)(plan.endTime - plan.startTime) / SECONDS;
+			// calculate pose and velocity at current time for desired trajectory
 			if (plan.type == LINE)
 			{
 				targetPose = curveLinePos(s(t, T), plan.lineData.startPose, plan.lineData.endPose);
@@ -286,6 +276,7 @@ void PoseController::run()
 			print_debug_msg("TPose: %f, %f, %f", targetPose.x, targetPose.y, targetPose.yaw);
 			//print_debug_msg("TVel: %f, %f, %f", targetVel.x, targetVel.y, targetVel.yaw);
 
+			// use calculated pose and velocity as control input
 			targetPoseSemaphore.enter();
 			tcTargetPose.put(targetPose);
 			targetPoseSemaphore.leave();
@@ -294,6 +285,7 @@ void PoseController::run()
 		}
 		else
 		{
+			// deactivate valve PWM if standby
 			valvePWMEnabled = false;
 			activateValvePWM.put(valvePWMEnabled);
 

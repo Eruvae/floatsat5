@@ -42,9 +42,11 @@ void SenseInfrared::run()
 
 		//print_debug_msg("IR Status: %d, %d\n", infrared1_status, infrared2_status);
 
+		// read ranges of both sensors
 		data.range1 = sensors.readRange(INFRARED1_I2C_ADDR);
 		data.range2 = sensors.readRange(INFRARED2_I2C_ADDR);
 
+		// calculate mean distance and angle
 		float distance, angle;
 		sensors.getRangeAndAngle(data.range1, data.range2, distance, angle);
 

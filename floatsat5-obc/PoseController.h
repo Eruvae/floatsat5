@@ -37,14 +37,10 @@ class PoseController : public Thread
 	CommBuffer<int16_t> reactionWheelSpeedBuffer;
 	Subscriber reactionWheelSpeedSub;
 
-	//CommBuffer<Pose2D> starTrackerPoseBuffer;
-	//Subscriber starTrackerPoseSub;
-
 	CommBuffer<PoseControllerMode> poseControllerModeBuffer;
 	Subscriber poseControllerModeSub;
 
-	//CommBuffer<OTData> otDataBuffer;
-	//Subscriber otDataSub;
+	// Functions for calculating desired points on a trajectory at given time
 
 	Pose2D curveLinePos(float s, const Pose2D &start, const Pose2D &end)
 	{
@@ -66,12 +62,6 @@ class PoseController : public Thread
 		Pose2D pose = {xDif, yDif, yawDif};
 		return pose;
 	}
-
-	/*Pose2D curveLineAcc(float s, const Pose2D &start, const Pose2D &end)
-	{
-		Pose2D pose = {0, 0, 0};
-		return pose;
-	}*/
 
 	Pose2D curveCirclePos(float s, const Pose2D &center, float r, float betaStart, float betaEnd)
 	{

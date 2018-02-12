@@ -48,6 +48,7 @@ void TelemetrySender::run()
 		RaspiStatus raspiStatus;
 		MissionState missionState;
 
+		// get all data from internal topics
 		powerDataBuffer.get(powerData);
 		filteredPoseBuffer.get(filteredPose);
 		imuDataBuffer.get(imuData);
@@ -65,6 +66,7 @@ void TelemetrySender::run()
 
 		//PRINTF("TM rw speed: %d\n", reactionWheelSpeed);
 
+		// publish them with break (necessary to avoid data loss) to TM topics; gateway takes care of forwarding
 		tmPowerData.publish(powerData);
 		suspendCallerUntil(NOW() + tm_pause_period*MILLISECONDS);
 		tmFilteredPose.publish(filteredPose);

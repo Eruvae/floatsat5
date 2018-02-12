@@ -26,7 +26,7 @@
 
 TelecommandReceiver telecommandReceiver;
 
-void TelecommandReceiver::put(Telecommand &data)
+void TelecommandReceiver::put(Telecommand &data) // subscribes TCs from topic
 {
 	if (data.id == CALIB_IMU)
 	{

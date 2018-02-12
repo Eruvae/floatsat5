@@ -28,7 +28,7 @@ int RaspiComm::decodeRTM(const char *buf, int len, RTM &receivedData/*, char **t
 	//*tail = (char*)buf;
 	for(char *readP = (char*)buf; readP < buf + len; readP++)
 	{
-		if (readStatus == 0)
+		if (readStatus == 0) // first parameter: id
 		{
 			if (*readP == ':')
 			{
@@ -49,7 +49,7 @@ int RaspiComm::decodeRTM(const char *buf, int len, RTM &receivedData/*, char **t
 					return -1;
 			}
 		}
-		else
+		else // decode other parameters depending on id and index
 		{
 			if (readStatus > MAX_DATA_NUM)
 				return -1;
@@ -163,10 +163,10 @@ void RaspiComm::run()
 		sprintf(echoBuf, "ECHO: %s\n", buf);
 		raspiUART.write(echoBuf, strlen(echoBuf)); // ECHO*/
 
-		char c = raspiUART.getcharNoWait();
+		char c = raspiUART.getcharNoWait(); // read command char by char
 		if (state == AWAITING_COMMAND)
 		{
-			if (c == '$')
+			if (c == '$') // start character
 			{
 				state = RECEIVING_COMMAND;
 				index = 0;
@@ -177,15 +177,15 @@ void RaspiComm::run()
 			if (index < MAX_RTM_SIZE)
 			{
 				buf[index++] = c;
-				if (c == '\n')
+				if (c == '\n') // end character
 				{
 					//buf[index] = 0;
 					//print_debug_msg("Rec: %s\n", buf);
 					RTM receivedData;
-					int ret = decodeRTM(buf, index + 1, receivedData);
+					int ret = decodeRTM(buf, index + 1, receivedData); // decode received data
 
 					if (ret >= 0)
-						publishData(receivedData);
+						publishData(receivedData); // publish received data
 
 					index = 0;
 					state = AWAITING_COMMAND;
@@ -199,32 +199,6 @@ void RaspiComm::run()
 				state = AWAITING_COMMAND;
 			}
 		}
-
-		/* char buf[RASPI_UART_BUF_SIZE];
-		int len = raspiUART.read(buf, RASPI_UART_BUF_SIZE - 1);
-		buf[len] = 0;
-		char echoBuf[RASPI_UART_BUF_SIZE + 10];
-		sprintf(echoBuf, "ECHO: %s\n", buf);
-		raspiUART.write(echoBuf, strlen(echoBuf)); // ECHO
-		for (int i = 0; i < len; i++)
-		{
-			if (buf[i] == '$')
-			{
-				RTM receivedData;
-				char *tall;
-				int retPos = decodeRTM(buf + i + 1, len - i - 1, receivedData, &tall);
-				if (retPos >= 0) // success
-				{
-					// TODO: publish data
-					char tmpBuf[512];
-					sprintf(tmpBuf, "Data received - Ret: %d, ID: %s, D1: %f, D2, %f, D3: %f\n",
-							retPos, receivedData.id, receivedData.data[0], receivedData.data[1], receivedData.data[2]);
-					raspiUART.write(tmpBuf, strlen(tmpBuf));
-					raspiUART.suspendUntilWriteFinished();
-					i += tall - buf + 1;
-				}
-			}
-		}*/
 
 	}
 

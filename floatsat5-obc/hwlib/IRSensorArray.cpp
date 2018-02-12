@@ -143,6 +143,7 @@ void IRSensorArray::getRangeAndAngle(uint8_t range1, uint8_t range2, float &rang
 
 void IRSensorArray::initializeSensors()
 {
+	// disable both sensors first
 	infrared_enable.setPins(0);
 	infrared2_enable.setPins(0);
 	infrared1_status = -1;
@@ -150,10 +151,12 @@ void IRSensorArray::initializeSensors()
 
 	Thread::suspendCallerUntil(NOW() + 10*MILLISECONDS);
 
+	// enable sensor 2
 	infrared2_enable.setPins(1);
 	Thread::suspendCallerUntil(NOW() + 10*MILLISECONDS);
 	int res = -1;
 
+	// change I2C address of sensor 2
 	res = assignI2Caddress(INFRARED1_I2C_ADDR, INFRARED2_I2C_ADDR);
 	Thread::suspendCallerUntil(NOW() + 10*MILLISECONDS);
 
@@ -162,6 +165,7 @@ void IRSensorArray::initializeSensors()
 	else
 		PRINTF_CONDITIONAL(INFRARED_PRINT_VERBOSITY, "Changing Infrared I2C address successful\n", res);
 
+	// initialize sensor 2
 	res = -1;
 	for(int i = 0; res < 0 && i < 10; i++)
 	{
@@ -180,8 +184,11 @@ void IRSensorArray::initializeSensors()
 		infrared2_status = 0;
 	}
 
+	// enable sensor 1
 	infrared_enable.setPins(1);
 	Thread::suspendCallerUntil(NOW() + 10*MILLISECONDS);
+
+	// initialize sensor 1
 	res = -1;
 	for(int i = 0; res < 0 && i < 10; i++)
 	{

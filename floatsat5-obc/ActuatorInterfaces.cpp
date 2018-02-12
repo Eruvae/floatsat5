@@ -74,7 +74,6 @@ void ActuatorInterfaces::run()
 {
 	float period = 0.1;
 	setPeriodicBeat(25*MILLISECONDS, period * SECONDS);
-	//int i = 0;
 	float err_int = 0;
 	int16_t targetSpeed = 0, wheelSpeed = 0;
 	int16_t oldTargetWheelSpeed = 0;
@@ -83,29 +82,10 @@ void ActuatorInterfaces::run()
 	activateRWSpeedController.put(rwControllerActivated);
 	while(1)
 	{
-		//i++;
-		//int test = dc_test.readPins();
-		//PRINTF("DC/DC Status: %d\n", test);
-
-		/*if (i % 80 < 20 || i % 80 > 60)
-		{
-			hbridge_a_inb.setPins(0);
-			hbridge_a_ina.setPins(1);
-			pwm_wheel.write(500);
-		}
-		else
-		{
-			hbridge_a_ina.setPins(0);
-			hbridge_a_inb.setPins(1);
-			pwm_wheel.write(500);
-		}
-		hbridge_b_ina.setPins(~hbridge_b_ina.readPins());
-		hbridge_b_inb.setPins(~hbridge_b_inb.readPins());*/
-
 		int8_t wheelDirection = 0;
 		float dutyCycle = 0;
 
-		if (rwControllerActivated)
+		if (rwControllerActivated) // control reaction wheel speed
 		{
 			const float p = 10.0f;
 			const float i = 0.1f;
@@ -157,7 +137,7 @@ void ActuatorInterfaces::run()
 		data.valveStatus = valve1 | (valve2 << 1) | (valve3 << 2);
 		data.rwDirection = wheelDirection;
 		data.dutyCycle = dutyCycle;
-		itActuatorData.publish(data);
+		itActuatorData.publish(data); // publish actuator status data
 
 		suspendUntilNextBeat();
 	}

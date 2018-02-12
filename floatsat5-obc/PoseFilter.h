@@ -9,7 +9,6 @@
 #define POSEFILTER_H_
 
 #include <rodos.h>
-#include "Matrix.h"
 #include "Topics.h"
 
 class PoseFilter : public Thread

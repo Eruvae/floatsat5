@@ -31,8 +31,9 @@ void MissionController::run()
 	while(1)
 	{
 		missionStateBuffer.get(state);
-		if (state == MissionState::START_SEARCHING)
+		if (state == MissionState::START_SEARCHING) // prepare for searching target
 		{
+			// activate star tracker and wait for pose data
 			bool stReceived = false;
 			starTrackerReceived.put(stReceived);
 			raspiComm.sendCommand(ST, true);
@@ -41,21 +42,25 @@ void MissionController::run()
 				suspendUntilNextBeat();
 				starTrackerReceived.get(stReceived);
 			}
-			suspendCallerUntil(NOW() + 50*MILLISECONDS);
-			if(!searchingStarted)
+			suspendCallerUntil(NOW() + 50*MILLISECONDS); // wait for filter
+			if(!searchingStarted) // if first time looking: save current pose as searching pose
 			{
 				filteredPoseBuffer.get(currentPose);
 				searchingPose = {currentPose.x, currentPose.y, currentPose.yaw};
 				searchingStarted = true;
 			}
-			else
+			else // otherwise: add 20 degrees to previous pose to look to other direction
+			{
 				searchingPose.yaw += 20;
-
+				MOD(searchingPose.yaw, -180, 180);
+			}
+			// order vehicle to stabilize at this pose for 5 seconds
 			targetPoseSemaphore.enter();
 			tcTargetPose.put(searchingPose);
 			targetPoseSemaphore.leave();
 			itPoseControllerMode.publishConst(PoseControllerMode::GOTO_POSE);
 			suspendCallerUntil(NOW() + 5*SECONDS);
+			// if not commanded to go to standby: go to target searching mode
 			missionStateBuffer.get(state);
 			if (state == MissionState::STANDBY) continue;
 			state = MissionState::SEARCHING_TARGET;
@@ -63,6 +68,7 @@ void MissionController::run()
 		}
 		else if (state == MissionState::SEARCHING_TARGET)
 		{
+			// activate ocject detection; since no position without star tracker, change pose control mode to attitude control
 			bool otReceived = false;
 			objectTrackerReceived.put(otReceived);
 			itPoseControllerMode.publishConst(PoseControllerMode::CHANGE_ATTITUDE); // may be removed when radio works
@@ -75,7 +81,7 @@ void MissionController::run()
 
 			OTData otData;
 			otDataBuffer.get(otData);
-			if (otData.found)
+			if (otData.found) // if data received and object was found, calculate relative position of object
 			{
 				filteredPoseBuffer.get(currentPose);
 				float rx = otData.g0 + 0.2;
@@ -85,9 +91,10 @@ void MissionController::run()
 				float otX = r * cos(angle);
 				float otY = r * sin(angle);
 				MOD(otYaw, -M_PI, M_PI);
+				// save coordinates of target, and a point 40 centimeters before target
 				targetPose = {currentPose.x + otX, currentPose.y + otY, (float)(angle*180.0/M_PI)};
-				preTargetDistance = r - 0.2;
-				preTargetPose = {currentPose.x + (r-0.2) * cos(angle), currentPose.y + (r-0.2) * sin(angle), (float)(angle*180.0/M_PI)};
+				preTargetDistance = r - 0.4;
+				preTargetPose = {currentPose.x + (r-0.4) * cos(angle), currentPose.y + (r-0.4) * sin(angle), (float)(angle*180.0/M_PI)};
 				MOD(targetPose.yaw, -180, 180);
 
 				// TEMPORARY: GO TO STANDBY, then manually dock
@@ -109,12 +116,13 @@ void MissionController::run()
 				itMissionState.publish(state);
 				continue;*/
 
+				// if not commanded to go to standby: move towards target
 				missionStateBuffer.get(state);
 				if (state == MissionState::STANDBY) continue;
 				state = MissionState::MOVING_TO_TARGET;
 				itMissionState.publish(state);
 			}
-			else
+			else // otherwise: acquire new attitude to search again
 			{
 				missionStateBuffer.get(state);
 				if (state == MissionState::STANDBY) continue;
@@ -124,6 +132,7 @@ void MissionController::run()
 		}
 		else if (state == MissionState::MOVING_TO_TARGET)
 		{
+			// activate star tracker for position control
 			bool stReceived = false;
 			starTrackerReceived.put(stReceived);
 			raspiComm.sendCommand(ST, true);
@@ -134,6 +143,7 @@ void MissionController::run()
 			}
 			suspendCallerUntil(NOW() + 50*MILLISECONDS);
 			filteredPoseBuffer.get(currentPose);
+			// move to pre-target position on line trajectory
 			TrajectoryPlanData plan;
 			plan.type = LINE;
 			plan.lineData.startPose = {currentPose.x, currentPose.y, currentPose.yaw};
@@ -146,8 +156,8 @@ void MissionController::run()
 			suspendCallerUntil(NOW() + totalTime + 5*SECONDS);
 			missionStateBuffer.get(state);
 			if (state == MissionState::STANDBY) continue;
-			// state = MissionState::RENDEZVOUZ_TARGET;
-			state = MissionState::STANDBY; // not going to other modes
+			// state = MissionState::RENDEZVOUZ_TARGET; // next step: move towards docking port; wasn't testet
+			state = MissionState::STANDBY; // hence: not going to other modes for now
 			itMissionState.publish(state);
 			/*targetPoseSemaphore.enter();
 			tcTargetPose.put(searchingPose);
@@ -157,6 +167,7 @@ void MissionController::run()
 		}
 		else if (state == MissionState::RENDEZVOUZ_TARGET)
 		{
+			// plan circle trajectory around target to get behind docking port of other vehicle
 			TrajectoryPlanData plan;
 			plan.type = CIRCLE;
 			plan.circleData.centerPose = targetPose;
@@ -171,13 +182,15 @@ void MissionController::run()
 			plan.endTime = NOW() + totalTime;
 			trajPlanBuffer.put(plan);
 			suspendCallerUntil(NOW() + totalTime + 5*SECONDS);
+			// if not commanded to go to standby: dock
 			missionStateBuffer.get(state);
 			if (state == MissionState::STANDBY) continue;
-			state = MissionState::RENDEZVOUZ_TARGET;
+			state = MissionState::DOCKING;
 			itMissionState.publish(state);
 		}
 		else if (state == MissionState::DOCKING)
 		{
+			// move on line towards docking port
 			filteredPoseBuffer.get(currentPose);
 			TrajectoryPlanData plan;
 			plan.type = LINE;

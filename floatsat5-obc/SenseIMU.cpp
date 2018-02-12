@@ -226,7 +226,7 @@ void SenseIMU::calibrateGyro()
 	setPeriodicBeat(0, 1*MILLISECONDS);
 	int32_t sum[3] = {0};
 	int16_t tmp[3];
-	const int CALIB_COUNT = 1000;
+	const int CALIB_COUNT = 1000; // use mean of 1000 measurements as offset
 	for (int i = 0; i < CALIB_COUNT; i++)
 	{
 		readGyro(tmp, false);
@@ -243,7 +243,7 @@ void SenseIMU::calibrateAcc()
 	setPeriodicBeat(0, 1*MILLISECONDS);
 	int32_t sum[3] = {0};
 	int16_t tmp[3];
-	const int CALIB_COUNT = 1000;
+	const int CALIB_COUNT = 1000; // use mean of 1000 measurements as offset
 	for (int i = 0; i < CALIB_COUNT; i++)
 	{
 		readAcc(tmp, false);
@@ -253,12 +253,12 @@ void SenseIMU::calibrateAcc()
 
 	acc_offset[0] = sum[0] / CALIB_COUNT;
 	acc_offset[1] = sum[1] / CALIB_COUNT;
-	acc_offset[2] = sum[2] / CALIB_COUNT + 1.0/ACC_FACTOR_2G; // if discovery board up, else replace + with -
+	acc_offset[2] = sum[2] / CALIB_COUNT + 1.0/ACC_FACTOR_2G; // if discovery board facing up, else replace + with -; earth gravity
 }
 
 void SenseIMU::calibrateMag()
 {
-	// Board/Satellite has to be moved while calibrating
+	// Board/Satellite has to be moved while calibrating (hard iron calibration)
 	setPeriodicBeat(0, 1*MILLISECONDS);
 	for (int i = 0; i < 3; i++)
 	{
@@ -297,6 +297,7 @@ void SenseIMU::run()
 
 	initGyro();
 	initXM();
+	// calibrate gyro and acc on restart
 	calibrateGyro();
 	calibrateAcc();
 	setPeriodicBeat(0, 10*MILLISECONDS);
@@ -306,6 +307,7 @@ void SenseIMU::run()
 
 		//PRINTF("XM WHO_AM_I: %d\n", waix);
 
+		// check if calibration command was send
 		IMUCommand command;
 		while (!tcImuCommand.isEmpty())
 		{
@@ -330,6 +332,7 @@ void SenseIMU::run()
 			}
 		}
 
+		// read and publish IMU data
 		IMUData data;
 		readGyro(&data.gyro_x);
 		readAcc(&data.acc_x);

@@ -115,6 +115,7 @@ int16_t SensePower::readReg(uint8_t sensorAddr, uint8_t reg)
 void SensePower::run()
 {
 	setPeriodicBeat(2*MILLISECONDS, 100*MILLISECONDS);
+	// initialize used power sensors (battery sensor has different calibration than others)
 	initSensor(CURR_BATT_I2C_ADDR, 64000);
 	initSensor(CURR_MOTA_I2C_ADDR, 4096);
 	initSensor(CURR_MOTB_I2C_ADDR, 4096);
@@ -122,6 +123,7 @@ void SensePower::run()
 	initSensor(CURR_MOTD_I2C_ADDR, 4096);
 	while(1)
 	{
+		// read all power data (conversion to V and A in GS)
 		PowerData pd;
 		//int16_t batShuntVolt = readReg(CURR_BATT_I2C_ADDR, SHUNT_VOLT_REG);
 		pd.batt_voltage = readReg(CURR_BATT_I2C_ADDR, BUS_VOLT_REG);

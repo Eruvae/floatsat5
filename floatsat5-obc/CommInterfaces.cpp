@@ -37,7 +37,7 @@ Gateway gw(&linkifwf);
 
 CommInterfaces comm;
 
-int CommInterfaces::selectSPISlave(SPI_SS select)
+int CommInterfaces::selectSPISlave(SPI_SS select) // pull CS of selected slave down, set all others to high
 {
     //if (selectedSlave != NONE)
     //    return -1;
@@ -62,7 +62,7 @@ int CommInterfaces::selectSPISlave(SPI_SS select)
     return 0;
 }
 
-void CommInterfaces::disableSPISlaves()
+void CommInterfaces::disableSPISlaves() // set all CS pins to high
 {
 	gyro_cs.setPins(true);
 	xm_cs.setPins(true);
@@ -94,7 +94,7 @@ void CommInterfaces::init()
 	i2c2_bus.init(400000);
 	//bt_uart.init(921600);
 
-	//gw.resetTopicsToForward();
+	// add topics for TM forwarding via gateway
 	gw.addTopicsToForward(&telecommand);
 
 	gw.addTopicsToForward(&tmPowerData);
@@ -112,12 +112,11 @@ void CommInterfaces::init()
 	gw.addTopicsToForward(&tmMissionState);
 
 	gw.addTopicsToForward(&tmDebugMsg);
-
-	//.... More Topics to come
 }
 
 void CommInterfaces::run()
 {
+	// init wifi connection
 	PRINTF("Wifi getting initialized\n");
 	int i = wf.init("FloatSat","floatsat");
 	//int i = wf.init("EruvaeFS","194a69^V");

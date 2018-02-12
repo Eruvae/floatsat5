@@ -94,20 +94,20 @@ FilteredPose::FilteredPose(const Payload payload)
     yaw=Payload.userDataFloat[2];
 }*/
 
-OTData::OTData(const Payload Payload)
+OTData::OTData(const Payload payload)
 {
-    alpha=Payload.userDataFloat[0];
-    g0=Payload.userDataFloat[1];
-    G0=Payload.userDataFloat[2];
-    found=Payload.userDataBool[12];
+    alpha=payload.userDataFloat[0];
+    g0=payload.userDataFloat[1];
+    G0=payload.userDataFloat[2];
+    found=payload.userDataBool[12];
 }
 
-RadioPoseData::RadioPoseData(const Payload Payload)
+RadioPoseData::RadioPoseData(const Payload payload)
 {
-    y1=Payload.userDataFloat[1];
-    x1=Payload.userDataFloat[0];
-    y2=Payload.userDataFloat[3];
-    x2=Payload.userDataFloat[2];
+    y1=payload.userDataFloat[1];
+    x1=payload.userDataFloat[0];
+    y2=payload.userDataFloat[3];
+    x2=payload.userDataFloat[2];
 }
 
 //IMUData::IMUData(const Payload payload)
